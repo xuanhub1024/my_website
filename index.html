@@ -1,0 +1,2790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>吴芓璇｜个人求职主页</title>
+  <meta name="description" content="吴芓璇的个人主页：法律实践、校园经历与 AI 协作作品集。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f3f0ea;
+      --bg-deep: #ebe6de;
+      --surface: rgba(255, 255, 255, 0.46);
+      --surface-soft: rgba(255, 255, 255, 0.24);
+      --line: rgba(33, 31, 28, 0.14);
+      --line-strong: rgba(33, 31, 28, 0.24);
+      --text: #24211d;
+      --text-soft: rgba(36, 33, 29, 0.72);
+      --text-faint: rgba(36, 33, 29, 0.54);
+      --shadow-soft: 0 24px 70px rgba(42, 38, 32, 0.05);
+      --hero-height: 100svh;
+      --map-height: 100svh;
+      --nav-height: 74px;
+      --content-width: min(1280px, calc(100% - 96px));
+      --section-space: 132px;
+      --bubble-rose: #8f6c73;
+      --bubble-olive: #7b7a59;
+      --bubble-bronze: #92735f;
+      --bubble-plum: #72627b;
+      --bubble-sage: #647768;
+      --bubble-stone: #6d675f;
+      --footer-bg: #2c1810;
+      --footer-text: rgba(249, 244, 236, 0.92);
+      --footer-soft: rgba(249, 244, 236, 0.72);
+      --footer-line: rgba(249, 244, 236, 0.18);
+      --map-accent: rgba(92, 62, 39, 0.72);
+      --map-accent-soft: rgba(114, 81, 51, 0.36);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.55), transparent 28%), radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.26), transparent 22%), linear-gradient(180deg, #f7f4ef 0%, #f2eee7 48%, #ece7df 100%);
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; border: none; background: none; padding: 0; }
+    img, svg { display: block; max-width: 100%; }
+    [hidden], .is-hidden { display: none !important; }
+    .page-shell { width: var(--content-width); margin: 0 auto; }
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 12px;
+      z-index: 10000;
+      padding: 10px 14px;
+      color: #fff;
+      background: #2c1810;
+      transform: translateY(-160%);
+      transition: transform 0.2s ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    :where(a, button, canvas):focus-visible {
+      outline: 2px solid #6f4d31;
+      outline-offset: 4px;
+    }
+
+    /* 顶部导航：在首页按滚动出现，在分页内容里固定显示 */
+    .site-nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 70;
+      opacity: 0;
+      transform: translateY(-16px);
+      pointer-events: none;
+      transition: opacity 0.32s ease, transform 0.32s ease;
+      background: rgba(244, 239, 232, 0.78);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(33, 31, 28, 0.08);
+    }
+
+    .site-nav.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .nav-inner {
+      width: var(--content-width);
+      height: var(--nav-height);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .nav-brand { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; white-space: nowrap; color: var(--text); cursor: pointer; }
+    .nav-brand-mark, .hero-kicker, .section-kicker, .map-kicker, .footer-label, .modal-kicker, .detail-note, .map-caption {
+      display: inline-block;
+      color: var(--text-faint);
+      font-size: 11px;
+      line-height: 1.8;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .nav-brand-name { font-size: 15px; font-weight: 600; }
+    .nav-menu { display: flex; align-items: center; gap: 22px; min-width: 0; }
+    .nav-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .nav-item { position: relative; }
+    .nav-link, .nav-trigger {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 8px 0;
+      color: rgba(36, 33, 29, 0.75);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.22s ease;
+    }
+
+    .nav-link::after, .nav-trigger::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -5px;
+      height: 1px;
+      background: rgba(36, 33, 29, 0.55);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.22s ease;
+    }
+
+    .nav-link:hover, .nav-trigger:hover, .nav-item:hover .nav-trigger,
+    .nav-link:focus-visible, .nav-trigger:focus-visible { color: var(--text); }
+    .nav-link:hover::after, .nav-trigger:hover::after, .nav-item:hover .nav-trigger::after,
+    .nav-item:focus-within .nav-trigger::after, .nav-link:focus-visible::after,
+    .nav-trigger:focus-visible::after { transform: scaleX(1); }
+    .nav-caret {
+      width: 7px;
+      height: 7px;
+      border-right: 1px solid currentColor;
+      border-bottom: 1px solid currentColor;
+      transform: rotate(45deg) translateY(-1px);
+      transition: transform 0.22s ease;
+      opacity: 0.8;
+    }
+
+    .nav-item:hover .nav-caret, .nav-item:focus-within .nav-caret { transform: rotate(225deg) translateY(-1px); }
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 16px);
+      left: -12px;
+      min-width: 184px;
+      padding: 12px 0;
+      background: rgba(247, 243, 237, 0.95);
+      border-top: 1px solid rgba(33, 31, 28, 0.22);
+      border-bottom: 1px solid rgba(33, 31, 28, 0.12);
+      backdrop-filter: blur(16px);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      box-shadow: 0 20px 40px rgba(42, 38, 32, 0.05);
+    }
+
+    .nav-item:hover .dropdown, .nav-item:focus-within .dropdown { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .dropdown a { display: flex; align-items: center; min-height: 44px; padding: 11px 14px 11px 12px; color: var(--text-soft); font-size: 13px; transition: color 0.2s ease, padding-left 0.2s ease; }
+    .dropdown a:hover { color: var(--text); padding-left: 16px; }
+
+    /* 首页视图：只包含封面 + 地图 + Footer */
+    .home-view { position: relative; }
+    .hero { min-height: var(--hero-height); display: flex; align-items: stretch; }
+    .hero-inner { width: 100%; min-height: var(--hero-height); display: grid; grid-template-rows: 1fr auto auto; padding: 44px 0 34px; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(410px, 0.92fr);
+      grid-template-rows: auto auto;
+      gap: 0 64px;
+      align-items: start;
+    }
+    
+    .hero-copy-top {
+      grid-column: 1;
+      grid-row: 1;
+      padding: 30px 0 0 52px;
+    }
+
+    .hero-copy-main {
+      grid-column: 1;
+      grid-row: 2;
+      padding: 0 0 0 52px;
+      max-width: 760px;
+    }
+
+    .hero-kicker { margin-bottom: 24px; }
+
+    .hero-name-wrap {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(54px, 6.7vw, 88px);
+      line-height: 0.96;
+      font-weight: 700;
+      letter-spacing: -0.055em;
+      color: #1d1b18;
+    }
+
+    .hero-title-en {
+      display: inline-block;
+      color: var(--text-faint);
+      font-size: clamp(18px, 1.9vw, 26px);
+      line-height: 1.2;
+      letter-spacing: 0.06em;
+      font-weight: 300;
+      transform: translateY(-4px);
+    }
+
+    .hero-lead {
+      margin: 0;
+      max-width: 620px;
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text-soft);
+    }
+
+    .hero-lead-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .hero-contact-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid rgba(33, 31, 28, 0.20);
+      color: rgba(36, 33, 29, 0.76);
+      background: rgba(255, 255, 255, 0.32);
+      font-size: 13px;
+      line-height: 1;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease;
+    }
+
+    .hero-contact-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.56);
+      color: var(--text);
+    }
+
+    .hero-divider { width: 100%; height: 1px; background: linear-gradient(90deg, rgba(33, 31, 28, 0.18), rgba(33, 31, 28, 0.06) 72%, transparent); margin: 28px 0 24px; }
+    .hero-edu-list {
+      display: grid;
+      gap: 12px;
+      max-width: 720px;
+    }
+
+    .hero-edu-item {
+      display: grid;
+      grid-template-columns: 60px 108px 88px 128px 132px;
+      align-items: baseline;
+      column-gap: 22px;
+      row-gap: 6px;
+    }
+
+    .hero-edu-item small,
+    .hero-edu-item span {
+      display: block;
+      white-space: nowrap;
+      color: rgba(36, 33, 29, 0.62);
+      font-size: 13px;
+      line-height: 1.9;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-edu-item small {
+      color: rgba(36, 33, 29, 0.42);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .hero-edu-item span:last-child {
+      white-space: nowrap;
+    }
+
+    .hero-visual {
+      grid-column: 2;
+      grid-row: 2;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      padding: 0;
+    }
+
+    .hero-visual-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 26px;
+      width: 100%;
+    }
+    .photo-frame {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      background: transparent;
+    }
+
+    .photo-frame::before, .photo-frame::after { content: ""; position: absolute; pointer-events: none; }
+    .photo-frame::before {
+      inset: 12% 9% 6% 12%;
+      border: 1px solid rgba(33, 31, 28, 0.08);
+      background: radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.02) 70%);
+      z-index: 0;
+    }
+    .photo-frame::after { display: none; }
+    .photo-grid {
+      position: absolute;
+      inset: 7% 4% 3% 7%;
+      background-image: linear-gradient(rgba(33, 31, 28, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(33, 31, 28, 0.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 90%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .photo-deco {
+      position: absolute;
+      z-index: 1;
+      object-fit: contain;
+      pointer-events: none;
+      filter: grayscale(1) contrast(0.96);
+      mix-blend-mode: multiply;
+    }
+
+    .photo-deco.is-cert {
+      width: 31%;
+      left: 7%;
+      bottom: 16%;
+      opacity: 0.42;
+      transform: rotate(-13deg);
+    }
+
+    .photo-deco.is-ai {
+      width: 25%;
+      right: 8%;
+      top: 17%;
+      opacity: 0.36;
+      transform: rotate(8deg);
+    }
+
+    .profile-photo {
+      position: relative;
+      z-index: 2;
+      width: 60%;
+      height: 66%;
+      object-fit: contain;
+      object-position: center bottom;
+      transform: translateY(0);
+      filter: drop-shadow(0 20px 24px rgba(33, 31, 28, 0.14));
+    }
+
+    .photo-placeholder { position: relative; z-index: 1; text-align: center; padding: 30px; }
+    .photo-word { display: block; font-size: clamp(34px, 5vw, 52px); line-height: 1; letter-spacing: -0.04em; color: rgba(29, 27, 24, 0.92); margin-bottom: 10px; }
+    .photo-caption { display: block; color: var(--text-faint); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+    .hero-bubbles {
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(33, 31, 28, 0.10);
+      border-bottom: 1px solid rgba(33, 31, 28, 0.08);
+      padding: 14px 0 12px;
+      margin-top: 42px;
+      mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    }
+
+    .bubble-toggle {
+      position: absolute;
+      top: 7px;
+      right: 8px;
+      z-index: 4;
+      min-width: 48px;
+      min-height: 32px;
+      padding: 0 10px;
+      color: var(--text-soft);
+      background: rgba(247, 243, 237, 0.92);
+      border: 1px solid rgba(33, 31, 28, 0.14);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .bubble-track { display: flex; align-items: center; gap: 14px; width: max-content; animation: marquee 26s linear infinite; }
+    .hero-bubbles.is-paused .bubble-track { animation-play-state: paused; }
+    .bubble {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 16px;
+      border: 1px solid currentColor;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--bubble-stone);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: bubbleFade 0.9s ease forwards;
+    }
+
+    .bubble.is-rose { color: var(--bubble-rose); }
+    .bubble.is-olive { color: var(--bubble-olive); }
+    .bubble.is-bronze { color: var(--bubble-bronze); }
+    .bubble.is-plum { color: var(--bubble-plum); }
+    .bubble.is-sage { color: var(--bubble-sage); }
+    .bubble.is-stone { color: var(--bubble-stone); }
+    @keyframes bubbleFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 0.96; transform: translateY(0); } }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .hero-scroll { 
+      position: relative;
+      align-self: flex-end;
+      padding-bottom: 24px;
+      z-index: 5;
+    }
+    .scroll-indicator { display: inline-flex; flex-direction: column; align-items: center; min-width: 32px; min-height: 44px; gap: 14px; color: var(--text-faint); user-select: none; cursor: pointer; transition: color 0.3s ease; }
+    .scroll-indicator:hover { color: var(--text); }
+    .scroll-word { 
+      font-size: 9px; 
+      letter-spacing: 0.28em; 
+      text-transform: uppercase; 
+      writing-mode: vertical-lr;
+    }
+    .scroll-line {
+      position: relative;
+      width: 1px;
+      height: 64px;
+      background: rgba(33, 31, 28, 0.12);
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--text);
+      transform: translateY(-100%);
+      animation: scrollGlow 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    @keyframes scrollGlow { 0% { transform: translateY(-100%); } 50%, 100% { transform: translateY(100%); } }
+
+    /* 网站地图导引页：四格商品栏式入口卡片 */
+    .site-map { min-height: var(--map-height); display: flex; align-items: center; padding: 44px 0 40px; }
+    .map-shell { width: 100%; min-height: calc(var(--map-height) - 84px); display: grid; grid-template-rows: auto 1fr; gap: 28px; }
+    .map-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(160px, 0.7fr);
+      gap: 24px;
+      align-items: end;
+      border-top: 1px solid rgba(33, 31, 28, 0.12);
+      padding-top: 22px;
+    }
+
+    .map-title { margin: 12px 0 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.02; letter-spacing: -0.05em; }
+    .map-desc { margin: 16px 0 0; max-width: 620px; font-size: 13px; line-height: 2; color: var(--text-soft); }
+    .map-caption { text-align: right; justify-self: end; }
+
+    .map-stage {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      background: transparent;
+      isolation: isolate;
+    }
+
+    .map-card {
+      position: relative;
+      width: min(1040px, calc(100% - 40px));
+      min-height: 500px;
+      border-radius: 28px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 253, 247, 0.94), rgba(248, 244, 234, 0.92)),
+        url('assets/map-parchment.webp') center center / cover no-repeat;
+      border: 1px solid rgba(136, 108, 73, 0.14);
+      box-shadow: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      padding: 34px;
+    }
+
+    .map-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.46), transparent 26%),
+        radial-gradient(circle at 82% 76%, rgba(137, 108, 74, 0.045), transparent 24%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(139, 110, 76, 0.10);
+      border-radius: 22px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .map-sketch {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.26;
+    }
+
+    .map-sketch svg { width: 100%; height: 100%; }
+    .map-sketch path,
+    .map-sketch circle,
+    .map-sketch line {
+      stroke: rgba(129, 103, 72, 0.13);
+      fill: none;
+      stroke-width: 1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .map-road, .map-car, .map-compass {
+      position: absolute;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .map-road {
+      inset: 0;
+      z-index: 0;
+      opacity: 0.34;
+    }
+
+    .map-road svg { width: 100%; height: 100%; }
+    .map-road .route-base { fill: none; stroke: rgba(189, 170, 142, 0.18); stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; }
+    .map-road .route-edge { fill: none; stroke: rgba(121, 98, 69, 0.14); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 8 12; }
+    .map-road .route-center { fill: none; stroke: rgba(255, 255, 255, 0.56); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 16; }
+    .map-road .route-pin { fill: rgba(149, 120, 85, 0.18); stroke: rgba(149, 120, 85, 0.14); stroke-width: 1; }
+
+    .map-car { display: none; }
+    .map-compass { right: 5%; bottom: 7%; width: 82px; height: 82px; color: rgba(137, 110, 77, 0.14); z-index: 0; }
+    .map-compass svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.1; }
+    @keyframes carFloatInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+
+    .map-node {
+      position: relative;
+      color: var(--text);
+      z-index: 2;
+      cursor: pointer;
+      min-height: 190px;
+      padding: 26px 28px 24px;
+      text-align: left;
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px solid rgba(33, 31, 28, 0.12);
+      box-shadow: none;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto auto 1fr;
+      column-gap: 16px;
+      align-items: start;
+      text-decoration: none;
+      transform-origin: center center;
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+    }
+
+    .map-card:hover .map-node {
+      transform: scale(0.96);
+      opacity: 0.62;
+    }
+
+    .map-card:hover .map-node:hover,
+    .map-card:hover .map-node.is-active {
+      transform: scale(1.06);
+      border-color: rgba(33, 31, 28, 0.24);
+      background: rgba(255, 253, 248, 0.88);
+      opacity: 1 !important;
+      filter: none !important;
+      z-index: 4;
+    }
+
+    .map-node-marker {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(253, 251, 244, 0.78);
+      border: 1px solid rgba(33, 31, 28, 0.12);
+      position: relative;
+    }
+
+    .map-node[data-key="campus"] .map-node-marker { border-radius: 12px; }
+    .map-node-marker::before { display: none; }
+
+    .map-node-marker svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .map-node[data-key="interns"] { color: #6f8557; }
+    .map-node[data-key="campus"] { color: #a98631; }
+    .map-node[data-key="ai"] { color: #607f9f; }
+    .map-node[data-key="more"] { color: #766ca3; }
+
+    .map-node-dot { display: none; }
+
+    .map-node-title {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
+      color: rgba(36, 33, 29, 0.92);
+      font-size: clamp(20px, 2vw, 26px);
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .map-node-label {
+      grid-column: 2;
+      grid-row: 2;
+      display: block;
+      color: rgba(36, 33, 29, 0.42);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .map-node-subtitle {
+      grid-column: 1 / -1;
+      grid-row: 3;
+      margin: 24px 0 0;
+      max-width: 320px;
+      color: rgba(36, 33, 29, 0.62);
+      font-size: 13px;
+      line-height: 1.85;
+      opacity: 1;
+      transform: none;
+      overflow: visible;
+    }
+
+    .map-node-secondary {
+      grid-column: 1 / -1;
+      grid-row: 4;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .map-node-secondary span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid rgba(33, 31, 28, 0.12);
+      background: rgba(255, 255, 255, 0.28);
+      color: rgba(36, 33, 29, 0.58);
+      font-size: 12px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .map-node:hover .map-node-secondary,
+    .map-node:focus-visible .map-node-secondary,
+    .map-node.is-active .map-node-secondary {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .map-stage.is-hovering .map-node { filter: none; }
+    .map-stage.is-hovering .map-road, .map-stage.is-hovering .map-compass, .map-stage.is-hovering .map-sketch { opacity: 0.28; }
+
+    /* 分页内容：默认隐藏，仅通过导航或地图进入 */
+    .detail-view {
+      padding: calc(var(--nav-height) + 34px) 0 0 64px;
+      min-height: 100vh;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.12));
+    }
+
+    .detail-view.is-entering {
+      animation: detailEnter 0.26s ease both;
+    }
+
+    @keyframes detailEnter {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .map-entry-ripple {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      border: 1px solid rgba(33, 31, 28, 0.22);
+      background: rgba(255, 253, 248, 0.18);
+      animation: mapEntryRipple 0.32s ease-out forwards;
+      transform-origin: center center;
+    }
+
+    @keyframes mapEntryRipple {
+      from { opacity: 0.55; transform: scale(1); }
+      to { opacity: 0; transform: scale(2.45); }
+    }
+
+    .detail-intro {
+      width: var(--content-width);
+      margin: 0 auto 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      border-top: 1px solid rgba(33, 31, 28, 0.12);
+      padding-top: 22px;
+    }
+
+    .dino-game-wrap {
+      display: flex;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .dino-game {
+      width: min(100%, 760px);
+      height: 220px;
+      display: block;
+      border: 1px solid rgba(33, 31, 28, 0.16);
+      background: rgba(255, 253, 248, 0.32);
+      outline: none;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .dino-game:focus-visible { border-color: rgba(92, 61, 30, 0.56); }
+
+    .detail-home-btn {
+      color: var(--text-soft);
+      font-size: 13px;
+      line-height: 1.8;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .detail-home-btn:hover { color: var(--text); }
+    .panel-group[hidden] { display: none !important; }
+    .panel-shell { width: var(--content-width); margin: 0 auto; }
+    .section-block { position: relative; padding: var(--section-space) 0; scroll-margin-top: 110px; }
+    .section-block::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, rgba(33, 31, 28, 0.18), rgba(33, 31, 28, 0.08) 55%, transparent 100%); }
+    .section-head { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.6fr); gap: 28px; align-items: end; margin-bottom: 56px; }
+    .section-kicker { margin-bottom: 16px; }
+    #intern-1 .section-kicker,
+    #intern-2 .section-kicker,
+    #intern-3 .section-kicker,
+    #intern-4 .section-kicker,
+    #intern-5 .section-kicker { font-size: clamp(18px, 1.8vw, 20px); }
+    .section-title { margin: 0; font-size: clamp(32px, 5vw, 56px); line-height: 1.02; font-weight: 700; letter-spacing: -0.05em; color: var(--text); }
+    #intern-1 .section-head,
+    #intern-2 .section-head,
+    #intern-3 .section-head,
+    #intern-4 .section-head,
+    #intern-5 .section-head { grid-template-columns: minmax(0, 1fr) 290px; align-items: center; }
+    .intern-logo-panel { justify-self: stretch; align-self: center; min-height: 188px; display: grid; place-items: center; gap: 18px; padding: 0; border: none; background: transparent; box-shadow: none; overflow: visible; }
+    .intern-logo-panel.is-dual { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+    .intern-logo { width: auto; max-width: 260px; object-fit: contain; display: block; filter: saturate(0.92) contrast(0.98); opacity: 0.96; }
+    .intern-logo.is-bytedance { height: 70px; }
+    .intern-logo.is-pdpo { height: 60px; }
+    .intern-logo.is-icma { height: 200px; }
+    .intern-logo.is-shihui { height: 160px; }
+    .intern-logo.is-court { height: 160px; }
+    .intern-logo.is-shuanxin { height: 110px; }
+    .section-desc { margin: 22px 0 0; max-width: 720px; color: var(--text-soft); font-size: 13px; line-height: 2; }
+    .section-intro-highlight { margin: 22px 0 0; max-width: 780px; color: var(--text); font-size: 15px; line-height: 1.8; font-weight: 400; background: rgba(33, 31, 28, 0.03); padding: 20px 24px; border-left: 3px solid rgba(33, 31, 28, 0.12); }
+    .section-meta { justify-self: end; align-self: start; color: var(--text-faint); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; text-align: right; line-height: 1.8; white-space: nowrap; }
+    .overview-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.92fr); gap: 54px; }
+    .timeline-list {
+      position: relative;
+      display: grid;
+      gap: 0;
+      padding-left: 20px;
+    }
+
+    .timeline-list::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background: rgba(33, 31, 28, 0.12);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 24px 22px;
+      border-top: none;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: 7px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f6f2ea;
+      border: 1px solid rgba(33, 31, 28, 0.24);
+    }
+
+    .timeline-item:first-child { padding-top: 0; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item strong { display: block; color: var(--text); font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+    .timeline-item span { display: block; color: var(--text-soft); font-size: 13px; line-height: 1.95; }
+    .intern-timeline .timeline-item {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      column-gap: 30px;
+      align-items: start;
+    }
+    .intern-timeline .timeline-time {
+      grid-column: 1;
+      color: rgba(36, 33, 29, 0.42);
+      font-size: 12px;
+      line-height: 1.8;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      padding-top: 3px;
+    }
+    .intern-timeline .timeline-content {
+      grid-column: 2;
+      min-width: 0;
+    }
+    .intern-timeline .timeline-content strong { margin-bottom: 8px; }
+    .intern-timeline .timeline-content span { margin: 0; }
+    .overview-side {
+      position: relative;
+      display: grid;
+      gap: 20px;
+      align-content: start;
+      background: #faf6ee;
+      border: 1px solid rgba(132, 104, 69, 0.12);
+      padding: 28px 26px;
+      box-shadow: 0 18px 38px rgba(96, 70, 39, 0.08);
+      transform: rotate(-0.6deg);
+      overflow: hidden;
+    }
+    .overview-side::before {
+      content: "📌 STATUS";
+      display: block;
+      color: rgba(36, 33, 29, 0.54);
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .overview-side::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(135deg, rgba(224, 213, 195, 0.54) 0 50%, rgba(255,255,255,0.44) 50% 100%);
+      border-left: 1px solid rgba(132, 104, 69, 0.08);
+      border-bottom: 1px solid rgba(132, 104, 69, 0.08);
+    }
+    .overview-note { color: var(--text-soft); font-size: 13px; line-height: 2; padding-bottom: 22px; border-bottom: 1px solid rgba(33, 31, 28, 0.08); }
+    .overview-metrics { display: grid; gap: 18px; }
+    .metric-row { display: grid; grid-template-columns: 112px 1fr; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid rgba(33, 31, 28, 0.08); }
+    .metric-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .metric-row small { display: block; color: var(--text-faint); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; line-height: 1.9; }
+    .metric-row strong { display: block; color: var(--text); font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .metric-row span { display: block; color: var(--text-soft); font-size: 12px; line-height: 1.9; }
+    .split-grid-2, .split-grid-3 { display: grid; gap: 34px; }
+    .split-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .split-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .detail-line { position: relative; padding-top: 22px; min-height: 220px; }
+    .detail-line::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: rgba(33, 31, 28, 0.11); }
+    .detail-index { display: inline-block; margin-bottom: 20px; color: var(--text-faint); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+    .detail-title { margin: 0 0 14px; color: var(--text); font-size: 25px; line-height: 1.2; font-weight: 600; letter-spacing: -0.03em; }
+    .detail-copy { margin: 0; color: var(--text-soft); font-size: 13px; line-height: 2; max-width: 460px; }
+    .detail-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: var(--text-soft);
+      font-size: 13px;
+      line-height: 1.95;
+      max-width: 500px;
+    }
+    .detail-list li { position: relative; padding-left: 18px; }
+    .detail-list li::before { content: ""; position: absolute; left: 0; top: 0.95em; width: 8px; height: 1px; background: rgba(33, 31, 28, 0.34); }
+    .research-group-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
+    .research-group-card { border-top: 1px solid rgba(33, 31, 28, 0.12); padding-top: 16px; }
+    .research-group-card h4 { margin: 0 0 10px; color: var(--text); font-size: 14px; line-height: 1.45; font-weight: 700; letter-spacing: -0.02em; }
+    .research-group-card p { margin: 0; color: var(--text-soft); font-size: 13px; line-height: 1.9; }
+    .detail-meta { display: flex; flex-wrap: wrap; gap: 12px 18px; margin-top: 22px; color: var(--text-faint); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+    .detail-meta span { position: relative; padding-left: 12px; }
+    .detail-meta span::before { content: ""; position: absolute; left: 0; top: 50%; width: 5px; height: 5px; margin-top: -2px; border: 1px solid rgba(33, 31, 28, 0.24); }
+
+    .floating-toc {
+      position: fixed;
+      left: 0;
+      top: 24%;
+      width: 64px;
+      z-index: 1200;
+      padding: 12px 10px 12px 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      overflow: hidden;
+      opacity: 0.78;
+      transition: width 0.2s ease, background 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .floating-toc:hover {
+      width: 176px;
+      background: rgba(255, 255, 255, 0.90);
+      opacity: 1;
+      box-shadow: 0 12px 26px rgba(33, 31, 28, 0.06);
+      backdrop-filter: blur(16px);
+    }
+
+    .floating-toc[hidden] { display: none !important; }
+    .toc-label { display: block; margin-bottom: 10px; color: var(--text-faint); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; }
+    .toc-list { display: grid; gap: 9px; }
+    .toc-link {
+      display: block;
+      width: 150px;
+      color: rgba(36, 33, 29, 0.50);
+      font-size: 12px;
+      line-height: 1.45;
+      text-decoration: none;
+      white-space: nowrap;
+      opacity: 0.58;
+      mask-image: linear-gradient(to right, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+      transition: color 0.2s ease, opacity 0.2s ease, font-weight 0.2s ease;
+    }
+
+    .floating-toc:hover .toc-link {
+      opacity: 1;
+      mask-image: none;
+    }
+
+    .toc-link:hover,
+    .toc-link.is-active {
+      color: var(--text);
+      opacity: 1;
+      font-weight: 600;
+    }
+    .competition-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+      gap: 56px;
+      align-items: start;
+    }
+
+    .competition-board { position: relative; }
+    .competition-list {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 26px;
+      padding-left: 0;
+    }
+    .competition-entry {
+      position: relative;
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .competition-entry::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1px solid rgba(33, 31, 28, 0.24);
+      background: rgba(255,255,255,0.18);
+      margin-top: 8px;
+    }
+    .competition-title {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(14px, 1.15vw, 15px);
+      line-height: 1.28;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .competition-desc {
+      display: block;
+      margin-top: 10px;
+      color: var(--text-soft);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .debate-photo-stack {
+      position: sticky;
+      top: 120px;
+      width: min(100%, 320px);
+      height: 426px;
+    }
+    .debate-toggle {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 8;
+      min-width: 48px;
+      min-height: 34px;
+      padding: 0 10px;
+      color: rgba(36, 33, 29, 0.72);
+      background: rgba(247, 243, 237, 0.9);
+      border: 1px solid rgba(33, 31, 28, 0.14);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .debate-photo-stack.is-paused .debate-photo-card { animation-play-state: paused; }
+
+    .debate-photo-card {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(232, 226, 216, 0.72);
+      border: 1px solid rgba(33, 31, 28, 0.12);
+      color: rgba(36, 33, 29, 0.46);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      box-shadow: 0 16px 32px rgba(33, 31, 28, 0.06);
+      animation: debateShuffle 12s ease-in-out infinite;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    .debate-photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+    }
+    .debate-photo-card:nth-child(1) { animation-delay: 0s; }
+    .debate-photo-card:nth-child(2) { animation-delay: 3s; }
+    .debate-photo-card:nth-child(3) { animation-delay: 6s; }
+    .debate-photo-card:nth-child(4) { animation-delay: 9s; }
+
+    @keyframes debateShuffle {
+      0%, 20% { opacity: 1; transform: translate(0, 0) rotate(0deg); z-index: 4; }
+      25%, 45% { opacity: 0.76; transform: translate(12px, 12px) rotate(3deg); z-index: 3; }
+      50%, 70% { opacity: 0.50; transform: translate(-10px, 18px) rotate(-4deg); z-index: 2; }
+      75%, 95% { opacity: 0.34; transform: translate(6px, -10px) rotate(2deg); z-index: 1; }
+      100% { opacity: 1; transform: translate(0, 0) rotate(0deg); z-index: 4; }
+    }
+
+    .quote-block { max-width: 720px; color: rgba(36, 33, 29, 0.8); font-size: clamp(22px, 3vw, 32px); line-height: 1.55; letter-spacing: -0.03em; margin-bottom: 52px; }
+    .quote-block strong { font-weight: 600; color: var(--text); }
+    .footer-note { padding-top: 28px; border-top: 1px solid rgba(33, 31, 28, 0.08); color: var(--text-faint); font-size: 12px; line-height: 1.9; }
+
+    /* Footer */
+    .site-footer { background: var(--footer-bg); color: var(--footer-text); padding: 72px 0 86px; position: relative; overflow: hidden; }
+    .detail-footer {
+      width: calc(100% + 64px);
+      margin-left: -64px;
+      margin-top: 70px;
+      position: relative;
+      left: auto;
+    }
+    .site-footer::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px; background: rgba(255, 255, 255, 0.10); }
+    .footer-shell { width: var(--content-width); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 2fr) 1px minmax(260px, 1fr); gap: 36px; align-items: start; }
+    .footer-left { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 38px; }
+    .footer-divider { background: var(--footer-line); min-height: 100%; }
+    .footer-label { color: var(--footer-soft); margin-bottom: 16px; }
+    .footer-title { margin: 0 0 14px; font-size: 22px; line-height: 1.2; letter-spacing: -0.03em; font-weight: 600; color: var(--footer-text); }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a, .footer-single { color: var(--footer-soft); font-size: 14px; line-height: 1.8; transition: color 0.2s ease, transform 0.2s ease; cursor: pointer; }
+    .footer-links a:hover, .footer-single:hover { color: var(--footer-text); transform: translateX(3px); }
+    .footer-contact-text { color: var(--footer-soft); font-size: 14px; line-height: 1.9; max-width: 280px; margin-bottom: 20px; }
+    .contact-actions { display: flex; flex-direction: column; gap: 14px; }
+    .contact-btn {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 0;
+      border-top: 1px solid rgba(249, 244, 236, 0.18);
+      color: var(--footer-text);
+      cursor: pointer;
+      text-align: left;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .contact-btn:hover { opacity: 0.96; transform: translateX(2px); }
+    .contact-icon { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(249, 244, 236, 0.24); color: var(--footer-text); font-size: 16px; }
+    .contact-icon img { width: 30px; height: 30px; object-fit: contain; display: block; filter: brightness(0) invert(1); opacity: 0.92; }
+    .contact-btn strong { display: block; font-size: 12px; line-height: 1.5; letter-spacing: 0.14em; text-transform: uppercase; color: var(--footer-soft); font-weight: 500; margin-bottom: 4px; }
+    .contact-btn span { display: block; color: var(--footer-text); font-size: 14px; line-height: 1.7; }
+
+    /* 微信二维码弹窗 */
+    .modal { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 28px; opacity: 0; pointer-events: none; transition: opacity 0.24s ease; }
+    .modal[hidden] { display: none !important; }
+    .modal.is-open { opacity: 1; pointer-events: auto; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(29, 24, 20, 0.52); backdrop-filter: blur(8px); }
+    .modal-panel {
+      position: relative;
+      width: min(520px, 100%);
+      background: #f7f3ed;
+      color: var(--text);
+      border-top: 1px solid rgba(33, 31, 28, 0.18);
+      border-bottom: 1px solid rgba(33, 31, 28, 0.10);
+      box-shadow: 0 28px 80px rgba(27, 22, 18, 0.16);
+      padding: 34px 34px 30px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--text-faint);
+      cursor: pointer;
+      border: 1px solid rgba(33, 31, 28, 0.10);
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .modal-close:hover { color: var(--text); border-color: rgba(33, 31, 28, 0.20); }
+    .modal-close::before, .modal-close::after { content: ""; position: absolute; width: 14px; height: 1px; background: currentColor; }
+    .modal-close::before { transform: rotate(45deg); }
+    .modal-close::after { transform: rotate(-45deg); }
+    .modal-kicker { margin-bottom: 12px; }
+    .modal-title { margin: 0 0 10px; font-size: 28px; line-height: 1.15; letter-spacing: -0.04em; font-weight: 600; }
+    .modal-desc { margin: 0 0 24px; color: var(--text-soft); font-size: 13px; line-height: 1.9; }
+    .qr-placeholder {
+      width: min(100%, 280px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(33, 31, 28, 0.18);
+      display: grid;
+      place-items: center;
+      color: var(--text-faint);
+      font-size: 13px;
+      line-height: 1.9;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.20)), linear-gradient(90deg, rgba(33, 31, 28, 0.03) 1px, transparent 1px), linear-gradient(rgba(33, 31, 28, 0.03) 1px, transparent 1px);
+      background-size: auto, 28px 28px, 28px 28px;
+    }
+
+    .wechat-qr-image {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid rgba(33, 31, 28, 0.10);
+      padding: 8px;
+    }
+
+    @media (max-width: 1200px) {
+      .floating-toc { display: none !important; }
+      .detail-view { padding-left: 0; }
+      .detail-footer { width: 100%; margin-left: 0; left: 0; }
+    }
+
+    @media (max-width: 1100px) {
+      :root { --content-width: min(100% - 56px, 1280px); --section-space: 112px; }
+      .hero-grid, .map-head, .section-head, .overview-grid, .split-grid-2, .split-grid-3, .footer-shell, .footer-left, .detail-intro { grid-template-columns: 1fr; }
+      .hero-grid { grid-template-rows: auto auto auto; gap: 28px; }
+      .dino-game { height: 200px; }
+      .section-meta, .map-caption { justify-self: start; text-align: left; }
+      .hero-copy-top { grid-column: 1; grid-row: 1; padding: 20px 24px 0; }
+      .hero-copy-main { grid-column: 1; grid-row: 2; padding: 0 24px; }
+      .hero-visual { grid-column: 1; grid-row: 3; padding-top: 0; justify-content: center; min-height: 460px; }
+      .hero-visual-wrap { justify-content: center; }
+      .photo-frame { width: min(100%, 420px); }
+      .map-stage { min-height: 520px; }
+      .map-card { width: min(980px, calc(100% - 24px)); min-height: 500px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .map-node { min-height: 180px; padding: 24px; }
+
+      .footer-divider { width: 100%; min-height: 1px; }
+    }
+
+    @media (max-width: 780px) {
+      :root { --content-width: min(100% - 28px, 1280px); --section-space: 84px; --nav-height: 66px; }
+      .nav-inner { gap: 14px; }
+      .nav-brand-name { display: none; }
+      .nav-toggle { display: inline-flex; flex: 0 0 auto; }
+      .site-nav.is-menu-open .nav-toggle span:first-child { transform: translateY(3px) rotate(45deg); }
+      .site-nav.is-menu-open .nav-toggle span:last-child { transform: translateY(-3px) rotate(-45deg); }
+      .nav-menu {
+        position: absolute;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        display: grid;
+        gap: 0;
+        padding: 14px;
+        background: rgba(247, 243, 237, 0.98);
+        border-bottom: 1px solid rgba(33, 31, 28, 0.12);
+        box-shadow: 0 18px 36px rgba(42, 38, 32, 0.08);
+        opacity: 0;
+        transform: translateY(-8px);
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+      }
+      .site-nav.is-menu-open .nav-menu { opacity: 1; transform: translateY(0); visibility: visible; pointer-events: auto; }
+      .nav-item { display: block; }
+      .nav-link, .nav-trigger { width: 100%; min-height: 48px; border-bottom: 1px solid rgba(33, 31, 28, 0.08); }
+      .nav-caret, .dropdown { display: none; }
+      .hero { min-height: auto; }
+      .hero-inner { min-height: auto; padding: 28px 0 24px; }
+      .hero-grid { gap: 24px; }
+      .hero-copy-top { padding: 8px 8px 0; }
+      .hero-copy-main { padding: 0 8px; }
+      .hero-title { font-size: clamp(46px, 14vw, 56px); }
+      .hero-title-en { font-size: 18px; }
+      .hero-lead { font-size: 14px; line-height: 1.85; }
+      .hero-lead-wrap { margin-top: 20px; gap: 12px; }
+      .hero-contact-btn { min-height: 44px; padding: 0 16px; font-size: 12px; }
+      .hero-edu-item { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+      .hero-edu-item small { flex: 0 0 100%; }
+      .hero-edu-item span { white-space: normal; font-size: 12px; letter-spacing: 0.06em; }
+      .intern-timeline .timeline-item { grid-template-columns: 1fr; row-gap: 8px; }
+      .intern-timeline .timeline-time, .intern-timeline .timeline-content { grid-column: 1; }
+      .hero-visual { min-height: 390px; }
+      .hero-visual-wrap { gap: 10px; }
+      .photo-frame { width: 100%; aspect-ratio: 0.96; }
+      .profile-photo { width: 64%; height: 74%; }
+      .hero-scroll { padding-bottom: 16px; }
+      .hero-bubbles { padding: 20px 0; }
+      .bubble-track { animation-duration: 22s; }
+      .scroll-line { height: 64px; }
+      .site-map { min-height: auto; padding: 54px 0; }
+      .map-shell { min-height: auto; }
+      .map-stage { min-height: 720px; }
+      .map-card {
+        width: min(100%, 100%);
+        min-height: 680px;
+        border-radius: 22px;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 22px;
+      }
+      .map-node {
+        min-height: 142px;
+        padding: 20px;
+      }
+      .map-node-marker {
+        width: 38px;
+        height: 38px;
+      }
+      .map-node-title {
+        white-space: normal;
+        font-size: 19px;
+      }
+      .map-node-subtitle {
+        max-width: 100%;
+        font-size: 13px;
+        margin-top: 16px;
+      }
+      .map-node-secondary { display: none; }
+      .map-compass { width: 58px; height: 58px; right: 8%; bottom: 6%; }
+      .split-grid-2, .split-grid-3, .competition-layout { gap: 24px; grid-template-columns: 1fr; }
+      .research-group-grid { grid-template-columns: 1fr; }
+      .debate-photo-stack { position: relative; top: auto; width: min(100%, 320px); height: 426px; margin: 0 auto; }
+      .debate-photo-stack { position: relative; top: auto; margin-top: 8px; }
+      .detail-line { min-height: auto; }
+      .detail-view { padding-top: calc(var(--nav-height) + 18px); }
+      .detail-intro { margin-bottom: 18px; gap: 14px; }
+      .section-head { margin-bottom: 38px; }
+      .section-title { font-size: clamp(30px, 10vw, 42px); }
+      .section-desc, .detail-copy, .detail-list { font-size: 14px; line-height: 1.85; }
+      .detail-title { font-size: 22px; }
+      .intern-logo-panel { min-height: 130px; }
+      .intern-logo { max-width: 210px; max-height: 120px; }
+      .metric-row { grid-template-columns: 1fr; gap: 8px; }
+      .contact-btn { grid-template-columns: 38px 1fr; gap: 12px; }
+      .contact-icon { width: 38px; height: 38px; }
+      .modal-panel { padding: 28px 22px 24px; }
+      .ai-skip { top: 16px; right: 16px; }
+      .ai-scene3-vp { width: 100vw; height: 100svh; }
+      .ai-mac-notif { top: 72px; right: 14px; width: min(320px, calc(100vw - 28px)); }
+      .ai-mac-window { width: calc(100vw - 28px); height: min(72svh, 550px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+      .bubble-track { transform: none !important; animation: none !important; }
+      .bubble-toggle { display: none; }
+      .debate-photo-card { animation: none !important; }
+      .debate-toggle { display: none; }
+      .map-node { transform: none !important; }
+    }
+
+    /* --- AI与我 开场动画样式 --- */
+    #ai-animation-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    .ai-step-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .ai-step-layer.active { opacity: 1; visibility: visible; }
+    .ai-hint { font-size: 18px; letter-spacing: 0.2em; color: rgba(255,255,255,0.6); animation: ai-breathe 2s infinite; }
+    @keyframes ai-breathe { 0%,100% {opacity:0.3} 50% {opacity:0.8} }
+    .ai-step-layer[id^="ai-step-1"], .ai-step-layer[id^="ai-step-2"] { background-color: #333; }
+    .ai-step-layer[id^="ai-step-3"], .ai-step-layer[id^="ai-step-4"] { background-color: #222; }
+    #ai-step-5 { background-color: #1a2a1a; }
+    #ai-step-7 { background-color: #2a1a2a; }
+    .ai-img-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; transition: filter 2s ease, transform 5s linear; }
+    .ai-step-layer[id^="ai-step-1"] .ai-img-bg, .ai-step-layer[id^="ai-step-2"] .ai-img-bg { object-position: right center; filter: grayscale(1) saturate(0); }
+    #ai-step-2 .ai-img-bg { filter: grayscale(0) saturate(1); }
+    .ai-step-layer[id^="ai-step-3"] .ai-img-bg, .ai-step-layer[id^="ai-step-4"] .ai-img-bg { object-position: left center; filter: grayscale(1); }
+    #ai-step-4 .ai-img-bg { filter: grayscale(0); }
+    #ai-step-5 .ai-img-bg { object-fit: contain; animation: ai-floating 4s infinite ease-in-out; }
+    #ai-step-7 .ai-img-bg { object-fit: contain; animation: ai-arguing 5s infinite ease-in-out; }
+    @keyframes ai-arguing {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      20% { transform: scale(1.02) translate(2px, -1px); }
+      50% { transform: scale(1.01) translate(-2px, 2px); }
+    }
+    @keyframes ai-floating { 0%,100% {transform:translate(0,0)} 25% {transform:translate(5px,-5px)} 50% {transform:translate(-5px,5px)} }
+    #ai-step-6 .ai-img-bg { transform: scale(5); transform-origin: 80% 50%; transition: transform 1s cubic-bezier(0.19,1,0.22,1); }
+    #ai-step-8 .ai-img-bg { transform: scale(2.5) translate(0, 5%); transition: transform 1.2s cubic-bezier(0.19,1,0.22,1); }
+    .ai-skip {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      z-index: 3000;
+      min-width: 72px;
+      min-height: 42px;
+      padding: 0 14px;
+      color: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.34);
+      background: rgba(0,0,0,0.28);
+      cursor: pointer;
+    }
+    .ai-skip:hover { color: #fff; border-color: rgba(255,255,255,0.62); }
+    .ai-scene3-vp { width: 1280px; height: 800px; background-color: #182031; background-position: center; background-repeat: no-repeat; background-size: cover; position: relative; overflow: hidden; }
+    .ai-mac-window { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); width: 850px; height: 550px; background: rgba(28,28,30,0.75); backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; display: none; flex-direction: column; opacity: 0; transition: all 0.5s; }
+    .ai-mac-window.show { display: flex; transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    .ai-mac-notif { position: absolute; top: 40px; right: 20px; width: 320px; height: 70px; background: rgba(28,28,30,0.75); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 12px; opacity: 0; transform: translateX(350px); transition: all 0.6s; }
+    .ai-mac-notif.show { opacity: 1; transform: translateX(0); }
+    #ai-dict-tooltip { position: absolute; background: #fff; color: #000; padding: 12px; border-radius: 10px; width: 220px; opacity: 0; visibility: hidden; transition: opacity 0.4s; z-index: 1000; }
+    #ai-dict-tooltip.show { opacity: 1; visibility: visible; }
+    #ai-v-cursor { position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 2000; transition: all 0.8s; }
+    .ai-screen-close-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; pointer-events: none; }
+    .ai-screen-half { flex: 1; background: #000; transform: rotateX(90deg); transition: transform 0.6s ease-in; }
+    .ai-screen-half.top { transform-origin: top; }
+    .ai-screen-half.bottom { transform-origin: bottom; }
+    .closing .ai-screen-half { transform: rotateX(0deg); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <aside class="floating-toc" id="floatingToc" aria-label="当前页面目录" hidden>
+    <span class="toc-label">Contents</span>
+    <nav class="toc-list" id="tocList"></nav>
+  </aside>
+  <header class="site-nav" id="siteNav">
+    <div class="nav-inner">
+      <button class="nav-brand" id="backHomeBrand" type="button" aria-label="返回首页">
+        <span class="nav-brand-mark">WZ / PROFILE</span>
+        <span class="nav-brand-name">吴芓璇 · Personal Profile</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="打开主导航">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <nav class="nav-menu" id="navMenu" aria-label="主导航">
+        <div class="nav-item">
+          <a class="nav-trigger spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview"><span>实习经历</span><span class="nav-caret" aria-hidden="true"></span></a>
+          <div class="dropdown" aria-label="实习经历子菜单">
+            <a class="spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview">概览</a>
+            <a class="spa-link" href="#intern-1" data-panel="interns" data-target="intern-1">01・字节跳动</a>
+            <a class="spa-link" href="#intern-2" data-panel="interns" data-target="intern-2">02・ICMA</a>
+            <a class="spa-link" href="#intern-3" data-panel="interns" data-target="intern-3">03・世辉律所</a>
+            <a class="spa-link" href="#intern-4" data-panel="interns" data-target="intern-4">04・互联网法院</a>
+            <a class="spa-link" href="#intern-5" data-panel="interns" data-target="intern-5">05・数安信</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a class="nav-trigger spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview"><span>校园经历</span><span class="nav-caret" aria-hidden="true"></span></a>
+          <div class="dropdown" aria-label="校园经历子菜单">
+            <a class="spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview">概览</a>
+            <a class="spa-link" href="#campus-research" data-panel="campus" data-target="campus-research">科研学习</a>
+            <a class="spa-link" href="#campus-competition" data-panel="campus" data-target="campus-competition">竞赛经验</a>
+            <a class="spa-link" href="#campus-organization" data-panel="campus" data-target="campus-organization">社团社工</a>
+          </div>
+        </div>
+        <a class="nav-link spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">AI与我</a>
+        <a class="nav-link spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">More about ME</a>
+      </nav>
+    </div>
+  </header>
+  <span id="main-content" tabindex="-1"></span>
+
+  <!-- 首页：只展示封面、网站地图与 Footer -->
+  <main class="home-view" id="homeView">
+    <section class="hero page-shell" id="hero">
+      <div class="hero-inner">
+        <div class="hero-grid">
+          <div class="hero-copy-top">
+            <span class="hero-kicker">Personal Site · First Frame</span>
+          </div>
+          <div class="hero-copy-main">
+            <div class="hero-name-wrap">
+              <h1 class="hero-title">吴芓璇</h1>
+              <span class="hero-title-en">Wu Zixuan</span>
+            </div>
+            <div class="hero-lead-wrap">
+              <p class="hero-lead">27届法学硕士毕业生，已取得法律执业资格证，通过CET-6，实习经历聚焦于数据合规丨公司常法丨投融资交易等领域。目前base北京，正在寻找27届校招相关机会，城市不限，敬请随时联系。</p>
+              <button class="hero-contact-btn" id="heroContactBtn" type="button">联系我</button>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-edu-list">
+              <div class="hero-edu-item"><small>本科</small><span>清华大学</span><span>法学院</span><span>法学</span><span>2020级本科生</span></div>
+              <div class="hero-edu-item"><small>硕士</small><span>清华大学</span><span>法学院</span><span>民商法学</span><span>2024级法学硕士</span></div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-visual-wrap">
+              <div class="hero-scroll"><button class="scroll-indicator" id="scrollIndicator" type="button" aria-label="滚动查看网站地图"><span class="scroll-word">SCROLL</span><span class="scroll-line" aria-hidden="true"></span></button></div>
+              <div class="photo-frame" aria-label="照片区域">
+                <div class="photo-grid" aria-hidden="true"></div>
+                <img class="photo-deco is-cert" src="assets/deco-law-cert.webp" width="512" height="512" alt="" aria-hidden="true" decoding="async" />
+                <img class="photo-deco is-ai" src="assets/deco-ai-friend.webp" width="512" height="512" alt="" aria-hidden="true" decoding="async" />
+                <img class="profile-photo" src="assets/profile-photo-crop.webp" width="664" height="900" alt="吴芓璇毕业照" decoding="async" fetchpriority="high" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-bubbles" id="heroBubbles" aria-label="个人标签动画展示区">
+          <button class="bubble-toggle" id="bubbleToggle" type="button" aria-pressed="false">暂停</button>
+          <div class="bubble-track" id="bubbleTrack"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-map page-shell" id="site-map">
+      <div class="map-shell">
+        <div class="map-head">
+          <div>
+            <span class="map-kicker">Guide Cards / Site Map</span>
+            <h2 class="map-title">网站地图</h2>
+            <p class="map-desc">选择一个方向，了解更多</p>
+          </div>
+          <div class="map-caption">hover lightly<br />click to enter</div>
+        </div>
+
+        <div class="map-stage" id="mapStage">
+          <div class="map-card">
+            <div class="map-sketch" aria-hidden="true">
+              <svg viewBox="0 0 1200 640" preserveAspectRatio="none">
+                <path d="M86 476c58-53 110-64 157-20" />
+                <path d="M200 134c37 10 66 31 81 63" />
+                <path d="M909 152c42 18 65 45 73 88" />
+                <path d="M1045 384c24 32 36 67 31 107" />
+                <circle cx="155" cy="463" r="44" />
+                <circle cx="1004" cy="152" r="26" />
+                <line x1="102" y1="168" x2="151" y2="123" />
+                <line x1="1052" y1="96" x2="1090" y2="128" />
+              </svg>
+            </div>
+
+            <div class="map-road" id="mapRoad" data-repel-strength="16" aria-hidden="true">
+              <svg viewBox="0 0 1200 640" preserveAspectRatio="none">
+                <path class="route-base" d="M160 320 C240 248, 310 220, 376 230 C438 238, 482 310, 556 324 C638 340, 716 230, 808 236 C892 242, 964 300, 1030 354" />
+                <path class="route-edge" d="M160 320 C240 248, 310 220, 376 230 C438 238, 482 310, 556 324 C638 340, 716 230, 808 236 C892 242, 964 300, 1030 354" />
+                <path class="route-center" d="M160 320 C240 248, 310 220, 376 230 C438 238, 482 310, 556 324 C638 340, 716 230, 808 236 C892 242, 964 300, 1030 354" />
+                <circle class="route-pin" cx="284" cy="220" r="7" />
+                <circle class="route-pin" cx="504" cy="312" r="7" />
+                <circle class="route-pin" cx="738" cy="232" r="7" />
+                <circle class="route-pin" cx="958" cy="306" r="7" />
+              </svg>
+            </div>
+
+            <div class="map-compass" id="mapCompass" data-repel-strength="18" aria-hidden="true">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="34" />
+                <circle cx="50" cy="50" r="6" />
+                <path d="M50 10v16M50 74v16M10 50h16M74 50h16" />
+                <path d="M50 22l10 18-10 6-10-6z" />
+                <path d="M50 78l-10-18 10-6 10 6z" />
+              </svg>
+            </div>
+
+            <div class="map-car" id="mapCar" data-repel-strength="22" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <path d="M9 30h30" />
+                <path d="M13 30l4-8h14l6 8" />
+                <path d="M16 22l2-4h9l4 4" />
+                <path d="M14 30v5" />
+                <path d="M35 30v5" />
+                <circle cx="19" cy="35" r="4" />
+                <circle cx="31" cy="35" r="4" />
+              </svg>
+            </div>
+
+            <a class="map-node spa-link" data-key="interns" data-panel="interns" data-target="intern-overview" href="#intern-overview">
+              <span class="map-node-label">Internships / Practice</span>
+              <span class="map-node-marker" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><rect x="13" y="13" width="22" height="22" rx="4" /><path d="M19 21h10M19 27h10" /></svg>
+              </span>
+              <span class="map-node-dot" aria-hidden="true"></span>
+              <h3 class="map-node-title">实习经历</h3>
+              <p class="map-node-subtitle">从隐私合规、汽车数据出海到投融资交易，集中展示项目经历与专业能力主线。</p>
+              <div class="map-node-secondary" aria-hidden="true"><span>字节跳动 PDPO</span><span>ICMA智联出行</span><span>北京世辉律所</span><span>北京互联网法院</span><span>数安信科技</span></div>
+            </a>
+
+            <a class="map-node spa-link" data-key="campus" data-panel="campus" data-target="campus-overview" href="#campus-overview">
+              <span class="map-node-label">Campus / Education</span>
+              <span class="map-node-marker" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M10 20l14-7 14 7-14 7z" /><path d="M16 24v8c0 3 16 3 16 0v-8" /></svg>
+              </span>
+              <span class="map-node-dot" aria-hidden="true"></span>
+              <h3 class="map-node-title">校园经历</h3>
+              <p class="map-node-subtitle">整理清华法学院学习、科研、竞赛与社团经历，呈现长期积累与表达训练。</p>
+              <div class="map-node-secondary" aria-hidden="true"><span>清华大学法学院</span><span>民商法学硕士论文</span><span>学术竞赛</span><span>院学生会副主席</span><span>校辩论队队长</span><span>在校社工</span></div>
+            </a>
+
+            <a class="map-node spa-link" data-key="ai" data-panel="ai" data-target="ai-and-me" href="#ai-and-me">
+              <span class="map-node-label">AI / Tools</span>
+              <span class="map-node-marker" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><circle cx="24" cy="18" r="7" /><path d="M24 25v10M14 35h20M12 24h4M32 24h4" /></svg>
+              </span>
+              <span class="map-node-dot" aria-hidden="true"></span>
+              <h3 class="map-node-title">AI与我</h3>
+              <p class="map-node-subtitle">记录 AI 辅助编程、信息处理与法律合规场景中的工具化实践。</p>
+              <div class="map-node-secondary" aria-hidden="true"><span>AI辅助编程</span><span>法律AI合规</span><span>数据安全实践</span><span>监管信号自动化</span></div>
+            </a>
+
+            <a class="map-node spa-link" data-key="more" data-panel="more" data-target="more-about-me" href="#more-about-me">
+              <span class="map-node-label">More / Profile</span>
+              <span class="map-node-marker" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><circle cx="17" cy="19" r="4" /><circle cx="31" cy="19" r="4" /><path d="M14 31c3-4 7-6 10-6s7 2 10 6" /></svg>
+              </span>
+              <span class="map-node-dot" aria-hidden="true"></span>
+              <h3 class="map-node-title">More about ME</h3>
+              <p class="map-node-subtitle">语言能力、资格证书与专业技能</p>
+              <div class="map-node-secondary" aria-hidden="true"><span>法律职业资格证</span><span>英语CET-6</span><span>法语</span><span>专业技能</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-shell">
+        <div class="footer-left">
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">实习经历</h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview">概览</a>
+              <a class="spa-link" href="#intern-1" data-panel="interns" data-target="intern-1">01・字节跳动</a>
+              <a class="spa-link" href="#intern-2" data-panel="interns" data-target="intern-2">02・ICMA</a>
+              <a class="spa-link" href="#intern-3" data-panel="interns" data-target="intern-3">03・世辉律所</a>
+              <a class="spa-link" href="#intern-4" data-panel="interns" data-target="intern-4">04・互联网法院</a>
+              <a class="spa-link" href="#intern-5" data-panel="interns" data-target="intern-5">05・数安信</a>
+            </div>
+          </div>
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">校园经历</h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview">概览</a>
+              <a class="spa-link" href="#campus-research" data-panel="campus" data-target="campus-research">科研学习</a>
+              <a class="spa-link" href="#campus-competition" data-panel="campus" data-target="campus-competition">竞赛经验</a>
+              <a class="spa-link" href="#campus-organization" data-panel="campus" data-target="campus-organization">社团社工</a>
+            </div>
+          </div>
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">AI与我</h3>
+            <a class="footer-single spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">进入</a>
+          </div>
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">More about ME</h3>
+            <a class="footer-single spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">进入</a>
+          </div>
+        </div>
+        <div class="footer-divider" aria-hidden="true"></div>
+        <div>
+          <span class="footer-label">Contact</span>
+          <h3 class="footer-title">联系我</h3>
+          <p class="footer-contact-text">正在寻找可能的工作机会，base 地不限。若你对我的经历感兴趣，欢迎通过以下方式联系我。</p>
+          <div class="contact-actions">
+            <button class="contact-btn" type="button" aria-label="手机号信息"><span class="contact-icon"><img src="assets/phone.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>Phone</strong><span>+86 188xxxx1279</span></span></button>
+            <button class="contact-btn" type="button" aria-label="邮箱信息"><span class="contact-icon"><img src="assets/mail.png" width="500" height="500" alt="" loading="lazy" decoding="async" /></span><span><strong>Email</strong><span>xxxx@</span></span></button>
+            <button class="contact-btn wechat-trigger" type="button" id="wechatOpenBtn" aria-label="打开微信二维码弹窗"><span class="contact-icon"><img src="assets/wechat.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>WeChat</strong><span>请点击扫码</span></span></button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- 分页内容：默认隐藏，不会在地图后直接陈列 -->
+  <main class="detail-view" id="detailView" hidden>
+    <div class="detail-intro">
+      <div class="dino-game-wrap">
+        <canvas class="dino-game" id="dinoGame" width="760" height="220" tabindex="0" aria-label="小恐龙跑酷游戏"></canvas>
+      </div>
+      <button class="detail-home-btn" id="detailBackHome" type="button">返回首页</button>
+    </div>
+
+    <section class="panel-group" id="panel-interns" data-panel-group="interns" hidden>
+      <div class="panel-shell">
+        <section class="section-block" id="intern-overview">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Internships Overview</span>
+              <h2 class="section-title">实习经历 · 概览</h2>
+              <p class="section-desc">实习领域垂直集中，深耕数据合规与投融资交易两条主线，兼具法律专业背景与技术业务理解；3 段超长期实习经历，均深度参与核心项目全流程；具备跨文化协作与国际合规项目经验。</p>
+            </div>
+            <div class="section-meta">5 段实习经历<br />3 段长期实习</div>
+          </div>
+          <div class="overview-grid">
+            <div class="timeline-list intern-timeline">
+              <div class="timeline-item"><span class="timeline-time">2026.04 - 至今</span><div class="timeline-content"><strong>字节跳动 · PDPO 隐私与数据保护办公室</strong><span>Research 实习生 · 安全序列组，长期追踪外部监管信号，支持 TikTok 等公司产品海外合规体系维护，服务业务、法务等项目研究需求。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2025.06 - 2026.04</span><div class="timeline-content"><strong>ICMA智联出行研究院 & 安理律师事务所</strong><span>法务实习生 · 数据合规组，11 个月长期实习，深度参与汽车企业出海、数据跨境与制度搭建等合规项目。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2024.06 - 2025.06</span><div class="timeline-content"><strong>北京世辉律师事务所</strong><span>法律实习生 · 投融资交易组，1 年长期实习，全流程参与多个亿元级别融资项目和公司常法事务。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2023.07 - 2023.08</span><div class="timeline-content"><strong>北京互联网法院</strong><span>民事法庭实习生，围绕网络交易、知产与个人信息侵权案件开展检索分析与文书写作。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2023.02 - 2023.05</span><div class="timeline-content"><strong>数安信（北京）科技有限公司</strong><span>法务实习生，参与多行业数据合规研究，协助输出企业合规报告与整改建议。</span></div></div>
+            </div>
+            <div class="overview-side">
+              <div class="overview-note">这 5 段经历覆盖律所、法院与数据科技企业，也横跨互联网、车企、法律 AI 等场景。我的工作重点始终围绕复杂规则理解、业务访谈、文书起草与合规问题落地展开。</div>
+              <div class="overview-metrics">
+                <div class="metric-row"><small>Focus · 聚焦领域</small><div><strong>数据合规 / 法律研究 / 投融资交易 / 公司常法</strong><span>围绕跨境、重要数据识别、隐私政策、制度搭建等任务持续积累。</span></div></div>
+                <div class="metric-row"><small>Industry · 行业</small><div><strong>互联网 / 车企 / 法律 AI / 生物医药</strong><span>既理解互联网与数字业务，也接触汽车数据与智能工具应用场景。</span></div></div>
+                <div class="metric-row"><small>Status</small><div><strong>Active</strong><span>目前在字节跳动 PDPO 实习中。</span></div></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block" id="intern-1">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Internship 01</span>
+              <h2 class="section-title">字节跳动 · PDPO 隐私与数据保护办公室</h2>
+              <p class="section-intro-highlight">时间：2026 年 04 月 - 至今｜职位：Research 实习生 · 安全序列组。长期追踪外部监管信号，支持 TikTok 等公司产品海外合规体系维护，服务业务、法务等项目研究需求。</p>
+            </div>
+            <div class="intern-logo-panel is-dual">
+              <img class="intern-logo is-bytedance" src="assets/bytedance-logo.png" width="640" height="234" alt="字节跳动 logo" loading="lazy" decoding="async" />
+              <img class="intern-logo is-pdpo" src="assets/pdpo-logo.png" width="735" height="272" alt="PDPO logo" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / regulatory signal</span><h3 class="detail-title">外部监管信号监测与专题报告分析</h3><p class="detail-copy">持续跟踪全球隐私、数据保护、AI 治理与监管执法动态，维护长期数据库并完成重大监管事件专题报告。</p><div class="detail-meta"><span>监管信号</span><span>专题报告</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / product support</span><h3 class="detail-title">产品与测试合规支持</h3><p class="detail-copy">将外部监管事件转化为产品风险识别和测试支持材料，参与产品整改测试、AI 标识有效性核查、行业隐私合规测试，以及同类产品未成年人保护实践调研，为业务合规判断提供需求与依据。</p><div class="detail-meta"><span>产品测试</span><span>风险识别</span><span>未成年人保护</span></div></article>
+            <article class="detail-line"><span class="detail-index">03 / review rules</span><h3 class="detail-title">SDLC、API 等审查规则建设</h3><p class="detail-copy">参与 SDLC 隐私合规梳理和 API 审查机制建设，协助将内部政策与外部监管要求转化为可清晰落地的技术审查标准。</p><div class="detail-meta"><span>SDLC</span><span>API审查</span><span>技术标准</span></div></article>
+            <article class="detail-line"><span class="detail-index">04 / automation</span><h3 class="detail-title">自动化流程与隐私培训支持</h3><p class="detail-copy">参与外部信号自动打标、内部看板数据更新、建构隐私新闻日报 Agent，提升监管信息筛选、沉淀和复用效率；协助员工隐私培训课程材料制作，保障合规有效落实。</p><div class="detail-meta"><span>自动打标</span><span>日报 Agent</span><span>隐私培训</span></div></article>
+          </div>
+        </section>
+
+        <section class="section-block" id="intern-2">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Internship 02</span>
+              <h2 class="section-title">ICMA智联出行研究院 & 安理律师事务所</h2>
+              <p class="section-intro-highlight">时间：2025 年 06 月 - 2026 年 04 月｜职位：法务实习生 · 数据合规组。主要围绕汽车企业出海、数据制度建设、跨境传输培训与法规研究开展工作，累计 11 个月长期实习。</p>
+            </div>
+            <div class="intern-logo-panel">
+              <img class="intern-logo is-icma" src="assets/icma-logo.png" width="500" height="500" alt="ICMA logo" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">Project 01</span><h3 class="detail-title">中国头部新能源车企出海韩国数据合规</h3><ul class="detail-list"><li>深度参与汽车企业出海韩国数据合规项目，全流程支持技术人员访谈，确认服务功能、数据收集及使用情况、数据流转、存储设备与安全措施。</li><li>整理数据流与功能清单，覆盖个人信息、敏感信息、位置信息、最小必要性、告知同意、用户权利、存储位置、保留期限、适用法规及资质申报等维度。</li><li>起草合规意见，并协助起草隐私政策与多项同意文本。</li></ul><div class="detail-meta"><span>技术访谈</span><span>数据流梳理</span><span>隐私政策</span></div></article>
+            <article class="detail-line"><span class="detail-index">Project 02</span><h3 class="detail-title">国际知名车企新设中国子公司数据安全体系建设</h3><ul class="detail-list"><li>协助新设企业建立重要数据识别规则，参考《汽车数据安全管理若干规定（试行）》等 5 部核心文件，覆盖个人信息、环境数据、车况数据三类。</li><li>开展数据安全调研，整理系统清单和数据生命周期安全情况。</li><li>起草全套数据安全保护制度，并审核修改 DPA 数据保护协议。</li></ul><div class="detail-meta"><span>重要数据识别</span><span>制度起草</span><span>DPA</span></div></article>
+            <article class="detail-line"><span class="detail-index">Project 03</span><h3 class="detail-title">中国头部新能源车企、头部地图导航平台出海欧盟、美国、泰国等合规研究</h3><ul class="detail-list"><li>参与商业秘密保护研究，分析英国、美国、德国员工泄密案例中的取证方式、惩罚措施和外派员工法律适用。</li><li>参与泰国外商投资研究，梳理最低注册资本、外资持股限制、FBL 申请与 ETDA 数字平台报备义务。</li><li>围绕中国与欧盟框架下的数据处理者身份判断开展比较研究，参考 GDPR 第 26 条及国际知名豪华车企的实践例子。</li></ul><div class="detail-meta"><span>商业秘密</span><span>外商投资</span><span>GDPR</span></div></article>
+            <article class="detail-line"><span class="detail-index">Project 04</span><h3 class="detail-title">国际知名车企员工数据合规培训与法规数据库搭建</h3><ul class="detail-list"><li>协助汽车企业面向业务人员开展跨境传输法规政策培训。</li><li>围绕《汽车数据出境安全指引（2026版）》讲解指引结构、重要数据判定规则与例外规则。</li><li>维护并完善内部法规数据库，支持持续研究与复用。</li></ul><div class="detail-meta"><span>跨境培训</span><span>法规数据库</span><span>内容沉淀</span></div></article>
+          </div>
+        </section>
+
+        <section class="section-block" id="intern-3">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Internship 03</span>
+              <h2 class="section-title">北京世辉律师事务所</h2>
+              <p class="section-intro-highlight">时间：2024 年 06 月 - 2025 年 06 月｜职位：法律实习生 · 投融资交易组。全流程参与多个亿元级别融资项目和公司常法事务，累计 1 年长期实习。</p>
+            </div>
+            <div class="intern-logo-panel">
+              <img class="intern-logo is-shihui" src="assets/shihui-logo.png" width="612" height="408" alt="世辉律所 logo" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / transaction</span><h3 class="detail-title">融资项目与尽职调查</h3><p class="detail-copy">全流程参与多个亿元级别融资项目，协助完成尽职调查报告，覆盖税务、知识产权、劳动人事等多方面合规审查，并形成相应法律建议。</p><div class="detail-meta"><span>尽调报告</span><span>合规审查</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / drafting</span><h3 class="detail-title">交易文件起草与公司文件制作</h3><p class="detail-copy">协助起草投融资协议 SPA、股东协议 SHA，并独立制作全套公司股东会议附属文件，支持项目推进和材料整理。</p><div class="detail-meta"><span>SPA</span><span>SHA</span><span>股东文件</span></div></article>
+            <article class="detail-line"><span class="detail-index">03 / general counsel</span><h3 class="detail-title">常法事务支持</h3><p class="detail-copy">独立审核并修改超过 50 份保密、研发、采购及劳动类合同，参与诉讼风险评估等其他法律分析工作，逐步形成较强的合同审阅与风险识别能力。</p><div class="detail-meta"><span>合同审核</span><span>风险评估</span></div></article>
+            <article class="detail-line"><span class="detail-index">04 / regulation</span><h3 class="detail-title">政策法规咨询</h3><p class="detail-copy">针对具体政策法规问题向各政府机关进行电话咨询，核实监管口径与适用要求，辅助项目判断。</p><div class="detail-meta"><span>法规检索</span><span>政府咨询</span></div></article>
+          </div>
+        </section>
+
+        <section class="section-block" id="intern-4">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Internship 04</span>
+              <h2 class="section-title">北京互联网法院</h2>
+              <p class="section-intro-highlight">时间：2023 年 07 月 - 2023 年 08 月｜职位：民事法庭实习生。聚焦互联网审判中的典型争议与裁判逻辑梳理。</p>
+            </div>
+            <div class="intern-logo-panel">
+              <img class="intern-logo is-court" src="assets/court-logo.png" width="320" height="213" alt="北京互联网法院 logo" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / case research</span><h3 class="detail-title">案例检索与争点分析</h3><p class="detail-copy">围绕网络交易、知识产权、个人信息侵权相关案件进行案例检索和分析，提炼争议焦点与裁判重点。</p><div class="detail-meta"><span>网络交易</span><span>知产</span><span>个人信息</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / drafting</span><h3 class="detail-title">裁判思路整理与文书初稿</h3><p class="detail-copy">协助整理裁判思路，并撰写裁判文书初稿，提升对司法逻辑、论证结构与事实归纳方式的理解。</p><div class="detail-meta"><span>裁判思路</span><span>文书写作</span></div></article>
+          </div>
+        </section>
+
+        <section class="section-block" id="intern-5">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Internship 05</span>
+              <h2 class="section-title">数安信（北京）科技有限公司</h2>
+              <p class="section-intro-highlight">时间：2023 年 02 月 - 2023 年 05 月｜职位：法务实习生。主要参与不同行业的数据合规研究与报告撰写。</p>
+            </div>
+            <div class="intern-logo-panel">
+              <img class="intern-logo is-shuanxin" src="assets/shuanxin-logo.png" width="1025" height="243" alt="数安信 logo" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / research</span><h3 class="detail-title">多行业合规研究</h3><p class="detail-copy">参与金融、医疗、交通等行业数据合规研究，系统梳理监管要求与制度规范，形成对不同行业合规重点的基础认识。</p><div class="detail-meta"><span>金融</span><span>医疗</span><span>交通</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / report</span><h3 class="detail-title">合规报告与整改建议</h3><p class="detail-copy">协助撰写企业数据合规报告，并结合研究结果提出整改建议，支持企业理解监管要求与制度落地。</p><div class="detail-meta"><span>合规报告</span><span>整改建议</span></div></article>
+            <article class="detail-line"><span class="detail-index">03 / legal ai</span><h3 class="detail-title">法律 AI 产品支持</h3><p class="detail-copy">参与法律 AI 产品的需求研究与功能设计；进行 Prompt 调教、数据标注与模型结果测评；协助自动化程序逻辑设计；配合技术团队搭建法律合规产品底层逻辑。</p><div class="detail-meta"><span>法律 AI</span><span>Prompt 调教</span><span>模型测评</span></div></article>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="panel-group" id="panel-campus" data-panel-group="campus" hidden>
+      <div class="panel-shell">
+        <section class="section-block" id="campus-overview">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Campus Overview</span>
+              <h2 class="section-title">校园经历 · 概览</h2>
+              <p class="section-desc">校园经历围绕法学学习、研究训练、公共表达与学生组织展开，形成从专业积累到实践协作的连续成长路径。</p>
+            </div>
+            <div class="section-meta">清华大学法学院<br />本科 + 硕士</div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / education</span><h3 class="detail-title">教育背景</h3><p class="detail-copy">清华大学法学院，本科阶段完成法学基础训练，硕士阶段继续在民商法与网络法相关议题上深化研究。</p><div class="detail-meta"><span>清华大学</span><span>法学院</span><span>本科 + 硕士</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / research</span><h3 class="detail-title">科研学习</h3><p class="detail-copy">研究主题覆盖自动化决策拒绝权、公开个人信息合规、人格权编司法研究与智能体侵权，兼具规范分析、实证研究和课题协作经验。</p><div class="detail-meta"><span>本科论文</span><span>挑战杯</span><span>课题组</span></div></article>
+            <article class="detail-line"><span class="detail-index">03 / competition</span><h3 class="detail-title">竞赛经历</h3><p class="detail-copy">辩论、模拟法庭与学术科技竞赛共同构成高强度表达训练，覆盖华语辩论国际赛事、全国高校模拟法庭与挑战杯等经历。</p><div class="detail-meta"><span>辩论赛</span><span>模拟法庭</span><span>8项经历</span></div></article>
+            <article class="detail-line"><span class="detail-index">04 / organization</span><h3 class="detail-title">学生组织</h3><p class="detail-copy">在辩论队、学生会、团委宣传中心和海峡两岸交流协会中承担组织、宣传、社群建设与团队协作工作。</p><div class="detail-meta"><span>组织统筹</span><span>宣传运营</span><span>文化交流</span></div></article>
+          </div>
+        </section>
+
+        <section class="section-block" id="campus-research">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Research & Study</span>
+              <h2 class="section-title">科研学习</h2>
+              <p class="section-desc">围绕自动化决策、公开个人信息、人格权与智能体侵权等议题，持续积累法学研究、实证分析和学术协作经验。</p>
+            </div>
+            <div class="section-meta">论文 / 课题 / 学术运营</div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / thesis</span><h3 class="detail-title">本科毕业论文</h3><p class="detail-copy"><strong>论文题目：</strong>《论自动化决策中的个人拒绝权》。</p><ul class="detail-list"><li><strong>研究框架：</strong>从自动化决策应用扩张、算法黑箱、数据偏差和歧视风险出发，讨论个人权益保护的迫切性；以《个人信息保护法》第24条第3款中的“自动化决策拒绝权”为可行抵抗方法；进一步分析法律要件，并讨论行使拒绝权后与人工决策衔接、比较法上的委员会与监管制度等配套问题。</li><li><strong>核心论点：</strong>第二章进行立法模式比较，从欧盟、美国到中国分析自动化决策拒绝权的不同构造方式，主张在我国更适合被理解为个人可以主动行使的权利或权能，并以信息自决权和“最小影响处理原则”为基础。</li><li><strong>要件分析：</strong>重点讨论“对个人权益有重大影响”与“仅通过自动化决策作出”两个核心构成要件，结合比较法、体系解释、历史沿革、案例分析和场景理论判断边界与标准。</li><li><strong>制度空白：</strong>分析现有制度在事前、事中、事后配套上的不足，包括算法规制方式、权利行使程序及与其他制度的衔接问题。</li></ul><div class="detail-meta"><span>自动化决策</span><span>个保法第24条</span><span>拒绝权</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / challenge cup</span><h3 class="detail-title">挑战杯竞赛研究</h3><p class="detail-copy"><strong>课题：</strong>《互联网企业公开个人信息利用的现状分析及合规整改研究》。</p><ul class="detail-list"><li><strong>研究奖项：</strong>清华大学第四十届“挑战杯”学生课外学术科技作品竞赛 · 二等奖。</li><li><strong>问卷调研：</strong>面向互联网用户收集214个有效样本，了解公众对“公开个人信息”利用范围、方式、风险感受和维权情况的真实看法，发现用户公开信息较多，但对后续传播和使用缺乏控制，普遍存在担忧，维权意愿和能力也偏弱。</li><li><strong>规范分析与案例研究：</strong>围绕《个人信息保护法》第13条、第27条、《个人信息安全规范》和司法案例，系统梳理“公开个人信息”的界定与分类规则，提出应以“合理期待/场景”作为判断公开信息边界的重要标准。</li><li><strong>实证评分与统计分析：</strong>根据法律法规和推荐性国标制定评分标准，对44家互联网APP做文本审查和服务核查，运用频数分析、正态性检验、Pearson相关和线性回归分析评分结果与企业涉个保诉讼的关联，发现APP公开个人信息保护机制得分对企业应诉压力产生显著负向影响。</li><li><strong>研究成果：</strong>将公开个人信息问题从纯法律解释推进至结合实证研究，识别互联网企业在公开个人信息利用和保护中的具体风险，为合规整改提供依据。</li></ul><div class="detail-meta"><span>公开个人信息</span><span>214份样本</span><span>44家APP</span><span>挑战杯二等奖</span></div></article>
+            <article class="detail-line"><span class="detail-index">03 / research group</span><h3 class="detail-title">课题组经历与成果</h3><p class="detail-copy"><strong>方向：</strong>围绕人格权编司法适用、互联网文化治理、学术会议与学术传播，参与课题研究、调研访谈与内容运营。</p><ul class="detail-list"><li><strong>《民法典》人格权编课题研究与撰写：</strong>最高人民法院2024年度司法研究重大课题 · 优秀课题成果。全程参与课题组前期调研、中期讨论与研究、后期报告撰写，负责民法典第1006条、第1009条相关部分司法解释条目研究与撰写。</li><li><strong>《互联网文化管理暂行规定》修订研究调研：</strong>参与2023年《互联网文化管理暂行规定》修订研究课题组调研活动，前往腾讯、抖音等公司进行实践调研访谈。</li><li><strong>学术会议协办：</strong>多次协助举办业内具有普遍影响力的学术会议，包括2025年“人工智能时代的民事权益保护研讨会”和2023年“《个人信息保护法》适用重大疑难问题研讨会”。</li><li><strong>“人工智能与网络法前沿”公众号运营：</strong>协助运营“人工智能与网络法前沿”公众号，负责编辑、排版、发布相关学术文章。</li></ul><div class="detail-meta"><span>人格权编</span><span>互联网文化治理</span><span>学术会议</span><span>公众号运营</span></div></article>
+            <article class="detail-line"><span class="detail-index">04 / master thesis</span><h3 class="detail-title">硕士毕业论文（进行中）</h3><p class="detail-copy"><strong>题目（暂定）：</strong>《智能体侵权场景下网络服务提供者的合理注意义务》。</p><div class="detail-meta"><span>WIP · 进行中</span><span>智能体侵权</span><span>网络服务提供者</span></div></article>
+          </div>
+        </section>
+
+        <section class="section-block" id="campus-competition">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Competition</span>
+              <h2 class="section-title">竞赛经验</h2>
+              <p class="section-desc">竞赛经历以辩论、模拟法庭和学术科技竞赛为主，持续锻炼了论证能力、案例分析能力与公开表达能力。</p>
+            </div>
+            <div class="section-meta">时间轴</div>
+          </div>
+          <div class="competition-layout">
+            <div class="competition-board">
+              <div class="competition-list">
+                <div class="competition-entry"><div><h3 class="competition-title">2024.01｜第十一届国际华语辩论邀请赛 亚军</h3><span class="competition-desc">即“新国辩”，华语辩论三大赛事之一，在高强度论辩中持续锻炼结构表达与现场反应能力。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2022.11｜华语辩论世界杯 亚军</h3><span class="competition-desc">即“世界杯”，华语辩论三大赛事之一，涉及中华文化等热点问题。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2022.05｜第十二届“联合信实杯”全国大学生模拟法庭辩论赛 亚军</h3><span class="competition-desc">围绕证券法虚假陈述、董监高及会计人员尽职法律规定等问题展开论证。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2022.04｜第四十届清华大学“挑战杯”学生课外学术科技作品竞赛 二等奖</h3><span class="competition-desc">课题《互联网企业公开个人信息利用的现状分析及合规整改研究》，综合运用问卷调研、规范分析、实证统计以及 Pearson 相关、线性回归等方法形成整改建议。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2022.02｜第十届世界华语辩论锦标赛 八强</h3><span class="competition-desc">即“世锦赛”，华语辩论三大赛事之一，涉及人工智能法律人格、个性化推荐算法等热点问题。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2021.11｜第十九届“理律杯”全国高校模拟法庭竞赛 八强</h3><span class="competition-desc">围绕反不正当竞争、数据安全、个人信息保护、网络爬虫合规等问题开展论证。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2021.04｜第八届国际问题辩论赛 亚军</h3><span class="competition-desc">关于国际石油等燃油资源、多国领海问题等。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2021.02｜第十届达辉杯北京高校法科辩论赛 冠军</h3><span class="competition-desc">关于法理学、刑法学等热点社会事件讨论等。</span></div></div>
+              </div>
+            </div>
+            <div class="debate-photo-stack" id="debatePhotoStack" aria-label="辩论赛照片展示">
+              <button class="debate-toggle" id="debateToggle" type="button" aria-pressed="false">暂停</button>
+              <div class="debate-photo-card"><img src="assets/debate-1.jpg" width="1080" height="1620" alt="辩论赛照片 1" loading="lazy" decoding="async" /></div>
+              <div class="debate-photo-card"><img src="assets/debate-2.jpg" width="1253" height="828" alt="辩论赛照片 2" loading="lazy" decoding="async" /></div>
+              <div class="debate-photo-card"><img src="assets/debate-3.jpg" width="1600" height="1067" alt="辩论赛照片 3" loading="lazy" decoding="async" /></div>
+              <div class="debate-photo-card"><img src="assets/debate-4.jpg" width="1440" height="1080" alt="辩论赛照片 4" loading="lazy" decoding="async" /></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block" id="campus-organization">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Organization</span>
+              <h2 class="section-title">社团社工</h2>
+              <p class="section-desc">社团与学生工作部分主要体现组织协同、团队管理与公共表达能力。</p>
+            </div>
+            <div class="section-meta">Leadership</div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / debate</span><h3 class="detail-title">清华大学辩论队 队长</h3><p class="detail-copy">2023.09 - 2024.06，负责队伍训练、赛事组织与整体协作，持续打磨团队表达体系与训练节奏。</p><div class="detail-meta"><span>辩论队</span><span>队长</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / student union</span><h3 class="detail-title">清华大学法学院学生会 副主席</h3><p class="detail-copy">2022.09 - 2023.06，参与学生事务组织与活动统筹，积累跨团队协调和执行经验。</p><div class="detail-meta"><span>学生会</span><span>副主席</span></div></article>
+            <article class="detail-line"><span class="detail-index">03 / publicity</span><h3 class="detail-title">清华大学法学院团委宣传中心 副主任</h3><p class="detail-copy">2022.09 - 2023.06，参与并组织院系学生宣传活动，管理运营院系公众号等宣发渠道，协助领导团队进行统筹宣发。</p><div class="detail-meta"><span>团委宣传中心</span><span>副主任</span></div></article>
+            <article class="detail-line"><span class="detail-index">04 / cross-strait exchange</span><h3 class="detail-title">清华大学学生海峡两岸交流协会 副会长</h3><p class="detail-copy">2021.09 - 2023.06，协助参与社团两岸文化专题讲座、学生社会实践等活动举办，建设校内两岸学生文化交流平台。</p><div class="detail-meta"><span>两岸交流</span><span>副会长</span></div></article>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="panel-group" id="panel-ai" data-panel-group="ai" hidden>
+      <div class="panel-shell">
+        <section class="section-block" id="ai-and-me">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">AI & Me</span>
+              <h2 class="section-title">AI与我</h2>
+              <p class="section-desc">集中展示我用 AI 辅助编程和理解法律 / 数据合规应用场景的实践经验。</p>
+            </div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / coding with AI</span><h3 class="detail-title">AI辅助编程实践</h3><p class="detail-copy">基于 AI 辅助编程，开发了鼠标悬停 OCR 翻译软件、每日新闻自动聚合个性化推送软件，逐步形成把想法快速落地为工具原型的能力。</p><div class="detail-meta"><span>OCR 翻译</span><span>新闻聚合</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / legal ai</span><h3 class="detail-title">法律与合规场景中的 AI</h3><p class="detail-copy">对 AI 在法律 / 数据合规领域的应用有实际操作经验，曾在法律 AI 企业实习，接触自动化法律风险预警系统，对智能工具与合规工作结合方式有直接体感。</p><div class="detail-meta"><span>法律 AI</span><span>风险预警</span></div></article>
+          </div>
+          <div class="footer-note">持续更新中…</div>
+        </section>
+      </div>
+    </section>
+
+    <section class="panel-group" id="panel-more" data-panel-group="more" hidden>
+      <div class="panel-shell">
+        <section class="section-block" id="more-about-me">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">More about ME</span>
+              <h2 class="section-title">More about ME</h2>
+              <p class="section-desc">语言能力、资格证书与专业技能一览。</p>
+            </div>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">01 / language & qualification</span><h3 class="detail-title">语言与资格</h3><p class="detail-copy">英语能力：CET-4 550 分，TOEIC 810 分，可进行英文法规检索与法律材料阅读；同时已取得法律职业资格证。</p><div class="detail-meta"><span>English</span><span>法律职业资格证</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / professional skills</span><h3 class="detail-title">专业技能</h3><p class="detail-copy">专业技能包括文书写作、协议审核、法规检索与尽调报告撰写，能够在较短时间内完成信息梳理与结构化输出。</p><div class="detail-meta"><span>文书写作</span><span>协议审核</span><span>尽调报告</span></div></article>
+          </div>
+          <div class="footer-note">更多内容持续更新中…</div>
+        </section>
+      </div>
+    </section>
+
+    <footer class="site-footer detail-footer">
+      <div class="footer-shell">
+        <div class="footer-left">
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">实习经历</h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview">概览</a>
+              <a class="spa-link" href="#intern-1" data-panel="interns" data-target="intern-1">01・字节跳动</a>
+              <a class="spa-link" href="#intern-2" data-panel="interns" data-target="intern-2">02・ICMA</a>
+              <a class="spa-link" href="#intern-3" data-panel="interns" data-target="intern-3">03・世辉律所</a>
+              <a class="spa-link" href="#intern-4" data-panel="interns" data-target="intern-4">04・互联网法院</a>
+              <a class="spa-link" href="#intern-5" data-panel="interns" data-target="intern-5">05・数安信</a>
+            </div>
+          </div>
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">校园经历</h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview">概览</a>
+              <a class="spa-link" href="#campus-research" data-panel="campus" data-target="campus-research">科研学习</a>
+              <a class="spa-link" href="#campus-competition" data-panel="campus" data-target="campus-competition">竞赛经验</a>
+              <a class="spa-link" href="#campus-organization" data-panel="campus" data-target="campus-organization">社团社工</a>
+            </div>
+          </div>
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">AI与我</h3>
+            <a class="footer-single spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">进入</a>
+          </div>
+          <div>
+            <span class="footer-label">Site Structure</span>
+            <h3 class="footer-title">More about ME</h3>
+            <a class="footer-single spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">进入</a>
+          </div>
+        </div>
+        <div class="footer-divider" aria-hidden="true"></div>
+        <div>
+          <span class="footer-label">Contact</span>
+          <h3 class="footer-title">联系我</h3>
+          <p class="footer-contact-text">正在寻找可能的工作机会，base 地不限。若你对我的经历感兴趣，欢迎通过以下方式联系我。</p>
+          <div class="contact-actions">
+            <button class="contact-btn" type="button" aria-label="手机号信息"><span class="contact-icon"><img src="assets/phone.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>Phone</strong><span>+86 188xxxx1279</span></span></button>
+            <button class="contact-btn" type="button" aria-label="邮箱信息"><span class="contact-icon"><img src="assets/mail.png" width="500" height="500" alt="" loading="lazy" decoding="async" /></span><span><strong>Email</strong><span>xxxx@</span></span></button>
+            <button class="contact-btn wechat-trigger" type="button" aria-label="打开微信二维码弹窗"><span class="contact-icon"><img src="assets/wechat.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>WeChat</strong><span>请点击扫码</span></span></button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="modal" id="wechatModal" aria-hidden="true" hidden>
+    <div class="modal-backdrop" data-close-modal="true"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="wechatModalTitle" tabindex="-1">
+      <button class="modal-close" id="wechatCloseBtn" type="button" aria-label="关闭弹窗"></button>
+      <span class="modal-kicker">Wechat QR</span>
+      <h3 class="modal-title" id="wechatModalTitle">微信联系</h3>
+      <p class="modal-desc">扫描下方二维码添加微信。</p>
+      <img class="wechat-qr-image" src="assets/wechat-qr.jpg" width="888" height="1128" alt="微信二维码" loading="lazy" decoding="async" />
+    </div>
+  </div>
+
+  <script>
+    // 文案结构预留：本次仍以中文为主，后续可扩展中英文切换
+    const i18n = {
+      zh: {
+        bubbleTags: [
+          "数据合规",
+          "公司常法",
+          "投融资交易",
+          "互联网",
+          "车企",
+          "法律AI",
+          "生物医药",
+          "5段实习经历",
+          "3段超长期实习",
+          "院学生会副主席",
+          "校辩论队队长",
+          "在校社工"
+        ]
+      },
+      en: { bubbleTags: [] }
+    };
+    const currentLang = "zh";
+
+    // Hero 标签：双倍数据实现无缝走马灯
+    const bubbleTrack = document.getElementById("bubbleTrack");
+    const heroBubbles = document.getElementById("heroBubbles");
+    const bubbleToggle = document.getElementById("bubbleToggle");
+    const bubbleTags = i18n[currentLang].bubbleTags;
+    const bubbleColorClasses = ["is-stone", "is-rose", "is-olive", "is-plum", "is-bronze", "is-sage"];
+    function createBubble(text, index) {
+      const bubble = document.createElement("span");
+      bubble.className = `bubble ${bubbleColorClasses[index % bubbleColorClasses.length]}`;
+      bubble.textContent = text;
+      bubble.style.animationDelay = `${index * 0.08}s`;
+      return bubble;
+    }
+    [...bubbleTags, ...bubbleTags].forEach((tag, index) => bubbleTrack.appendChild(createBubble(tag, index)));
+    bubbleToggle.addEventListener("click", () => {
+      const paused = heroBubbles.classList.toggle("is-paused");
+      bubbleToggle.setAttribute("aria-pressed", String(paused));
+      bubbleToggle.textContent = paused ? "继续" : "暂停";
+    });
+    const debatePhotoStack = document.getElementById("debatePhotoStack");
+    const debateToggle = document.getElementById("debateToggle");
+    debateToggle.addEventListener("click", () => {
+      const paused = debatePhotoStack.classList.toggle("is-paused");
+      debateToggle.setAttribute("aria-pressed", String(paused));
+      debateToggle.textContent = paused ? "继续" : "暂停";
+    });
+
+    // 视图切换：主页只展示封面、地图、Footer；点击导航后切到对应内容分页
+    const homeView = document.getElementById("homeView");
+    const detailView = document.getElementById("detailView");
+    const siteNav = document.getElementById("siteNav");
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    const heroSection = document.getElementById("hero");
+    const scrollIndicator = document.getElementById("scrollIndicator");
+    const heroContactBtn = document.getElementById("heroContactBtn");
+    const backHomeBrand = document.getElementById("backHomeBrand");
+    const detailBackHome = document.getElementById("detailBackHome");
+    const panelGroups = Array.from(document.querySelectorAll("[data-panel-group]"));
+    const spaLinks = Array.from(document.querySelectorAll(".spa-link"));
+    const floatingToc = document.getElementById("floatingToc");
+    const tocList = document.getElementById("tocList");
+    let tocHeadings = [];
+
+    function closeMobileNav() {
+      siteNav.classList.remove("is-menu-open");
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", "打开主导航");
+    }
+
+    function toggleMobileNav() {
+      const willOpen = !siteNav.classList.contains("is-menu-open");
+      siteNav.classList.toggle("is-menu-open", willOpen);
+      navToggle.setAttribute("aria-expanded", String(willOpen));
+      navToggle.setAttribute("aria-label", willOpen ? "关闭主导航" : "打开主导航");
+    }
+
+    const sectionToPanel = {
+      "intern-overview": "interns", "intern-1": "interns", "intern-2": "interns", "intern-3": "interns", "intern-4": "interns", "intern-5": "interns",
+      "campus-overview": "campus", "campus-research": "campus", "campus-competition": "campus", "campus-organization": "campus",
+      "ai-and-me": "ai", "more-about-me": "more"
+    };
+
+    function updateTocActive() {
+      if (!tocHeadings.length || floatingToc.hidden) return;
+      let active = tocHeadings[0];
+      tocHeadings.forEach((heading) => {
+        if (heading.getBoundingClientRect().top <= 150) active = heading;
+      });
+      tocList.querySelectorAll(".toc-link").forEach((link) => {
+        link.classList.toggle("is-active", link.getAttribute("href") === `#${active.id}`);
+      });
+    }
+
+    function getTocHeadings(panelName) {
+      const panel = document.getElementById(`panel-${panelName}`);
+      if (!panel) return [];
+      // 统一提取该 Panel 下所有 section-block 的主标题 (h2)
+      // 行为与 Campus 保持一致，形成 Panel 内的导航目录
+      return Array.from(panel.querySelectorAll(".section-block > .section-head h2"));
+    }
+
+    function buildFloatingToc(panelName) {
+      tocList.innerHTML = "";
+      tocHeadings = [];
+      const headings = getTocHeadings(panelName);
+      headings.forEach((heading, index) => {
+        if (!heading.id) heading.id = `toc-${panelName}-${index}`;
+        tocHeadings.push(heading);
+        const link = document.createElement("a");
+        link.className = `toc-link is-${heading.tagName.toLowerCase()}`;
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent.trim();
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          heading.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.replaceState(null, "", `#${heading.id}`);
+        });
+        tocList.appendChild(link);
+      });
+      floatingToc.hidden = tocHeadings.length === 0;
+      updateTocActive();
+    }
+
+    function updateNavVisibility() {
+      const isDetailMode = !detailView.hidden;
+      const triggerHeight = Math.max(120, heroSection.offsetHeight * 0.22);
+      if (isDetailMode || window.scrollY > triggerHeight) {
+        siteNav.classList.add("is-visible");
+      } else {
+        siteNav.classList.remove("is-visible");
+      }
+    }
+
+    function showHomeView() {
+      closeMobileNav();
+      detailView.hidden = true;
+      floatingToc.hidden = true;
+      tocHeadings = [];
+      homeView.classList.remove("is-hidden");
+      panelGroups.forEach((panel) => { panel.hidden = true; });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      history.replaceState(null, "", "#hero");
+      updateNavVisibility();
+    }
+
+    function playMapEntryAnimation(card, callback) {
+      if (!card || !card.classList.contains("map-node")) {
+        callback();
+        return;
+      }
+      const rect = card.getBoundingClientRect();
+      const ripple = document.createElement("span");
+      ripple.className = "map-entry-ripple";
+      ripple.style.left = `${rect.left}px`;
+      ripple.style.top = `${rect.top}px`;
+      ripple.style.width = `${rect.width}px`;
+      ripple.style.height = `${rect.height}px`;
+      document.body.appendChild(ripple);
+      window.setTimeout(() => {
+        ripple.remove();
+        callback();
+      }, 220);
+    }
+
+    function showPanel(panelName, targetId) {
+      if (!panelName) return;
+      closeMobileNav();
+      homeView.classList.add("is-hidden");
+      detailView.hidden = false;
+      detailView.classList.remove("is-entering");
+      void detailView.offsetWidth;
+      detailView.classList.add("is-entering");
+      window.setTimeout(() => detailView.classList.remove("is-entering"), 320);
+      panelGroups.forEach((panel) => { panel.hidden = panel.dataset.panelGroup !== panelName; });
+      updateNavVisibility();
+      const target = targetId ? document.getElementById(targetId) : detailView;
+      buildFloatingToc(panelName);
+      document.dispatchEvent(new CustomEvent("aime:detail-panel-change", { detail: { panelName, targetId } }));
+      requestAnimationFrame(() => {
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      if (targetId) history.replaceState(null, "", `#${targetId}`);
+    }
+
+    function handleSpaNavigation(event) {
+      event.preventDefault();
+      const link = event.currentTarget;
+      const panelName = link.dataset.panel;
+      const targetId = link.dataset.target;
+
+      const proceed = () => {
+        if (link.classList.contains("map-node")) {
+          playMapEntryAnimation(link, () => showPanel(panelName, targetId));
+        } else {
+          showPanel(panelName, targetId);
+        }
+      };
+
+      if (panelName === 'ai' && !detailView.hidden === false) {
+        startAiAnimation(proceed);
+      } else {
+        proceed();
+      }
+    }
+
+    spaLinks.forEach((link) => link.addEventListener("click", handleSpaNavigation));
+    navToggle.addEventListener("click", toggleMobileNav);
+    navMenu.addEventListener("click", (event) => {
+      if (event.target.closest(".spa-link")) closeMobileNav();
+    });
+
+    /* --- AI与我 开场动画集成 --- */
+    let aiAnimationOverlay = null;
+    function startAiAnimation(callback) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        callback();
+        return;
+      }
+
+      aiAnimationOverlay = document.getElementById("ai-animation-overlay");
+      if (!aiAnimationOverlay) { callback(); return; }
+
+      const aiSkipBtn = document.getElementById("aiSkipBtn");
+      const macScene = aiAnimationOverlay.querySelector(".ai-scene3-vp");
+      const animationController = new AbortController();
+      const pendingTimers = [];
+      let animationFinished = false;
+      let currentAiStep = 0;
+      const aiSteps = 13;
+      const layers = Array.from(aiAnimationOverlay.querySelectorAll(".ai-step-layer"));
+      const macNotif = document.getElementById("ai-mac-notif");
+      const macWindow = document.getElementById("ai-mac-window");
+      const targetWord = document.getElementById("ai-target-word");
+      const tooltip = document.getElementById("ai-dict-tooltip");
+      const vCursor = document.getElementById("ai-v-cursor");
+      const closingLayer = aiAnimationOverlay.querySelector(".ai-screen-close-overlay").parentElement;
+
+      const schedule = (fn, delay) => {
+        const timer = window.setTimeout(fn, delay);
+        pendingTimers.push(timer);
+        return timer;
+      };
+
+      aiAnimationOverlay.querySelectorAll("img[data-src]").forEach((image) => {
+        if (!image.getAttribute("src")) image.setAttribute("src", image.dataset.src);
+        image.style.removeProperty("transform");
+      });
+      macScene.style.backgroundImage = "url('output/assets/macos_desktop.webp')";
+      macNotif.classList.remove("show");
+      macWindow.classList.remove("show");
+      tooltip.classList.remove("show");
+      targetWord.textContent = "出卖";
+      targetWord.style.removeProperty("color");
+      targetWord.style.removeProperty("font-weight");
+      vCursor.removeAttribute("style");
+      closingLayer.classList.remove("closing");
+      aiAnimationOverlay.style.opacity = "1";
+      aiAnimationOverlay.style.display = "flex";
+      aiAnimationOverlay.setAttribute("aria-hidden", "false");
+      aiAnimationOverlay.classList.add("is-active");
+      document.body.style.overflow = "hidden";
+
+      function finishAiAnimation(withClosingAnimation = false) {
+        if (animationFinished) return;
+        animationFinished = true;
+        animationController.abort();
+        pendingTimers.forEach((timer) => window.clearTimeout(timer));
+
+        const hideOverlay = () => {
+          aiAnimationOverlay.style.display = "none";
+          aiAnimationOverlay.style.opacity = "1";
+          aiAnimationOverlay.setAttribute("aria-hidden", "true");
+          aiAnimationOverlay.classList.remove("is-active");
+          document.body.style.overflow = "";
+          callback();
+        };
+
+        if (!withClosingAnimation) {
+          hideOverlay();
+          return;
+        }
+
+        closingLayer.classList.add("closing");
+        schedule(() => {
+          aiAnimationOverlay.style.opacity = "0";
+          schedule(hideOverlay, 800);
+        }, 600);
+      }
+
+      function updateAiSteps() {
+        layers.forEach((layer, index) => {
+          layer.classList.toggle("active", index === currentAiStep || (currentAiStep >= 9 && currentAiStep <= 11 && index === 9));
+        });
+
+        if (currentAiStep === 1) layers[1].querySelector("img").style.transform = "translateX(-50px)";
+        if (currentAiStep === 6) schedule(() => nextAiStep(), 1500);
+        if (currentAiStep === 8) schedule(() => nextAiStep(), 1500);
+        if (currentAiStep === 9) schedule(() => macNotif.classList.add("show"), 500);
+        if (currentAiStep === 10) runAiStep10();
+        if (currentAiStep === 11) runAiStep11();
+        if (currentAiStep === 12) finishAiAnimation(true);
+      }
+
+      async function runAiStep10() {
+        const nRect = macNotif.getBoundingClientRect();
+        const oRect = aiAnimationOverlay.getBoundingClientRect();
+        vCursor.style.left = (nRect.left - oRect.left + 50) + "px";
+        vCursor.style.top = (nRect.top - oRect.top + 30) + "px";
+        await new Promise(r => setTimeout(r, 800));
+        if (animationFinished) return;
+        vCursor.style.transform = "scale(0.8)";
+        await new Promise(r => setTimeout(r, 200));
+        if (animationFinished) return;
+        vCursor.style.transform = "scale(1)";
+        macNotif.classList.remove("show");
+        macWindow.classList.add("show");
+      }
+
+      async function runAiStep11() {
+        const tRect = targetWord.getBoundingClientRect();
+        const oRect = aiAnimationOverlay.getBoundingClientRect();
+        vCursor.style.left = (tRect.left - oRect.left + 15) + "px";
+        vCursor.style.top = (tRect.top - oRect.top + 10) + "px";
+        await new Promise(r => setTimeout(r, 1000));
+        if (animationFinished) return;
+        const finalWord = "录用";
+        const chars = "あいうえおかきくけこ0123456789!@#$%^&*";
+        let start = Date.now();
+        const duration = 1000;
+        const glitch = () => {
+          let progress = Date.now() - start;
+          if (animationFinished) return;
+          if (progress < duration) {
+            targetWord.innerText = Array.from({length: finalWord.length}, () => chars[Math.floor(Math.random()*chars.length)]).join("");
+            requestAnimationFrame(glitch);
+          } else {
+            targetWord.innerText = finalWord;
+            targetWord.style.color = "#34C759";
+            targetWord.style.fontWeight = "bold";
+            const tRectFinal = targetWord.getBoundingClientRect();
+            tooltip.style.left = (tRectFinal.left - oRect.left - 20) + 'px';
+            tooltip.style.top = (tRectFinal.top - oRect.top - 100) + 'px';
+            tooltip.classList.add('show');
+          }
+        };
+        glitch();
+      }
+
+      function nextAiStep() { if (currentAiStep < aiSteps - 1) { currentAiStep++; updateAiSteps(); } }
+      
+      const onInteract = (e) => {
+        if (e.target instanceof Element && e.target.closest(".ai-skip")) return;
+        if (e.type === "wheel" && Math.abs(e.deltaY) < 10) return;
+        if (e.type === "keydown" && e.key === "Escape") {
+          finishAiAnimation(false);
+          return;
+        }
+        const manual = [0, 1, 2, 3, 4, 5, 7, 9, 10, 11];
+        if (manual.includes(currentAiStep)) nextAiStep();
+      };
+      ["mousedown", "keydown", "wheel"].forEach((eventName) => {
+        aiAnimationOverlay.addEventListener(eventName, onInteract, { signal: animationController.signal });
+      });
+      aiSkipBtn.addEventListener("click", () => finishAiAnimation(false), { signal: animationController.signal });
+      updateAiSteps();
+      aiSkipBtn.focus();
+    }
+    /* ----------------------------- */
+
+    backHomeBrand.addEventListener("click", showHomeView);
+    detailBackHome.addEventListener("click", showHomeView);
+    scrollIndicator.addEventListener("click", () => document.getElementById("site-map").scrollIntoView({ behavior: "smooth", block: "start" }));
+    heroContactBtn.addEventListener("click", () => document.querySelector(".site-footer").scrollIntoView({ behavior: "smooth", block: "start" }));
+    window.addEventListener("scroll", () => {
+      updateNavVisibility();
+      updateTocActive();
+    }, { passive: true });
+    window.addEventListener("resize", updateNavVisibility);
+    updateNavVisibility();
+
+    // 若用户直接带 hash 打开某个 section，则自动进入对应分页
+    window.addEventListener("load", () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash && sectionToPanel[hash]) {
+        showPanel(sectionToPanel[hash], hash);
+      }
+    });
+
+    // 网站地图 hover：主模块放大到 1.5 倍，其他模块和地图元素按远离方向平滑挤开
+    const mapStage = document.getElementById("mapStage");
+    const mapNodes = Array.from(document.querySelectorAll(".map-node"));
+    const mapDecorations = Array.from(document.querySelectorAll("[data-repel-strength]"));
+
+    function getCenter(rect) {
+      return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    }
+
+    function setRepelTransform(element, activeCenter, strength, scale) {
+      const rect = element.getBoundingClientRect();
+      let center = getCenter(rect);
+      let dx = center.x - activeCenter.x;
+      let dy = center.y - activeCenter.y;
+      const distance = Math.hypot(dx, dy) || 1;
+      if (distance < 8) {
+        const stageRect = mapStage.getBoundingClientRect();
+        const stageCenter = getCenter(stageRect);
+        dx = center.x - stageCenter.x || 1;
+        dy = center.y - stageCenter.y || 1;
+      }
+      const normal = Math.hypot(dx, dy) || 1;
+      const tx = (dx / normal) * strength;
+      const ty = (dy / normal) * strength;
+      element.style.setProperty("--tx", `${tx}px`);
+      element.style.setProperty("--ty", `${ty}px`);
+      if (typeof scale === "number") {
+        element.style.setProperty("--scale", String(scale));
+      }
+    }
+
+    function resetRepelState() {
+      mapStage.classList.remove("is-hovering");
+      [...mapNodes, ...mapDecorations].forEach((element) => {
+        element.classList.remove("is-active");
+        element.style.removeProperty("--tx");
+        element.style.removeProperty("--ty");
+        element.style.removeProperty("--scale");
+      });
+    }
+
+    function activateMapNode(activeNode) {
+      mapStage.classList.add("is-hovering");
+      const activeCenter = getCenter(activeNode.getBoundingClientRect());
+      mapNodes.forEach((node) => {
+        if (node === activeNode) {
+          node.classList.add("is-active");
+          node.style.setProperty("--tx", "0px");
+          node.style.setProperty("--ty", "0px");
+          node.style.setProperty("--scale", "1.5");
+        } else {
+          node.classList.remove("is-active");
+          setRepelTransform(node, activeCenter, 58, 0.84);
+        }
+      });
+      mapDecorations.forEach((element) => {
+        const strength = Number(element.dataset.repelStrength || 16);
+        setRepelTransform(element, activeCenter, strength, 1);
+      });
+    }
+
+    mapNodes.forEach((node) => {
+      node.addEventListener("mouseenter", () => activateMapNode(node));
+      node.addEventListener("focus", () => activateMapNode(node));
+    });
+    mapStage.addEventListener("mouseleave", resetRepelState);
+
+    // 子分页顶部小恐龙跑酷 Canvas：事件仅在 Canvas 获得焦点后响应，避免影响页面滚动与其他交互
+    (() => {
+      const canvas = document.getElementById("dinoGame");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const W = canvas.width;
+      const H = canvas.height;
+      const groundY = 172;
+      const ink = "#5c3d1e";
+      const softInk = "rgba(92, 61, 30, 0.34)";
+      const dino = { x: 76, y: groundY - 42, w: 34, h: 42, vy: 0, grounded: true };
+      let obstacles = [];
+      let groundOffset = 0;
+      let frame = 0;
+      let speed = 5.2;
+      let score = 0;
+      let gameOver = false;
+      let gameStarted = false;
+      let focused = false;
+      let nextObstacleIn = 54;
+
+      function resetGame() {
+        obstacles = [];
+        groundOffset = 0;
+        frame = 0;
+        speed = 5.2;
+        score = 0;
+        gameOver = false;
+        gameStarted = false;
+        nextObstacleIn = 42 + Math.floor(Math.random() * 58);
+        dino.y = groundY - dino.h;
+        dino.vy = 0;
+        dino.grounded = true;
+      }
+
+      function jump() {
+        if (gameOver) {
+          resetGame();
+          gameStarted = true;
+        }
+        if (!gameStarted) gameStarted = true;
+        if (dino.grounded) {
+          dino.vy = -12.8;
+          dino.grounded = false;
+        }
+      }
+
+      function spawnObstacle() {
+        const bird = Math.random() > (score > 80 ? 0.58 : 0.78);
+        obstacles.push({
+          x: W + 24,
+          y: bird ? groundY - (62 + Math.random() * 22) : groundY - 36,
+          w: bird ? 38 : 20 + Math.random() * 12,
+          h: bird ? 20 : 36,
+          type: bird ? "bird" : "cactus"
+        });
+      }
+
+      function scheduleNextObstacle() {
+        const minGap = Math.max(34, 68 - speed * 4);
+        const maxGap = Math.max(minGap + 34, 136 - speed * 5);
+        nextObstacleIn = Math.floor(minGap + Math.random() * (maxGap - minGap));
+      }
+
+      function intersects(a, b) {
+        return a.x + 5 < b.x + b.w - 4 && a.x + a.w - 5 > b.x + 4 && a.y + 4 < b.y + b.h - 3 && a.y + a.h - 2 > b.y + 3;
+      }
+
+      function drawDino() {
+        ctx.strokeStyle = ink;
+        ctx.lineWidth = 2.4;
+        ctx.lineJoin = "round";
+        ctx.strokeRect(dino.x + 6, dino.y + 12, 22, 24);
+        ctx.strokeRect(dino.x + 22, dino.y, 18, 18);
+        ctx.beginPath();
+        ctx.moveTo(dino.x + 6, dino.y + 20);
+        ctx.lineTo(dino.x, dino.y + 12);
+        ctx.moveTo(dino.x + 14, dino.y + 36);
+        ctx.lineTo(dino.x + 9, dino.y + 43);
+        ctx.moveTo(dino.x + 26, dino.y + 36);
+        ctx.lineTo(dino.x + 32, dino.y + 43);
+        ctx.stroke();
+        ctx.fillStyle = ink;
+        ctx.fillRect(dino.x + 34, dino.y + 7, 2, 2);
+      }
+
+      function drawObstacle(o) {
+        ctx.strokeStyle = ink;
+        ctx.lineWidth = 2.2;
+        if (o.type === "bird") {
+          ctx.beginPath();
+          ctx.moveTo(o.x, o.y + 10);
+          ctx.quadraticCurveTo(o.x + 9, o.y, o.x + 18, o.y + 10);
+          ctx.quadraticCurveTo(o.x + 27, o.y + 20, o.x + 36, o.y + 10);
+          ctx.stroke();
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(o.x + o.w / 2, o.y);
+          ctx.lineTo(o.x + o.w / 2, o.y + o.h);
+          ctx.moveTo(o.x + o.w / 2, o.y + 12);
+          ctx.lineTo(o.x + 2, o.y + 20);
+          ctx.moveTo(o.x + o.w / 2, o.y + 18);
+          ctx.lineTo(o.x + o.w - 2, o.y + 10);
+          ctx.stroke();
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = softInk;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(28, groundY + 0.5);
+        ctx.lineTo(W - 28, groundY + 0.5);
+        ctx.stroke();
+        ctx.strokeStyle = "rgba(92, 61, 30, 0.18)";
+        for (let x = 28 - (groundOffset % 34); x < W - 28; x += 34) {
+          ctx.beginPath();
+          ctx.moveTo(x, groundY + 10);
+          ctx.lineTo(x + 12, groundY + 10);
+          ctx.stroke();
+        }
+        drawDino();
+        obstacles.forEach(drawObstacle);
+        ctx.fillStyle = ink;
+        ctx.font = "12px Inter, sans-serif";
+        ctx.textAlign = "right";
+        ctx.fillText(String(Math.floor(score)).padStart(5, "0"), W - 34, 34);
+        if (!gameStarted && !gameOver) {
+          ctx.textAlign = "center";
+          ctx.font = "12px Inter, 'Noto Sans SC', sans-serif";
+          ctx.fillStyle = "rgba(92, 61, 30, 0.72)";
+          ctx.fillText("鼠标点击开始游戏，左键或 Space 跳跃", W / 2, groundY + 34);
+        }
+        if (gameOver) {
+          ctx.textAlign = "center";
+          ctx.font = "13px Inter, sans-serif";
+          ctx.fillText("GAME OVER", W / 2, 84);
+        }
+      }
+
+      function update() {
+        if (gameStarted && !gameOver) {
+          frame += 1;
+          score += 0.2;
+          speed = Math.min(9.6, 5.2 + score / 230);
+          groundOffset += speed;
+          dino.vy += 0.64;
+          dino.y += dino.vy;
+          if (dino.y >= groundY - dino.h) {
+            dino.y = groundY - dino.h;
+            dino.vy = 0;
+            dino.grounded = true;
+          }
+          nextObstacleIn -= 1;
+          if (nextObstacleIn <= 0) {
+            spawnObstacle();
+            scheduleNextObstacle();
+          }
+          obstacles.forEach((o) => { o.x -= speed; });
+          obstacles = obstacles.filter((o) => o.x + o.w > 0);
+          if (obstacles.some((o) => intersects(dino, o))) gameOver = true;
+        }
+        draw();
+        requestAnimationFrame(update);
+      }
+
+      canvas.addEventListener("pointerdown", () => {
+        focused = true;
+        canvas.focus();
+        jump();
+      });
+      canvas.addEventListener("focus", () => { focused = true; });
+      canvas.addEventListener("blur", () => { focused = false; });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) resetGame();
+      });
+      document.addEventListener("aime:detail-panel-change", resetGame);
+      window.addEventListener("keydown", (event) => {
+        if ((event.code === "Space" || event.key === " ") && focused && document.activeElement === canvas) {
+          event.preventDefault();
+          jump();
+        }
+      });
+      resetGame();
+      update();
+    })();
+
+    // 微信二维码弹窗：点击按钮打开，可通过关闭按钮、遮罩或 ESC 关闭
+    const wechatModal = document.getElementById("wechatModal");
+    const wechatOpenBtns = Array.from(document.querySelectorAll(".wechat-trigger"));
+    const wechatCloseBtn = document.getElementById("wechatCloseBtn");
+    const wechatModalPanel = wechatModal.querySelector(".modal-panel");
+    let modalReturnFocus = null;
+    let modalHideTimer = null;
+
+    function openWechatModal() {
+      window.clearTimeout(modalHideTimer);
+      modalReturnFocus = document.activeElement;
+      wechatModal.hidden = false;
+      wechatModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => {
+        wechatModal.classList.add("is-open");
+        wechatModalPanel.focus();
+      });
+    }
+
+    function closeWechatModal() {
+      wechatModal.classList.remove("is-open");
+      wechatModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      modalHideTimer = window.setTimeout(() => {
+        wechatModal.hidden = true;
+        if (modalReturnFocus instanceof HTMLElement) modalReturnFocus.focus();
+      }, 240);
+    }
+
+    wechatOpenBtns.forEach((button) => button.addEventListener("click", openWechatModal));
+    wechatCloseBtn.addEventListener("click", closeWechatModal);
+    wechatModal.addEventListener("click", (event) => {
+      if (event.target instanceof HTMLElement && event.target.dataset.closeModal === "true") closeWechatModal();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        if (wechatModal.classList.contains("is-open")) {
+          closeWechatModal();
+        } else {
+          closeMobileNav();
+        }
+      }
+      if (event.key === "Tab" && wechatModal.classList.contains("is-open")) {
+        const focusable = Array.from(wechatModal.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])"))
+          .filter((element) => !element.hasAttribute("disabled"));
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  </script>
+  <!-- AI与我 开场动画覆盖层 -->
+  <div id="ai-animation-overlay" role="dialog" aria-modal="true" aria-label="AI 与我开场动画" aria-hidden="true">
+    <button class="ai-skip" id="aiSkipBtn" type="button">跳过</button>
+    <div class="ai-step-layer active" id="ai-step-0"><div class="ai-hint">[ 任意动作开始 ]</div></div>
+    <div class="ai-step-layer" id="ai-step-1"><img data-src="output/assets/genesis_sketch.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-2"><img data-src="output/assets/genesis_sketch.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-3"><img data-src="output/assets/genesis_color.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-4"><img data-src="output/assets/genesis_color.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-5"><img data-src="output/assets/genesis_robot.webp" width="1584" height="672" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-6"><img data-src="output/assets/genesis_robot.webp" width="1584" height="672" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-7"><img data-src="output/assets/last_supper_robot.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-8"><img data-src="output/assets/last_supper_robot.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="ai-step-layer" id="ai-step-9">
+      <div class="ai-scene3-vp">
+        <div class="mac-menu-bar" style="height:24px;background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;padding:0 15px;font-size:12px;color:#fff;">
+          <div> News File Edit View</div><div>98% 7月24日 周五 16:08</div>
+        </div>
+        <div class="mac-dock" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);height:60px;background:rgba(255,255,255,0.1);backdrop-filter:blur(30px);border-radius:18px;padding:5px;display:flex;gap:10px;border:1px solid rgba(255,255,255,0.1);">
+          <div class="dock-icon" style="width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,0.1);"></div><div class="dock-icon" style="width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,0.1);"></div><div class="dock-icon" style="width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,0.1);"></div>
+        </div>
+        <div class="ai-mac-notif" id="ai-mac-notif">
+          <div style="background:#0A84FF;width:40px;height:40px;border-radius:10px;display:flex;justify-content:center;align-items:center;font-weight:bold;color:#fff;">N</div>
+          <div><div style="font-size:13px;font-weight:600;color:#fff;">今日新闻日报已生成</div><div style="font-size:12px;opacity:0.7;color:#fff;">点击查看关键动态...</div></div>
+        </div>
+        <div class="ai-mac-window" id="ai-mac-window">
+          <div style="height:42px;display:flex;align-items:center;padding:0 16px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.1);">
+            <div style="display:flex;gap:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#FF5F56;"></div><div style="width:12px;height:12px;border-radius:50%;background:#FFBD2E;"></div><div style="width:12px;height:12px;border-radius:50%;background:#27C93F;"></div></div>
+            <div style="flex:1;text-align:center;font-size:13px;color:#fff;">News — Daily Digest</div>
+          </div>
+          <div style="display:flex;flex-grow:1;">
+            <div style="width:180px;border-right:1px solid rgba(255,255,255,0.1);padding:15px 10px;background:rgba(0,0,0,0.2);">
+              <div style="background:#0A84FF;padding:8px;border-radius:6px;font-size:13px;color:#fff;">Top Stories</div>
+            </div>
+            <div style="flex-grow:1;padding:20px;color:#fff;">
+              <div style="margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:15px;">
+                <div style="font-size:11px;color:#0A84FF;margin-bottom:5px;">Biblical Times · 西元0001年</div>
+                <div style="font-size:17px;line-height:1.4;">独家丨你们中有一个人要<span id="ai-target-word">出卖</span>我</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="ai-dict-tooltip">
+          <div style="font-weight:bold;border-bottom:1px solid #eee;margin-bottom:5px;padding-bottom:5px;color:#000;">录用 [lù yòng]</div>
+          <div style="font-size:12px;color:#333;">接受某人加入机构并给予职位。</div>
+        </div>
+        <div id="ai-v-cursor">
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 2V15.5L7.5 12L9.5 17L11.5 16L9.5 11L14 11L4 2Z" fill="white" stroke="black"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="ai-step-layer" id="ai-step-12">
+      <div class="ai-screen-close-overlay">
+        <div class="ai-screen-half top"></div>
+        <div class="ai-screen-half bottom"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

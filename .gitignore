@@ -1,0 +1,9 @@
+dist/
+node_modules/
+.pnpm-store/
+.openai/*.tar.gz
+assets/profile-photo-crop.png
+assets/deco-law-cert.png
+assets/deco-ai-friend.png
+assets/map-parchment.png
+output/assets/*.png
