@@ -1,8 +1,0 @@
-{
-  "name": "wu-zixuan-profile",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "node scripts/build.mjs"
-  }
-}
