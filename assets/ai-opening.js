@@ -2,16 +2,22 @@
   const DESIGN_WIDTH = 1821;
   const DESIGN_HEIGHT = 1024;
   const MANUAL_DISTANCE_THRESHOLD = 24;
+  const BRUSH_WIDTH_RATIO = 1.6;
+  const BRUSH_SPACING_RATIO = 0.4;
+  const PAINT_BRUSH_RADIUS = 64;
   const ACT_ONE_ROOT = "output/assets/ai-opening/act-01";
   const ACT_TWO_ROOT = "output/assets/ai-opening/act-02";
   const ACT_ONE_ASSETS = {
     canvas: `${ACT_ONE_ROOT}/00-canvas.webp`,
-    adamSketch: `${ACT_ONE_ROOT}/01-adam-sketch.webp`,
-    adamColor: `${ACT_ONE_ROOT}/02-adam-color.webp`,
-    godSketch: `${ACT_ONE_ROOT}/03-god-sketch.png`,
+    fullSketch: `${ACT_ONE_ROOT}/01-full-sketch.webp`,
     fullColor: `${ACT_ONE_ROOT}/04-full-color.webp`,
     framed: `${ACT_ONE_ROOT}/05-framed.webp`,
-    supperBackground: `${ACT_ONE_ROOT}/06-supper-background.webp`
+    supperBackground: `${ACT_ONE_ROOT}/06-supper-background.webp`,
+    humanHand: `${ACT_ONE_ROOT}/07-human-hand.png`,
+    robotHand: `${ACT_ONE_ROOT}/08-robot-hand.png`,
+    brushBroad: `${ACT_ONE_ROOT}/09-brush-broad.png`,
+    brushFlat: `${ACT_ONE_ROOT}/10-brush-flat.png`,
+    brushDry: `${ACT_ONE_ROOT}/11-brush-dry.png`
   };
   const ACT_TWO_ASSETS = {
     peopleLeft: `${ACT_TWO_ROOT}/01-people-left.png`,
@@ -23,24 +29,17 @@
     macWallpaper: `${ACT_TWO_ROOT}/07-macos-eden.webp`
   };
 
-  const ADAM_PATHS = [
-    [[306, 371], [262, 352], [216, 376], [170, 438], [148, 522], [172, 612], [248, 676], [351, 679], [430, 610], [451, 513], [395, 428], [306, 371]],
-    [[328, 445], [418, 451], [506, 439], [592, 420], [672, 408], [754, 432]],
-    [[429, 542], [510, 515], [573, 554], [606, 647], [577, 735], [527, 815]],
-    [[347, 681], [437, 700], [526, 737], [621, 778], [714, 809], [788, 826]],
-    [[120, 697], [224, 731], [331, 781], [438, 838], [555, 905], [718, 981]],
-    [[63, 321], [175, 305], [291, 321], [407, 363], [506, 428]]
-  ];
-
-  const GOD_PATHS = [
-    [[771, 430], [834, 425], [894, 408], [952, 378], [1014, 338]],
-    [[1038, 324], [1077, 270], [1114, 220], [1166, 184], [1228, 173], [1280, 200]],
-    [[1081, 307], [1167, 330], [1261, 356], [1360, 401], [1454, 455], [1542, 509]],
-    [[1220, 183], [1307, 142], [1407, 143], [1509, 175], [1600, 220], [1689, 280]],
-    [[1290, 274], [1375, 250], [1457, 273], [1519, 332], [1572, 395]],
-    [[1450, 420], [1525, 447], [1602, 487], [1680, 548], [1724, 616]],
-    [[1160, 455], [1257, 501], [1364, 552], [1467, 611], [1561, 690], [1662, 774]],
-    [[1017, 523], [1094, 572], [1179, 633], [1272, 702], [1383, 766], [1512, 809]]
+  const PANORAMA_PATHS = [
+    [
+      [118, 884],
+      [1704, 810],
+      [142, 704],
+      [1692, 598],
+      [154, 492],
+      [1678, 382],
+      [170, 270],
+      [1688, 142]
+    ]
   ];
 
   let inProgress = false;
@@ -59,6 +58,8 @@
     const colorCanvas = document.getElementById("aimeAct1ColorCanvas");
     const framedImage = document.getElementById("aimeAct1Framed");
     const brushTip = document.getElementById("aimeAct1BrushTip");
+    const humanHand = document.getElementById("aimeAct1HumanHand");
+    const robotHand = document.getElementById("aimeAct1RobotHand");
     const book = document.getElementById("aimeAct1Book");
     const turningPage = document.getElementById("aimeAct1TurningPage");
     const nextPage = document.getElementById("aimeAct1NextPage");
@@ -88,7 +89,8 @@
 
     if (
       !overlay || !artboard || !baseImage || !inkCanvas || !colorCanvas ||
-      !framedImage || !brushTip || !book || !turningPage || !nextPage ||
+      !framedImage || !brushTip || !humanHand || !robotHand || !book ||
+      !turningPage || !nextPage ||
       !pageFront || !pageBack || !skipButton || !label || !hint || !status ||
       !actTwoScene || !actTwoCamera || !actTwoBackground || !peopleLeft ||
       !peopleRight || !peopleCenter || !computerLeft || !computerCenter ||
@@ -115,7 +117,7 @@
     const colorMask = createCanvas();
     const lineMaskContext = lineMask.getContext("2d");
     const colorMaskContext = colorMask.getContext("2d");
-    const brushStamp = createBrushStamp(192, 7027);
+    const brushStamps = [];
     let phase = "preload";
     let finished = false;
     let callbackUsed = false;
@@ -153,43 +155,6 @@
         result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
         return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
       };
-    }
-
-    function createBrushStamp(size, seed) {
-      const stamp = document.createElement("canvas");
-      stamp.width = size;
-      stamp.height = size;
-      const context = stamp.getContext("2d");
-      if (!context) return stamp;
-      const center = size / 2;
-      const gradient = context.createRadialGradient(center, center, size * 0.05, center, center, center);
-      gradient.addColorStop(0, "rgba(255,255,255,0.98)");
-      gradient.addColorStop(0.48, "rgba(255,255,255,0.9)");
-      gradient.addColorStop(0.78, "rgba(255,255,255,0.48)");
-      gradient.addColorStop(1, "rgba(255,255,255,0)");
-      context.fillStyle = gradient;
-      context.fillRect(0, 0, size, size);
-
-      const random = seededRandom(seed);
-      context.globalCompositeOperation = "destination-out";
-      for (let index = 0; index < 90; index += 1) {
-        const angle = random() * Math.PI * 2;
-        const distance = Math.sqrt(random()) * center * 0.88;
-        const radius = 0.8 + random() * 3.8;
-        context.globalAlpha = 0.08 + random() * 0.22;
-        context.beginPath();
-        context.arc(
-          center + Math.cos(angle) * distance,
-          center + Math.sin(angle) * distance,
-          radius,
-          0,
-          Math.PI * 2
-        );
-        context.fill();
-      }
-      context.globalAlpha = 1;
-      context.globalCompositeOperation = "source-over";
-      return stamp;
     }
 
     function wait(delay) {
@@ -260,26 +225,60 @@
       });
     }
 
-    function stampAt(maskContext, x, y, radius, opacity = 1) {
+    function pickStamp(variant) {
+      const count = brushStamps.length;
+      return brushStamps[((variant % count) + count) % count];
+    }
+
+    // radius 决定笔锋宽度，笔痕长度由纹理自身比例撑开，落笔方向即纹理的水平轴。
+    function stampAt(maskContext, x, y, radius, opacity = 1, angle = 0, variant = 0) {
+      const stamp = pickStamp(variant);
+      const height = radius * BRUSH_WIDTH_RATIO;
+      const width = height * (stamp.naturalWidth / stamp.naturalHeight);
       maskContext.save();
       maskContext.globalAlpha = opacity;
-      maskContext.drawImage(brushStamp, x - radius, y - radius, radius * 2, radius * 2);
+      maskContext.translate(x, y);
+      maskContext.rotate(angle);
+      maskContext.drawImage(stamp, -width / 2, -height / 2, width, height);
       maskContext.restore();
     }
 
-    function strokeBetween(maskContext, from, to, radius, opacity = 1) {
-      const distance = Math.hypot(to.x - from.x, to.y - from.y);
-      const steps = Math.max(1, Math.ceil(distance / Math.max(6, radius * 0.2)));
-      for (let step = 0; step <= steps; step += 1) {
-        const ratio = step / steps;
+    function createStroke(variant, opacity) {
+      return { variant, opacity, angle: 0, point: null, leftover: 0, index: 0 };
+    }
+
+    // 沿路径按固定间距落笔，间距取笔痕长度的一小段；密集补点会把飞白叠成实心色块。
+    function strokeTo(maskContext, stroke, to, radius) {
+      if (!stroke.point) {
+        stampAt(maskContext, to.x, to.y, radius, stroke.opacity, stroke.angle, stroke.variant);
+        stroke.point = to;
+        return;
+      }
+      const from = stroke.point;
+      const deltaX = to.x - from.x;
+      const deltaY = to.y - from.y;
+      const distance = Math.hypot(deltaX, deltaY);
+      if (distance > 2) stroke.angle = Math.atan2(deltaY, deltaX);
+      const stamp = pickStamp(stroke.variant);
+      const spacing = radius * BRUSH_WIDTH_RATIO * (stamp.naturalWidth / stamp.naturalHeight) * BRUSH_SPACING_RATIO;
+      let travelled = spacing - stroke.leftover;
+      while (travelled <= distance) {
+        const ratio = travelled / distance;
+        stroke.index += 1;
+        const drift = (Math.random() - 0.5) * radius * 0.2;
         stampAt(
           maskContext,
-          from.x + (to.x - from.x) * ratio,
-          from.y + (to.y - from.y) * ratio,
+          from.x + deltaX * ratio - Math.sin(stroke.angle) * drift,
+          from.y + deltaY * ratio + Math.cos(stroke.angle) * drift,
           radius,
-          opacity
+          stroke.opacity,
+          stroke.angle + (Math.random() - 0.5) * 0.09,
+          stroke.variant + stroke.index
         );
+        travelled += spacing;
       }
+      stroke.leftover = distance - (travelled - spacing);
+      stroke.point = to;
     }
 
     function mapPointer(event) {
@@ -301,23 +300,52 @@
       brushTip.classList.remove("is-visible", "is-coloring");
     }
 
+    function mirrorPoint(point) {
+      return {
+        x: DESIGN_WIDTH - point.x,
+        y: DESIGN_HEIGHT - point.y
+      };
+    }
+
+    function movePaintHands(point) {
+      const robotPoint = mirrorPoint(point);
+      humanHand.style.left = `${point.x / DESIGN_WIDTH * 100}%`;
+      humanHand.style.top = `${point.y / DESIGN_HEIGHT * 100}%`;
+      robotHand.style.left = `${robotPoint.x / DESIGN_WIDTH * 100}%`;
+      robotHand.style.top = `${robotPoint.y / DESIGN_HEIGHT * 100}%`;
+      humanHand.classList.add("is-visible");
+      robotHand.classList.add("is-visible");
+      artboard.classList.add("is-hands-active");
+    }
+
+    function hidePaintHands() {
+      humanHand.classList.remove("is-visible");
+      robotHand.classList.remove("is-visible");
+      artboard.classList.remove("is-hands-active");
+    }
+
     function samplePaths(paths, stepSize, seed) {
       const random = seededRandom(seed);
       const points = [];
+      let strokeIndex = 0;
       paths.forEach((path, pathIndex) => {
         for (let segment = 1; segment < path.length; segment += 1) {
           const from = path[segment - 1];
           const to = path[segment];
           const distance = Math.hypot(to[0] - from[0], to[1] - from[1]);
+          const angle = Math.atan2(to[1] - from[1], to[0] - from[0]);
           const steps = Math.max(1, Math.ceil(distance / stepSize));
           for (let step = 0; step <= steps; step += 1) {
             const ratio = step / steps;
             points.push({
               x: from[0] + (to[0] - from[0]) * ratio + (random() - 0.5) * 7,
               y: from[1] + (to[1] - from[1]) * ratio + (random() - 0.5) * 7,
-              pathIndex
+              pathIndex,
+              strokeIndex,
+              angle
             });
           }
+          strokeIndex += 1;
         }
       });
       return points;
@@ -332,7 +360,9 @@
           const point = {
             x: x + (random() - 0.5) * 52,
             y: y + (random() - 0.5) * 52,
-            radius: 96 + random() * 46
+            radius: 96 + random() * 46,
+            angle: (random() - 0.5) * 0.9,
+            variant: Math.floor(random() * 3)
           };
           point.order = Math.hypot(point.x - seedPoint.x, point.y - seedPoint.y) + random() * 260;
           points.push(point);
@@ -376,42 +406,30 @@
       });
     }
 
-    async function runGuidedReveal(kind, sourceImage, paths, duration, seed, labelText, statusText) {
-      setPhase(kind === "adam" ? "adam-sketch" : "god-sketch", {
-        label: labelText,
-        status: statusText
+    async function runPanoramaReveal(sourceImage, duration, completionDuration, seed) {
+      setPhase("panorama-sketch", {
+        label: "Act I · The Creation in Lines",
+        status: "画笔正在从左下向右上绘制全景素描"
       });
       clearCanvas(lineMaskContext);
       clearCanvas(inkContext);
-      const sampledPoints = samplePaths(paths, 18, seed);
+      const sampledPoints = samplePaths(PANORAMA_PATHS, 14, seed);
       const firstPoint = sampledPoints[0] || { x: DESIGN_WIDTH / 2, y: DESIGN_HEIGHT / 2 };
-      const coveragePoints = createCoveragePoints(firstPoint, seed + 131);
       let paintedPathCount = 0;
-      let paintedCoverageCount = 0;
-      let previousPoint = null;
+      let sweep = null;
       moveBrushTip(firstPoint);
 
       await animate(duration, (progress) => {
-        const pathProgress = Math.min(1, progress / 0.77);
-        const targetPathCount = Math.floor(easeInOutCubic(pathProgress) * sampledPoints.length);
+        const targetPathCount = Math.floor(easeInOutCubic(progress) * sampledPoints.length);
         while (paintedPathCount < targetPathCount) {
           const point = sampledPoints[paintedPathCount];
-          const radius = 48 + (paintedPathCount % 7) * 1.8;
-          if (previousPoint && previousPoint.pathIndex === point.pathIndex) {
-            strokeBetween(lineMaskContext, previousPoint, point, radius, 0.92);
-          } else {
-            stampAt(lineMaskContext, point.x, point.y, radius, 0.92);
+          const radius = 49 + (paintedPathCount % 9) * 1.45;
+          if (!sweep || sweep.variant !== point.strokeIndex) {
+            sweep = createStroke(point.strokeIndex, 0.84);
+            sweep.angle = point.angle;
           }
-          previousPoint = point;
+          strokeTo(lineMaskContext, sweep, point, radius);
           paintedPathCount += 1;
-        }
-
-        const coverageProgress = Math.max(0, Math.min(1, (progress - 0.48) / 0.52));
-        const targetCoverageCount = Math.floor(easeOutCubic(coverageProgress) * coveragePoints.length);
-        while (paintedCoverageCount < targetCoverageCount) {
-          const point = coveragePoints[paintedCoverageCount];
-          stampAt(lineMaskContext, point.x, point.y, point.radius, 0.9);
-          paintedCoverageCount += 1;
         }
 
         const tipPoint = sampledPoints[Math.max(0, Math.min(sampledPoints.length - 1, paintedPathCount - 1))];
@@ -419,13 +437,37 @@
         renderMasked(inkContext, sourceImage, lineMask);
       });
 
+      if (finished) return;
+      const lastPoint = sampledPoints[sampledPoints.length - 1] || firstPoint;
+      const coveragePoints = createCoveragePoints(lastPoint, seed + 131);
+      let paintedCoverageCount = 0;
+      setPhase("panorama-sketch-autofill", {
+        label: "Act I · The Creation in Lines",
+        status: "正在自动补全全景素描"
+      });
+      await animate(completionDuration, (progress) => {
+        const targetCoverageCount = Math.floor(easeOutCubic(progress) * coveragePoints.length);
+        while (paintedCoverageCount < targetCoverageCount) {
+          const point = coveragePoints[paintedCoverageCount];
+          stampAt(lineMaskContext, point.x, point.y, point.radius, 0.92, point.angle, point.variant);
+          paintedCoverageCount += 1;
+        }
+        const tipPoint = coveragePoints[Math.max(0, paintedCoverageCount - 1)];
+        if (tipPoint) moveBrushTip(tipPoint);
+        renderMasked(inkContext, sourceImage, lineMask);
+      });
+
       lineMaskContext.fillStyle = "#fff";
       lineMaskContext.fillRect(0, 0, DESIGN_WIDTH, DESIGN_HEIGHT);
       renderMasked(inkContext, sourceImage, lineMask);
+      baseImage.src = sourceImage.src;
+      if (baseImage.decode) await baseImage.decode().catch(() => {});
+      clearCanvas(inkContext);
+      clearCanvas(lineMaskContext);
       hideBrushTip();
     }
 
-    function createAutoFillPoints(seedPoint, seed) {
+    function createAutoFillPoints(seedPoints, seed) {
       const random = seededRandom(seed);
       const points = [];
       const spacing = 104;
@@ -434,12 +476,14 @@
           const point = {
             x: x + (random() - 0.5) * 62,
             y: y + (random() - 0.5) * 62,
-            radius: 104 + random() * 56
+            radius: 104 + random() * 56,
+            angle: (random() - 0.5) * 0.9,
+            variant: Math.floor(random() * 3)
           };
-          point.order = Math.hypot(
+          point.order = Math.min(...seedPoints.map((seedPoint) => Math.hypot(
             (point.x - seedPoint.x) * 0.9,
             (point.y - seedPoint.y) * 1.08
-          ) + random() * 250;
+          ))) + random() * 250;
           points.push(point);
         }
       }
@@ -448,51 +492,50 @@
     }
 
     async function runAutoFill(paint) {
-      const points = createAutoFillPoints(paint.lastPoint, paint.seed);
+      const points = createAutoFillPoints([paint.lastPoint, paint.mirrorPoint], paint.seed);
       let paintedCount = 0;
-      moveBrushTip(paint.lastPoint, true);
       await animate(paint.duration, (progress) => {
         const targetCount = Math.floor(easeOutCubic(progress) * points.length);
         while (paintedCount < targetCount) {
           const point = points[paintedCount];
-          stampAt(colorMaskContext, point.x, point.y, point.radius, 0.94);
+          stampAt(colorMaskContext, point.x, point.y, point.radius, 0.94, point.angle, point.variant);
           paintedCount += 1;
-        }
-        if (paintedCount > 0) {
-          const tipPoint = points[Math.min(points.length - 1, paintedCount - 1)];
-          moveBrushTip(tipPoint, true);
         }
         renderMasked(colorContext, paint.image, colorMask);
       });
       colorMaskContext.fillStyle = "#fff";
       colorMaskContext.fillRect(0, 0, DESIGN_WIDTH, DESIGN_HEIGHT);
       renderMasked(colorContext, paint.image, colorMask);
-      hideBrushTip();
     }
 
-    function preparePaint(kind) {
-      const isAdam = kind === "adam";
+    function showCollaborativePaintWait(statusText = "等待用户与 AI 协作上色") {
+      setPhase("collaborative-paint-wait", {
+        label: "Act I · Human × AI Colour Study",
+        status: statusText,
+        hint: "按住并拖动\n与 AI 一起为亚当上色",
+        waiting: true,
+        paintable: true,
+        ariaLabel: "按住并拖动，与 AI 一起完成画作上色"
+      });
+    }
+
+    function prepareCollaborativePaint() {
       clearCanvas(colorMaskContext);
       clearCanvas(colorContext);
       return new Promise((resolve) => {
+        const lastPoint = { x: 370, y: 610 };
         currentPaint = {
-          kind,
-          image: isAdam ? imageMap.adamColor : imageMap.fullColor,
-          duration: isAdam ? 2200 : 2400,
-          seed: isAdam ? 4103 : 8101,
-          lastPoint: isAdam ? { x: 360, y: 520 } : { x: 1250, y: 410 },
+          kind: "collaborative",
+          image: imageMap.fullColor,
+          duration: 2400,
+          seed: 8101,
+          lastPoint,
+          mirrorPoint: mirrorPoint(lastPoint),
           totalDistance: 0,
           completing: false,
           resolve
         };
-        setPhase(isAdam ? "adam-paint-wait" : "god-paint-wait", {
-          label: isAdam ? "Act I · Colour Study / Adam" : "Act I · Colour Study / The Creator",
-          status: isAdam ? "等待用户为亚当上色" : "等待用户为神上色",
-          hint: isAdam ? "请在画面上拖动，为亚当上色" : "请在画面上拖动，为神上色",
-          waiting: true,
-          paintable: true,
-          ariaLabel: isAdam ? "拖动笔刷为亚当上色" : "拖动笔刷为神上色"
-        });
+        showCollaborativePaintWait();
         artboard.focus({ preventScroll: true });
       });
     }
@@ -501,9 +544,10 @@
       const paint = currentPaint;
       if (!paint || paint.completing || finished) return;
       paint.completing = true;
-      setPhase(paint.kind === "adam" ? "adam-autofill" : "god-autofill", {
-        label: paint.kind === "adam" ? "Act I · Colour Study / Adam" : "Act I · Colour Study / The Creator",
-        status: paint.kind === "adam" ? "正在自动补全亚当上色" : "正在自动补全神的上色"
+      hidePaintHands();
+      setPhase("collaborative-autofill", {
+        label: "Act I · Human × AI Colour Study",
+        status: "正在从两端自动补全画作上色"
       });
       await runAutoFill(paint);
       if (finished) return;
@@ -520,21 +564,33 @@
 
     function onPointerDown(event) {
       if (event.button !== undefined && event.button !== 0) return;
-      if (phase === "adam-paint-wait" || phase === "god-paint-wait") {
+      if (phase === "collaborative-paint-wait") {
         if (!currentPaint || currentPaint.completing) return;
         event.preventDefault();
         const point = mapPointer(event);
+        const reflectedPoint = mirrorPoint(point);
         pointerSession = {
           mode: "paint",
           pointerId: event.pointerId,
           lastPoint: point,
           lastClientX: event.clientX,
-          lastClientY: event.clientY
+          lastClientY: event.clientY,
+          humanStroke: createStroke(Math.floor(Math.random() * brushStamps.length), 0.82),
+          robotStroke: createStroke(Math.floor(Math.random() * brushStamps.length), 0.82)
         };
+        pointerSession.robotStroke.angle = Math.PI;
         currentPaint.lastPoint = point;
-        stampAt(colorMaskContext, point.x, point.y, 64, 0.94);
+        currentPaint.mirrorPoint = reflectedPoint;
+        strokeTo(colorMaskContext, pointerSession.humanStroke, point, PAINT_BRUSH_RADIUS);
+        strokeTo(colorMaskContext, pointerSession.robotStroke, reflectedPoint, PAINT_BRUSH_RADIUS);
         queueColorRender();
-        moveBrushTip(point, true);
+        movePaintHands(point);
+        setPhase("collaborative-painting", {
+          label: "Act I · Human × AI Colour Study",
+          status: "人手与机械手正在同步上色",
+          paintable: true,
+          ariaLabel: "正在与 AI 一起完成画作上色"
+        });
         artboard.setPointerCapture?.(event.pointerId);
         return;
       }
@@ -563,18 +619,21 @@
       if (pointerSession.mode === "paint" && currentPaint && !currentPaint.completing) {
         event.preventDefault();
         const point = mapPointer(event);
+        const reflectedPoint = mirrorPoint(point);
         const cssDistance = Math.hypot(
           event.clientX - pointerSession.lastClientX,
           event.clientY - pointerSession.lastClientY
         );
         currentPaint.totalDistance += cssDistance;
-        strokeBetween(colorMaskContext, pointerSession.lastPoint, point, 64, 0.94);
+        strokeTo(colorMaskContext, pointerSession.humanStroke, point, PAINT_BRUSH_RADIUS);
+        strokeTo(colorMaskContext, pointerSession.robotStroke, reflectedPoint, PAINT_BRUSH_RADIUS);
         pointerSession.lastPoint = point;
         pointerSession.lastClientX = event.clientX;
         pointerSession.lastClientY = event.clientY;
         currentPaint.lastPoint = point;
+        currentPaint.mirrorPoint = reflectedPoint;
         queueColorRender();
-        moveBrushTip(point, true);
+        movePaintHands(point);
         return;
       }
 
@@ -599,16 +658,17 @@
       pointerSession = null;
       artboard.releasePointerCapture?.(event.pointerId);
       hideBrushTip();
+      hidePaintHands();
 
       if (session.mode === "paint" && currentPaint && !currentPaint.completing) {
         if (event.type === "pointercancel") {
-          status.textContent = "绘制已暂停，请重新在画面上拖动";
+          showCollaborativePaintWait("绘制已暂停，请重新按住并拖动画面");
           return;
         }
         if (currentPaint.totalDistance >= MANUAL_DISTANCE_THRESHOLD) {
           completeCurrentPaint();
         } else {
-          status.textContent = "再画一小段，松手后将自动完成上色";
+          showCollaborativePaintWait("再画一小段，松手后将从两端自动补全");
         }
         return;
       }
@@ -642,10 +702,19 @@
         return;
       }
       if (event.key !== "Enter" && event.key !== " ") return;
-      if (phase === "adam-paint-wait" || phase === "god-paint-wait") {
+      if (phase === "collaborative-paint-wait") {
         event.preventDefault();
         if (!currentPaint || currentPaint.completing) return;
-        stampAt(colorMaskContext, currentPaint.lastPoint.x, currentPaint.lastPoint.y, 70, 0.96);
+        stampAt(colorMaskContext, currentPaint.lastPoint.x, currentPaint.lastPoint.y, PAINT_BRUSH_RADIUS, 0.96, 0, 0);
+        stampAt(
+          colorMaskContext,
+          currentPaint.mirrorPoint.x,
+          currentPaint.mirrorPoint.y,
+          PAINT_BRUSH_RADIUS,
+          0.96,
+          Math.PI,
+          1
+        );
         queueColorRender();
         completeCurrentPaint();
       } else if (phase === "page-wait") {
@@ -845,7 +914,7 @@
       });
       runCollageBeat();
 
-      await wait(1000);
+      await wait(500);
       if (finished) return;
       setPieceVisible(peopleLeft);
       setPhase("act-two-left", {
@@ -854,7 +923,7 @@
         ariaLabel: "最后的晚餐剪贴动画"
       });
 
-      await wait(1000);
+      await wait(700);
       if (finished) return;
       setPieceVisible(peopleRight);
       setPhase("act-two-right", {
@@ -863,7 +932,7 @@
         ariaLabel: "最后的晚餐剪贴动画"
       });
 
-      await wait(1000);
+      await wait(700);
       if (finished) return;
       setPieceVisible(peopleCenter);
       setPhase("act-two-center", {
@@ -872,7 +941,7 @@
         ariaLabel: "最后的晚餐剪贴动画"
       });
 
-      await wait(1000);
+      await wait(700);
       if (finished) return;
       setPieceVisible(computerLeft);
       setPieceVisible(computerCenter);
@@ -965,7 +1034,7 @@
       overlay.classList.remove("is-leaving", "is-waiting", "is-macos");
       overlay.classList.add("is-active");
       overlay.setAttribute("aria-hidden", "false");
-      artboard.classList.remove("is-paintable", "is-framing");
+      artboard.classList.remove("is-paintable", "is-framing", "is-hands-active");
       book.classList.remove("is-visible", "is-complete");
       book.setAttribute("aria-hidden", "true");
       turningPage.hidden = false;
@@ -995,10 +1064,13 @@
       macCursor.style.removeProperty("--cursor-duration");
       baseImage.src = imageMap.canvas.src;
       framedImage.src = imageMap.framed.src;
+      humanHand.src = imageMap.humanHand.src;
+      robotHand.src = imageMap.robotHand.src;
       nextPage.src = imageMap.supperBackground.src;
       pageFront.src = imageMap.framed.src;
       pageBack.src = imageMap.canvas.src;
       hideBrushTip();
+      hidePaintHands();
       document.body.style.overflow = "hidden";
       setPhase("preload", {
         label: "Act I · The Creation of Adam",
@@ -1016,7 +1088,8 @@
       overlay.classList.remove("is-active", "is-leaving", "is-waiting", "is-macos");
       overlay.removeAttribute("data-phase");
       overlay.setAttribute("aria-hidden", "true");
-      artboard.classList.remove("is-paintable", "is-framing");
+      artboard.classList.remove("is-paintable", "is-framing", "is-hands-active");
+      hidePaintHands();
       document.body.style.overflow = previousBodyOverflow;
       inProgress = false;
     }
@@ -1042,6 +1115,7 @@
       collageBeatActive = false;
       controller.abort();
       hideBrushTip();
+      hidePaintHands();
       overlay.classList.remove("is-waiting");
       overlay.classList.add("is-leaving");
       useCallback();
@@ -1072,36 +1146,14 @@
         );
         imageMap = await loadImages(ACT_ONE_ASSETS);
         if (finished) return;
+        brushStamps.push(imageMap.brushBroad, imageMap.brushFlat, imageMap.brushDry);
         resetScene();
         await wait(500);
         if (finished) return;
 
-        await runGuidedReveal(
-          "adam",
-          imageMap.adamSketch,
-          ADAM_PATHS,
-          4600,
-          1709,
-          "Act I · Study of Adam",
-          "正在用分区速写绘制亚当"
-        );
+        await runPanoramaReveal(imageMap.fullSketch, 3000, 900, 1709);
         if (finished) return;
-        await preparePaint("adam");
-        if (finished) return;
-
-        await wait(350);
-        if (finished) return;
-        await runGuidedReveal(
-          "god",
-          imageMap.godSketch,
-          GOD_PATHS,
-          4800,
-          2903,
-          "Act I · Study of the Creator",
-          "正在用分区速写绘制神"
-        );
-        if (finished) return;
-        await preparePaint("god");
+        await prepareCollaborativePaint();
         if (finished) return;
 
         await frameArtwork();

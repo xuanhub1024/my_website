@@ -50,6 +50,10 @@
   touch-action: none;
 }
 
+.aime-act1-artboard.is-hands-active {
+  cursor: none;
+}
+
 .aime-act1-layer,
 .aime-act1-artboard canvas {
   position: absolute;
@@ -140,6 +144,34 @@
 
 .aime-act1-brush-tip.is-coloring::after { display: none; }
 
+.aime-act1-paint-hand {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: block;
+  width: 27.3%;
+  height: auto;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: left, top, opacity;
+}
+
+.aime-act1-paint-hand.is-human {
+  transform: translate(-8%, -9%) rotate(360deg);
+}
+
+.aime-act1-paint-hand.is-robot {
+  width: 29.4%;
+  transform: translate(-4%, -94%);
+}
+
+.aime-act1-paint-hand.is-visible {
+  opacity: 1;
+}
+
 .aime-act1-ui-label {
   position: absolute;
   top: 25px;
@@ -167,7 +199,11 @@
   background: rgba(247,241,232,0.7);
   backdrop-filter: blur(12px);
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .aime-act1-skip:hover,
@@ -176,6 +212,12 @@
   border-color: rgba(72,53,40,0.64);
   background: rgba(250,246,239,0.92);
   outline: none;
+}
+
+.aime-act1-skip:active {
+  transform: scale(0.97);
+  transition-duration: 140ms;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .aime-act1-hint {
@@ -206,6 +248,45 @@
   opacity: 1;
   transform: translate(-50%, 0);
   animation: aime-act1-hint-breathe 2.3s ease-in-out infinite;
+}
+
+#ai-opening-act1[data-phase="collaborative-paint-wait"] .aime-act1-hint {
+  left: 34%;
+  top: 27%;
+  bottom: auto;
+  width: max-content;
+  padding: 0;
+  color: transparent;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #6f4b32 0%,
+      #9a6b43 26%,
+      #c39a68 47%,
+      #7b5437 70%,
+      #6f4b32 100%
+    );
+  background-size: 240% 100%;
+  background-position: 200% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.1em;
+  white-space: pre-line;
+  animation:
+    aime-act1-hint-colour-flow 3.2s linear infinite,
+    aime-act1-hint-breathe 2.3s ease-in-out infinite;
+}
+
+@keyframes aime-act1-hint-colour-flow {
+  to { background-position: -40% 50%; }
 }
 
 @keyframes aime-act1-hint-breathe {
@@ -813,6 +894,13 @@
     padding: 8px 12px;
     font-size: 9px;
     letter-spacing: 0.09em;
+  }
+
+  #ai-opening-act1[data-phase="collaborative-paint-wait"] .aime-act1-hint {
+    top: 27%;
+    bottom: auto;
+    padding: 0;
+    font-size: 9px;
   }
 
   .aime-act1-brush-tip {
