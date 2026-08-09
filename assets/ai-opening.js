@@ -61,10 +61,7 @@
     const humanHand = document.getElementById("aimeAct1HumanHand");
     const robotHand = document.getElementById("aimeAct1RobotHand");
     const book = document.getElementById("aimeAct1Book");
-    const turningPage = document.getElementById("aimeAct1TurningPage");
-    const nextPage = document.getElementById("aimeAct1NextPage");
-    const pageFront = document.getElementById("aimeAct1PageFront");
-    const pageBack = document.getElementById("aimeAct1PageBack");
+    const pageVideo = document.getElementById("aimeAct1PageVideo");
     const skipButton = document.getElementById("aimeAct1Skip");
     const label = document.getElementById("aimeAct1Label");
     const hint = document.getElementById("aimeAct1Hint");
@@ -90,8 +87,7 @@
     if (
       !overlay || !artboard || !baseImage || !inkCanvas || !colorCanvas ||
       !framedImage || !brushTip || !humanHand || !robotHand || !book ||
-      !turningPage || !nextPage ||
-      !pageFront || !pageBack || !skipButton || !label || !hint || !status ||
+      !pageVideo || !skipButton || !label || !hint || !status ||
       !actTwoScene || !actTwoCamera || !actTwoBackground || !peopleLeft ||
       !peopleRight || !peopleCenter || !computerLeft || !computerCenter ||
       !computerRight || !macScene || !macViewport || !macNotification ||
@@ -126,10 +122,11 @@
     let pointerSession = null;
     let pendingColorRender = false;
     let pageTurning = false;
-    let currentPageAngle = 0;
+    let currentPageProgress = 0;
     let wheelDistance = 0;
     let wheelResetTimer = null;
     let actTwoLoadPromise = null;
+    let pageVideoLoadPromise = null;
     let collageBeatActive = false;
     let collageBeatTilted = false;
 
@@ -606,7 +603,6 @@
           lastX: event.clientX,
           lastTime: performance.now(),
           startedAt: performance.now(),
-          startedOnRight: event.clientX - rect.left >= rect.width * 0.5,
           dragging: false,
           rectWidth: rect.width
         };
@@ -645,8 +641,7 @@
         }
         if (!pointerSession.dragging) return;
         event.preventDefault();
-        const progress = Math.max(0, Math.min(1, -deltaX / (pointerSession.rectWidth * 0.65)));
-        setPageAngle(-180 * progress);
+        setPageProgress(-deltaX / (pointerSession.rectWidth * 0.65));
         pointerSession.lastX = event.clientX;
         pointerSession.lastTime = performance.now();
       }
@@ -675,7 +670,7 @@
 
       if (session.mode === "page" && phase === "page-wait" && !pageTurning) {
         if (event.type === "pointercancel") {
-          animatePageAngle(currentPageAngle, 0, 360);
+          animatePageProgress(currentPageProgress, 0, 360);
           return;
         }
         const deltaX = event.clientX - session.startX;
@@ -684,13 +679,13 @@
         const distanceRatio = -deltaX / session.rectWidth;
         const isClick = Math.abs(deltaX) < 8 && Math.abs(event.clientY - session.startY) < 8;
         const shouldComplete =
-          (isClick && session.startedOnRight) ||
+          isClick ||
           distanceRatio >= 0.18 ||
           velocity >= 0.55;
         if (shouldComplete) {
           completePageTurn();
         } else {
-          animatePageAngle(currentPageAngle, 0, 360);
+          animatePageProgress(currentPageProgress, 0, 360);
         }
       }
     }
@@ -738,18 +733,25 @@
       }
     }
 
-    function setPageAngle(angle) {
-      currentPageAngle = Math.max(-180, Math.min(0, angle));
-      turningPage.style.transform = `rotateY(${currentPageAngle}deg)`;
-      const shadow = Math.sin(Math.abs(currentPageAngle) * Math.PI / 180) * 0.68;
-      turningPage.style.setProperty("--page-shadow", String(Math.max(0, shadow)));
+    function setPageProgress(value) {
+      currentPageProgress = Math.max(0, Math.min(1, value));
+      pageVideo.currentTime = currentPageProgress * (pageVideo.duration || 0);
     }
 
-    function animatePageAngle(from, to, duration) {
+    function animatePageProgress(from, to, duration) {
       return animate(duration, (progress) => {
         const eased = easeInOutCubic(progress);
-        setPageAngle(from + (to - from) * eased);
+        setPageProgress(from + (to - from) * eased);
       });
+    }
+
+    function playPageVideoToEnd() {
+      const remaining = Math.max(0, (pageVideo.duration || 0) - pageVideo.currentTime);
+      const ended = new Promise((resolve) => {
+        pageVideo.addEventListener("ended", resolve, { once: true, signal: controller.signal });
+      });
+      pageVideo.play().catch(() => {});
+      return Promise.race([ended, wait(remaining * 1000 + 400)]);
     }
 
     function setPieceVisible(piece) {
@@ -877,15 +879,29 @@
 
       await wait(1500);
       if (finished) return;
-      setPhase("macos-close", {
-        label: "Scene III · Close Daily Digest",
-        status: "正在关闭新闻日报",
-        ariaLabel: "macOS 新闻日报动画"
-      });
       await moveMacCursorTo(macCloseControl, 800, 0.5, 0.5);
       if (finished) return;
-      macCursor.classList.add("is-pressing");
-      await wait(120);
+      macScene.classList.add("is-awaiting-close");
+      setPhase("macos-await-close", {
+        label: "Scene III · Daily Digest Complete",
+        status: "新闻日报已生成，等待用户关闭",
+        hint: "点击新闻窗口左上角红色按钮，返回 AI 与我",
+        waiting: true,
+        ariaLabel: "新闻日报已生成。点击左上角红色关闭按钮返回 AI 与我"
+      });
+    }
+
+    async function closeMacNewsWindow() {
+      if (phase !== "macos-await-close" || finished) return;
+      macScene.classList.remove("is-awaiting-close");
+      macTooltip.classList.remove("is-visible");
+      macNewsWindow.classList.remove("is-visible");
+      setPhase("macos-complete", {
+        label: "Scene III · Daily Digest Complete",
+        status: "正在返回 AI 与我",
+        ariaLabel: "正在返回 AI 与我"
+      });
+      await wait(320);
       if (finished) return;
       completeOpening();
     }
@@ -978,11 +994,8 @@
         label: "Plate I · Turning the Page",
         status: "正在翻到下一页"
       });
-      const remaining = Math.abs(-180 - currentPageAngle) / 180;
-      await animatePageAngle(currentPageAngle, -180, Math.max(360, 900 * remaining));
+      await playPageVideoToEnd();
       if (finished) return;
-      book.classList.add("is-complete");
-      turningPage.hidden = true;
       pageTurning = false;
       try {
         await runActTwo();
@@ -1003,19 +1016,47 @@
       artboard.classList.add("is-framing");
       await wait(1800);
       if (finished) return;
-      baseImage.src = imageMap.framed.src;
-      artboard.classList.remove("is-framing");
+      await pageVideoLoadPromise;
+      if (finished) return;
+      setPageProgress(0);
       book.classList.add("is-visible");
       book.setAttribute("aria-hidden", "false");
-      setPageAngle(0);
       setPhase("page-wait", {
         label: "Plate I · Turn the Page",
         status: "等待用户翻到下一页",
-        hint: "点击右侧或向左滑动，翻开下一页",
+        hint: "点击画面或向左滑动，翻开下一页",
         waiting: true,
-        ariaLabel: "点击右侧或向左滑动，翻开下一页"
+        ariaLabel: "点击画面或向左滑动，翻开下一页"
       });
       artboard.focus({ preventScroll: true });
+    }
+
+    async function loadPageVideo() {
+      pageVideo.preload = "auto";
+      if (!pageVideo.currentSrc && pageVideo.dataset.src) {
+        pageVideo.src = pageVideo.dataset.src;
+      }
+      if (pageVideo.networkState === HTMLMediaElement.NETWORK_EMPTY) {
+        pageVideo.load();
+      }
+
+      if (pageVideo.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+        const firstFrameReady = new Promise((resolve) => {
+          pageVideo.addEventListener("loadeddata", resolve, { once: true, signal: controller.signal });
+          pageVideo.addEventListener("error", resolve, { once: true, signal: controller.signal });
+        });
+        await Promise.race([firstFrameReady, wait(8000)]);
+      }
+
+      if (finished) return;
+      pageVideo.pause();
+      if (pageVideo.readyState >= HTMLMediaElement.HAVE_METADATA && pageVideo.currentTime !== 0) {
+        const rewound = new Promise((resolve) => {
+          pageVideo.addEventListener("seeked", resolve, { once: true, signal: controller.signal });
+        });
+        pageVideo.currentTime = 0;
+        await Promise.race([rewound, wait(500)]);
+      }
     }
 
     async function loadImages(sources) {
@@ -1035,12 +1076,11 @@
       overlay.classList.add("is-active");
       overlay.setAttribute("aria-hidden", "false");
       artboard.classList.remove("is-paintable", "is-framing", "is-hands-active");
-      book.classList.remove("is-visible", "is-complete");
+      book.classList.remove("is-visible");
       book.setAttribute("aria-hidden", "true");
-      turningPage.hidden = false;
-      turningPage.style.removeProperty("transform");
-      turningPage.style.removeProperty("--page-shadow");
-      currentPageAngle = 0;
+      pageVideo.pause();
+      pageVideo.currentTime = 0;
+      currentPageProgress = 0;
       pageTurning = false;
       collageBeatActive = false;
       collageBeatTilted = false;
@@ -1049,7 +1089,7 @@
       actTwoCamera.classList.remove("is-tilted");
       [peopleLeft, peopleRight, peopleCenter, computerLeft, computerCenter, computerRight]
         .forEach((piece) => piece.classList.remove("is-visible"));
-      macScene.classList.remove("is-visible", "is-revealed");
+      macScene.classList.remove("is-visible", "is-revealed", "is-awaiting-close");
       macScene.setAttribute("aria-hidden", "true");
       macNotification.classList.remove("is-visible");
       macNewsWindow.classList.remove("is-visible");
@@ -1066,9 +1106,6 @@
       framedImage.src = imageMap.framed.src;
       humanHand.src = imageMap.humanHand.src;
       robotHand.src = imageMap.robotHand.src;
-      nextPage.src = imageMap.supperBackground.src;
-      pageFront.src = imageMap.framed.src;
-      pageBack.src = imageMap.canvas.src;
       hideBrushTip();
       hidePaintHands();
       document.body.style.overflow = "hidden";
@@ -1089,6 +1126,7 @@
       overlay.removeAttribute("data-phase");
       overlay.setAttribute("aria-hidden", "true");
       artboard.classList.remove("is-paintable", "is-framing", "is-hands-active");
+      macScene.classList.remove("is-awaiting-close");
       hidePaintHands();
       document.body.style.overflow = previousBodyOverflow;
       inProgress = false;
@@ -1129,6 +1167,7 @@
     artboard.addEventListener("wheel", onWheel, { signal: controller.signal, passive: false });
     window.addEventListener("keydown", onKeyDown, { signal: controller.signal });
     skipButton.addEventListener("click", exitAnimation, { signal: controller.signal });
+    macCloseControl.addEventListener("click", closeMacNewsWindow, { signal: controller.signal });
 
     overlay.classList.add("is-active");
     overlay.setAttribute("aria-hidden", "false");
@@ -1144,6 +1183,7 @@
           (images) => ({ images, error: null }),
           (error) => ({ images: null, error })
         );
+        pageVideoLoadPromise = loadPageVideo();
         imageMap = await loadImages(ACT_ONE_ASSETS);
         if (finished) return;
         brushStamps.push(imageMap.brushBroad, imageMap.brushFlat, imageMap.brushDry);

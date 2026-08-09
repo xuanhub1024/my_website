@@ -269,6 +269,47 @@
 
 .life-family-cat-doodle figcaption { text-align: left; }
 
+/* 手写批注：三张图已按“单字等大”预缩放，宽度即为设计像素，勿再按容器等比缩放 */
+.life-note {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  pointer-events: none;
+}
+
+.life-note img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.86;
+}
+
+.life-note-cat-fur {
+  grid-column: 5 / span 3;
+  grid-row: 1;
+  width: min(100%, 183px);
+  align-self: center;
+  justify-self: center;
+  transform: rotate(-1.1deg);
+}
+
+.life-note-cat-rescue {
+  grid-column: 4 / span 4;
+  grid-row: 2;
+  width: min(100%, 297px);
+  margin-top: -132px;
+  transform: rotate(0.7deg);
+}
+
+.life-note-rats {
+  grid-column: 1 / span 9;
+  grid-row: 3;
+  width: min(100%, 575px);
+  margin-top: -146px;
+  justify-self: center;
+  transform: rotate(-0.5deg);
+}
+
 .life-photo-card {
   --photo-rotate: 0deg;
   position: relative;
@@ -642,6 +683,12 @@
   .life-family-woof-doodle { grid-column: 6 / span 2; width: min(100%, 150px); }
   .life-family-cat-doodle { grid-column: 3 / span 3; width: min(100%, 148px); }
   .life-daily-book-mouse { grid-column: 3 / span 3; width: min(100%, 158px); }
+  .life-note {
+    grid-column: 1 / span 8;
+    grid-row: auto;
+    justify-self: center;
+    margin-top: 0;
+  }
 }
 
 @media (max-width: 780px) {
@@ -689,6 +736,7 @@
   .life-family-cat-doodle { justify-self: start; }
   .life-family-woof-doodle,
   .life-daily-book-mouse { justify-self: end; }
+  .life-note { grid-column: 1; }
   .life-family-video { width: min(78%, 330px); }
   .life-hobby-night-video { grid-column: 1; width: 100%; justify-self: center; }
   .life-closing-moment {

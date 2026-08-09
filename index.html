@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/ai-opening.css" />
+  <link rel="stylesheet" href="assets/ai-opening.css?v=20260808-3" />
   <style>
     :root {
       --bg: #f3f0ea;
@@ -1151,14 +1151,18 @@
       pointer-events: none;
     }
 
+    .ai-title-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 18px;
+    }
+
     .ai-opening-entry-label {
-      position: absolute;
-      left: 36%;
-      top: clamp(18px, 2.4vw, 32px);
+      position: relative;
       z-index: 3;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      flex: 0 0 auto;
       writing-mode: horizontal-tb;
       text-orientation: mixed;
       color: transparent;
@@ -1174,31 +1178,19 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 300;
       line-height: 1.5;
       letter-spacing: 0.2em;
-      text-align: center;
+      text-align: left;
       text-shadow: 0 1px 10px rgba(251, 246, 237, 0.84);
+      white-space: nowrap;
       opacity: 0.74;
-      transform: translateX(-50%);
       animation:
         ai-opening-entry-label-flow 3.4s linear infinite,
         ai-opening-entry-label-breathe 2.6s ease-in-out infinite;
-      transition: opacity 180ms var(--ease-out), transform 240ms var(--ease-out);
+      transition: opacity 180ms var(--ease-out);
       pointer-events: none;
-    }
-
-    .ai-opening-entry-label::after {
-      content: "";
-      width: 38px;
-      height: 1px;
-      margin-left: 2px;
-      background: rgba(91, 57, 35, 0.72);
-      box-shadow: 0 1px 8px rgba(251, 246, 237, 0.7);
-      transform-origin: left center;
-      animation: ai-opening-entry-line-breathe 2.6s ease-in-out infinite;
-      transition: width 240ms var(--ease-out);
     }
 
     @keyframes ai-opening-entry-label-flow {
@@ -1208,11 +1200,6 @@
     @keyframes ai-opening-entry-label-breathe {
       0%, 100% { opacity: 0.52; }
       50% { opacity: 0.96; }
-    }
-
-    @keyframes ai-opening-entry-line-breathe {
-      0%, 100% { opacity: 0.44; transform: scaleX(0.72); }
-      50% { opacity: 0.94; transform: scaleX(1); }
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -1293,14 +1280,6 @@
         transform: scale(0.86);
       }
 
-      .ai-opening-entry:hover .ai-opening-entry-label {
-        opacity: 1;
-        transform: translate(-50%, 4px);
-      }
-
-      .ai-opening-entry:hover .ai-opening-entry-label::after {
-        width: 64px;
-      }
     }
 
     .ai-opening-entry:disabled {
@@ -1796,13 +1775,11 @@
         transform: scale(0.94);
       }
       .ai-opening-entry-label {
-        left: 34%;
-        top: 16px;
-        gap: 6px;
-        font-size: 10px;
+        font-size: 11px;
         letter-spacing: 0.13em;
         opacity: 0.9;
       }
+      .ai-title-row { gap: 12px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2048,6 +2025,11 @@
           <div>
             <span class="footer-label">AI Collaboration</span>
             <h3 class="footer-title"><a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">AI与我</a></h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">OCR 翻译工具</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">每日新闻推送</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">个人网站</a>
+            </div>
           </div>
           <div>
             <span class="footer-label">Skills & Profile</span>
@@ -2345,8 +2327,11 @@
           <div class="section-head">
             <div>
               <span class="section-kicker">AI & Me</span>
-              <h2 class="section-title">AI与我</h2>
-              <p class="section-desc">集中展示我用 AI 辅助编程的经验与成果。<br>点击右侧画作查看更多——></p>
+              <div class="ai-title-row">
+                <h2 class="section-title">AI与我</h2>
+                <span class="ai-opening-entry-label" aria-hidden="true">点击右侧画作查看更多——</span>
+              </div>
+              <p class="section-desc">集中展示我用 AI 辅助编程的经验与成果。</p>
             </div>
           </div>
           <button class="ai-opening-entry" id="aiOpeningEntry" type="button" aria-label="播放“AI 与我”互动开场动画">
@@ -2362,7 +2347,6 @@
                 draggable="false"
               />
             </span>
-            <span class="ai-opening-entry-label" aria-hidden="true">点击查看更多...</span>
           </button>
           <div class="split-grid-2">
             <article class="detail-line">
@@ -2433,7 +2417,7 @@
               <div class="life-board-intro-copy">
                 <span class="detail-index">03 / life scrapbook</span>
                 <h3 class="life-board-title" id="life-board">关于我的生活（WIP・未完成）</h3>
-                <p class="life-board-desc">一些简历之外的、属于我的日常片段：<br>🏠 伙伴丨一只猫🐱，两只鼠🐭<br>⚽️ 足球丨练习时长两年半，门将后卫中场前锋已全部轮值，好玩爱玩！<br>🎵 音乐丨从古典流行摇滚交响国风到RAP都听，livehouse/音乐节/音乐会持续打卡ing<br>🎮 游戏丨FIFA；巫师3、博德之门3；怪物猎人、刺客信条；P社200小时萌新；星露谷钓鱼大师；剧情/解谜爱好者<br>（以及一些朴实的爱好：🍔 美食丨🛏️ 睡觉丨✈️ 出去玩）<br>（还有一些陈旧的爱好：💬 辩论丨🎹 钢琴丨🎬 看电影）</p>
+                <p class="life-board-desc">一些简历之外的、属于我的日常片段：<br>🏠 伙伴丨一只猫🐱，两只鼠🐭<br>⚽️ 足球丨练习时长两年半，门将后卫中场前锋已全部轮值，好玩爱玩！<br>🎵 音乐丨从古典流行摇滚交响国风到RAP都听，livehouse/音乐节/音乐会持续打卡ing<br>🎮 游戏丨UNDERTALE、巫师3、博德之门3、怪物猎人、刺客信条、P社200小时萌新、星露谷钓鱼大师、剧情/解谜爱好者<br>（以及一些朴实的爱好：🍔 美食丨🛏️ 睡觉丨✈️ 出去玩）<br>（还有一些陈旧的爱好：💬 辩论丨🎹 钢琴丨🎬 看电影）</p>
                 <span class="life-board-instruction" aria-hidden="true">
                   <span class="life-instruction-desktop">持续探索中......</span>
                   <span class="life-instruction-touch">轻触照片查看大图</span>
@@ -2477,9 +2461,17 @@
                       <figcaption class="life-photo-caption">咪宝有着较小的脸和较大的耳朵，血统是较普通的狸白或者较尊贵的简州</figcaption>
                     </figure>
 
+                    <figure class="life-note life-note-cat-fur">
+                      <img src="assets/life/notes/family-cat-fur.png" width="366" height="105" alt="手写批注：咪在白衣服上掉黑毛，黑衣服上掉白毛" loading="lazy" decoding="async" />
+                    </figure>
+
                     <figure class="life-illustration life-grid-illustration life-family-woof-doodle">
                       <img src="assets/life/illustrations/family-woof-doodle.png" width="568" height="439" alt="发出 woof 声音的小动物手绘插画" loading="lazy" decoding="async" />
                       <figcaption><a class="life-illustration-credit" href="#" data-credit-placeholder target="_blank" rel="noopener noreferrer">@小咪猫嘴邦臭</a></figcaption>
+                    </figure>
+
+                    <figure class="life-note life-note-cat-rescue">
+                      <img src="assets/life/notes/family-cat-rescue.png" width="595" height="165" alt="手写批注：26年5月，北京下雨下成了马尔多，流浪猫咪宝讨厌水，所以就把我捡回家了" loading="lazy" decoding="async" />
                     </figure>
 
                     <figure class="life-photo-card life-family-window is-taped">
@@ -2509,6 +2501,10 @@
                     <figure class="life-illustration life-grid-illustration life-family-cat-doodle">
                       <img src="assets/life/illustrations/family-cat-doodle.png" width="479" height="521" alt="侧身站立的猫咪手绘线稿" loading="lazy" decoding="async" />
                       <figcaption><a class="life-illustration-credit" href="https://xhslink.cn/m/4npEqVZF0hR" data-credit-placeholder target="_blank" rel="noopener noreferrer">@ verathion</a></figcaption>
+                    </figure>
+
+                    <figure class="life-note life-note-rats">
+                      <img src="assets/life/notes/family-rats.png" width="1150" height="250" alt="手写批注：曹操和圈圈是一对花枝鼠姐妹；曹操喜欢痛揍一切，甚至尝试隔着笼子打猫；圈圈什么都不在乎，除了偶尔打曹操" loading="lazy" decoding="async" />
                     </figure>
 
                     <figure class="life-photo-card life-family-rat-frog is-pinned">
@@ -2693,6 +2689,11 @@
           <div>
             <span class="footer-label">AI Collaboration</span>
             <h3 class="footer-title"><a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">AI与我</a></h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">OCR 翻译工具</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">每日新闻推送</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">个人网站</a>
+            </div>
           </div>
           <div>
             <span class="footer-label">Skills & Profile</span>
@@ -2761,7 +2762,7 @@
     </div>
   </div>
 
-  <script src="assets/ai-opening.js" defer></script>
+  <script src="assets/ai-opening.js?v=20260808-3" defer></script>
   <script src="assets/life-scrapbook.js" defer></script>
   <script src="assets/doc-viewer.js" defer></script>
   <script>
@@ -3084,6 +3085,13 @@
       };
       syncAiOpeningEntry();
       reducedMotion.addEventListener?.("change", syncAiOpeningEntry);
+      const preventSpaceActivation = (event) => {
+        if (event.key !== " " && event.code !== "Space") return;
+        event.preventDefault();
+        event.stopPropagation();
+      };
+      aiOpeningEntry.addEventListener("keydown", preventSpaceActivation);
+      aiOpeningEntry.addEventListener("keyup", preventSpaceActivation);
       aiOpeningEntry.addEventListener("click", () => {
         if (!window.AiOpening?.start) return;
         window.AiOpening.start(() => {
@@ -3524,12 +3532,19 @@
 与 AI 一起为亚当上色</div>
 
         <div class="aime-act1-book" id="aimeAct1Book" aria-hidden="true">
-          <img class="aime-act1-next-page" id="aimeAct1NextPage" data-src="output/assets/ai-opening/act-01/06-supper-background.webp" width="1821" height="1024" alt="" draggable="false" />
-          <div class="aime-act1-page" id="aimeAct1TurningPage">
-            <img class="aime-act1-page-face aime-act1-page-front" id="aimeAct1PageFront" data-src="output/assets/ai-opening/act-01/05-framed.webp" width="1821" height="1024" alt="" draggable="false" />
-            <img class="aime-act1-page-face aime-act1-page-back" id="aimeAct1PageBack" data-src="output/assets/ai-opening/act-01/00-canvas.webp" width="1821" height="1024" alt="" draggable="false" />
-            <span class="aime-act1-page-shadow" aria-hidden="true"></span>
-          </div>
+          <video
+            class="aime-act1-page-video"
+            id="aimeAct1PageVideo"
+            src="output/assets/ai-opening/act-01/12-page-turn.mp4"
+            data-src="output/assets/ai-opening/act-01/12-page-turn.mp4"
+            poster="output/assets/ai-opening/act-01/05-framed.webp"
+            width="1280"
+            height="720"
+            muted
+            playsinline
+            preload="auto"
+            disablepictureinpicture
+          ></video>
         </div>
 
         <div class="aime-act2-scene" id="aimeAct2Scene" aria-hidden="true">
@@ -3567,7 +3582,7 @@
             <div class="aime-macos-window" id="aimeMacNewsWindow">
               <div class="aime-macos-titlebar">
                 <div class="aime-macos-controls" aria-label="窗口控制">
-                  <span class="is-close" id="aimeMacCloseControl" aria-label="关闭日报窗口"></span>
+                  <button class="is-close" id="aimeMacCloseControl" type="button" tabindex="-1" aria-label="关闭新闻日报并返回 AI 与我"></button>
                   <span class="is-minimize"></span>
                   <span class="is-expand"></span>
                 </div>
