@@ -11,23 +11,96 @@
     canvas: `${ACT_ONE_ROOT}/00-canvas.webp`,
     fullSketch: `${ACT_ONE_ROOT}/01-full-sketch.webp`,
     fullColor: `${ACT_ONE_ROOT}/04-full-color.webp`,
-    framed: `${ACT_ONE_ROOT}/05-framed.webp`,
-    supperBackground: `${ACT_ONE_ROOT}/06-supper-background.webp`,
-    humanHand: `${ACT_ONE_ROOT}/07-human-hand.png`,
-    robotHand: `${ACT_ONE_ROOT}/08-robot-hand.png`,
+    framed: `${ACT_ONE_ROOT}/05-framed-animation.webp`,
+    humanHand: `${ACT_ONE_ROOT}/07-human-hand.webp`,
+    robotHand: `${ACT_ONE_ROOT}/08-robot-hand.webp`,
     brushBroad: `${ACT_ONE_ROOT}/09-brush-broad.png`,
     brushFlat: `${ACT_ONE_ROOT}/10-brush-flat.png`,
     brushDry: `${ACT_ONE_ROOT}/11-brush-dry.png`
   };
   const ACT_TWO_ASSETS = {
-    peopleLeft: `${ACT_TWO_ROOT}/01-people-left.png`,
-    peopleRight: `${ACT_TWO_ROOT}/02-people-right.png`,
-    peopleCenter: `${ACT_TWO_ROOT}/03-people-center.png`,
-    computerLeft: `${ACT_TWO_ROOT}/04-computer-left.png`,
-    computerCenter: `${ACT_TWO_ROOT}/05-computer-center.png`,
-    computerRight: `${ACT_TWO_ROOT}/06-computer-right.png`,
+    supperBackground: `${ACT_ONE_ROOT}/06-supper-background.webp`,
+    peopleLeft: `${ACT_TWO_ROOT}/01-people-left.webp`,
+    peopleRight: `${ACT_TWO_ROOT}/02-people-right.webp`,
+    peopleCenter: `${ACT_TWO_ROOT}/03-people-center.webp`,
+    computerLeft: `${ACT_TWO_ROOT}/04-computer-left.webp`,
+    computerCenter: `${ACT_TWO_ROOT}/05-computer-center.webp`,
+    computerRight: `${ACT_TWO_ROOT}/06-computer-right.webp`,
     macWallpaper: `${ACT_TWO_ROOT}/07-macos-eden.webp`
   };
+
+  const imagePromiseCache = new Map();
+  let preparePromise = null;
+  let pageVideoWarmPromise = null;
+
+  function loadImage(source, priority = "auto") {
+    if (imagePromiseCache.has(source)) return imagePromiseCache.get(source);
+    const promise = new Promise((resolve, reject) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.fetchPriority = priority;
+      image.onload = async () => {
+        if (image.decode) await image.decode().catch(() => {});
+        resolve(image);
+      };
+      image.onerror = () => reject(new Error(`Unable to load ${source}`));
+      image.src = source;
+    });
+    imagePromiseCache.set(source, promise);
+    return promise;
+  }
+
+  async function loadImages(sources, onProgress, priority = "auto") {
+    const sourceEntries = Object.entries(sources);
+    let loadedCount = 0;
+    const entries = await Promise.all(sourceEntries.map(async ([key, source]) => {
+      const image = await loadImage(source, priority);
+      loadedCount += 1;
+      onProgress?.(loadedCount / sourceEntries.length);
+      return [key, image];
+    }));
+    return Object.fromEntries(entries);
+  }
+
+  function warmPageVideo() {
+    if (pageVideoWarmPromise) return pageVideoWarmPromise;
+    const video = document.getElementById("aimeAct1PageVideo");
+    if (!video?.dataset.src) return Promise.resolve();
+    video.preload = "auto";
+    if (!video.getAttribute("src")) video.src = video.dataset.src;
+    video.load();
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      pageVideoWarmPromise = Promise.resolve();
+      return pageVideoWarmPromise;
+    }
+    pageVideoWarmPromise = new Promise((resolve) => {
+      const finish = () => {
+        video.removeEventListener("loadeddata", finish);
+        video.removeEventListener("error", finish);
+        resolve();
+      };
+      video.addEventListener("loadeddata", finish, { once: true });
+      video.addEventListener("error", finish, { once: true });
+      window.setTimeout(finish, 8000);
+    });
+    return pageVideoWarmPromise;
+  }
+
+  function prepare() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return Promise.resolve();
+    if (!preparePromise) {
+      preparePromise = (async () => {
+        await loadImages(ACT_ONE_ASSETS, null, "high");
+        await Promise.allSettled([
+          loadImages(ACT_TWO_ASSETS, null, "low"),
+          warmPageVideo()
+        ]);
+      })().catch((error) => {
+        console.warn("AI opening preload failed", error);
+      });
+    }
+    return preparePromise;
+  }
 
   const PANORAMA_PATHS = [
     [
@@ -66,6 +139,9 @@
     const label = document.getElementById("aimeAct1Label");
     const hint = document.getElementById("aimeAct1Hint");
     const status = document.getElementById("aimeAct1Status");
+    const loader = document.getElementById("aimeAct1Loader");
+    const loaderText = document.getElementById("aimeAct1LoaderText");
+    const loaderBar = document.getElementById("aimeAct1LoaderBar");
     const actTwoScene = document.getElementById("aimeAct2Scene");
     const actTwoCamera = document.getElementById("aimeAct2Camera");
     const actTwoBackground = document.getElementById("aimeAct2Background");
@@ -87,7 +163,8 @@
     if (
       !overlay || !artboard || !baseImage || !inkCanvas || !colorCanvas ||
       !framedImage || !brushTip || !humanHand || !robotHand || !book ||
-      !pageVideo || !skipButton || !label || !hint || !status ||
+      !pageVideo || !skipButton || !label || !hint || !status || !loader ||
+      !loaderText || !loaderBar ||
       !actTwoScene || !actTwoCamera || !actTwoBackground || !peopleLeft ||
       !peopleRight || !peopleCenter || !computerLeft || !computerCenter ||
       !computerRight || !macScene || !macViewport || !macNotification ||
@@ -189,6 +266,15 @@
       overlay.classList.toggle("is-macos", nextPhase.startsWith("macos-"));
       artboard.classList.toggle("is-paintable", Boolean(options.paintable));
       artboard.setAttribute("aria-label", options.ariaLabel || "AI 与我开场动画");
+    }
+
+    function updateLoadProgress(progress) {
+      const normalizedProgress = Math.max(0, Math.min(1, progress));
+      const percentage = Math.round(normalizedProgress * 100);
+      loaderBar.style.transform = `scaleX(${normalizedProgress})`;
+      loaderText.textContent = percentage >= 100
+        ? "动画即将开始"
+        : `正在加载动画素材 · ${percentage}%`;
     }
 
     function clearCanvas(canvasContext) {
@@ -1059,17 +1145,6 @@
       }
     }
 
-    async function loadImages(sources) {
-      const entries = await Promise.all(Object.entries(sources).map(([key, source]) => new Promise((resolve, reject) => {
-        const image = new Image();
-        image.decoding = "async";
-        image.onload = () => resolve([key, image]);
-        image.onerror = () => reject(new Error(`Unable to load ${source}`));
-        image.src = source;
-      })));
-      return Object.fromEntries(entries);
-    }
-
     function resetScene() {
       clearMasksAndLayers();
       overlay.classList.remove("is-leaving", "is-waiting", "is-macos");
@@ -1109,7 +1184,8 @@
       hideBrushTip();
       hidePaintHands();
       document.body.style.overflow = "hidden";
-      setPhase("preload", {
+      updateLoadProgress(1);
+      setPhase("ready", {
         label: "Act I · The Creation of Adam",
         status: "第一幕素材已准备完成"
       });
@@ -1176,16 +1252,21 @@
       label: "Act I · Preparing the Canvas",
       status: "正在准备第一幕素材"
     });
+    updateLoadProgress(0.06);
 
     (async () => {
       try {
+        imageMap = await loadImages(
+          ACT_ONE_ASSETS,
+          (progress) => updateLoadProgress(0.06 + progress * 0.94),
+          "high"
+        );
+        if (finished) return;
         actTwoLoadPromise = loadImages(ACT_TWO_ASSETS).then(
           (images) => ({ images, error: null }),
           (error) => ({ images: null, error })
         );
         pageVideoLoadPromise = loadPageVideo();
-        imageMap = await loadImages(ACT_ONE_ASSETS);
-        if (finished) return;
         brushStamps.push(imageMap.brushBroad, imageMap.brushFlat, imageMap.brushDry);
         resetScene();
         await wait(500);
@@ -1205,5 +1286,5 @@
     })();
   }
 
-  window.AiOpening = { start };
+  window.AiOpening = { prepare, start };
 })();

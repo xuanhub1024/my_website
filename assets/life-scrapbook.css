@@ -286,8 +286,9 @@
 
 .life-note-cat-fur {
   grid-column: 5 / span 3;
-  grid-row: 1;
+  grid-row: 2;
   width: min(100%, 183px);
+  margin-top: -132px;
   align-self: center;
   justify-self: center;
   transform: rotate(-1.1deg);
@@ -295,9 +296,10 @@
 
 .life-note-cat-rescue {
   grid-column: 4 / span 4;
-  grid-row: 2;
+  grid-row: 1;
   width: min(100%, 297px);
-  margin-top: -132px;
+  align-self: center;
+  justify-self: center;
   transform: rotate(0.7deg);
 }
 

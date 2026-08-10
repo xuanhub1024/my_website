@@ -11,6 +11,7 @@ const staticRoot = path.join(outputRoot, "static");
 
 const requiredEntries = ["index.html", "assets", "output"];
 const optionalEntries = [
+  "_headers",
   "404.html",
   "favicon.ico",
   "manifest.webmanifest",

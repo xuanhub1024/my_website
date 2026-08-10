@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/ai-opening.css?v=20260808-3" />
+  <link rel="stylesheet" href="assets/ai-opening.css?v=20260810-5" />
   <style>
     :root {
       --bg: #f3f0ea;
@@ -1604,6 +1604,12 @@
     @media (max-width: 1100px) {
       :root { --content-width: min(100% - 56px, 1280px); --section-space: 112px; }
       .hero-grid, .map-head, .section-head, .overview-grid, .split-grid-2, .split-grid-3, .footer-shell, .footer-left, .detail-intro { grid-template-columns: 1fr; }
+      #intern-1 .section-head,
+      #intern-2 .section-head,
+      #intern-3 .section-head,
+      #intern-4 .section-head,
+      #intern-5 .section-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .intern-logo-panel { justify-self: start; }
       .hero-grid { grid-template-rows: auto auto auto; gap: 28px; }
       .dino-game { height: 200px; }
       .section-meta, .map-caption { justify-self: start; text-align: left; }
@@ -1625,7 +1631,7 @@
     }
 
     @media (max-width: 780px) {
-      :root { --content-width: min(100% - 28px, 1280px); --section-space: 84px; --nav-height: 66px; }
+      :root { --content-width: min(100% - 28px, 1280px); --section-space: 68px; --nav-height: 66px; }
       .nav-inner { gap: 14px; }
       .nav-brand-name { display: none; }
       .nav-toggle { display: inline-flex; flex: 0 0 auto; }
@@ -1708,19 +1714,36 @@
       .map-caption-touch { display: inline; }
       .map-node-secondary { display: none; }
       .map-compass { width: 58px; height: 58px; right: 8%; bottom: 6%; }
-      .split-grid-2, .split-grid-3, .competition-layout { gap: 24px; grid-template-columns: 1fr; }
+      .split-grid-2, .split-grid-3, .competition-layout { gap: 20px; grid-template-columns: 1fr; }
       .research-group-grid { grid-template-columns: 1fr; }
       .debate-photo-stack { position: relative; top: auto; width: min(100%, 320px); height: 426px; margin: 0 auto; }
       .debate-photo-stack { position: relative; top: auto; margin-top: 8px; }
       .detail-line { min-height: auto; }
       .detail-view { padding-top: calc(var(--nav-height) + 18px); }
       .detail-intro { margin-bottom: 18px; gap: 14px; }
-      .section-head { margin-bottom: 38px; }
-      .section-title { font-size: clamp(30px, 10vw, 42px); }
-      .section-desc, .detail-copy, .detail-list { font-size: 14px; line-height: 1.85; }
-      .detail-title { font-size: 22px; }
-      .intern-logo-panel { min-height: 130px; }
-      .intern-logo { max-width: 210px; max-height: 120px; }
+      .section-head { margin-bottom: 30px; gap: 20px; }
+      .section-title { font-size: clamp(28px, 8.2vw, 34px); line-height: 1.08; }
+      .section-desc { margin-top: 16px; font-size: 13px; line-height: 1.75; }
+      .section-intro-highlight { margin-top: 16px; padding: 15px 16px; font-size: 13px; line-height: 1.75; }
+      .detail-copy, .detail-list { font-size: 13px; line-height: 1.75; }
+      .detail-title { margin-bottom: 10px; font-size: 20px; line-height: 1.28; }
+      .detail-index { margin-bottom: 14px; }
+      .overview-grid { gap: 28px; }
+      .overview-side { gap: 16px; padding: 22px 18px; transform: none; }
+      .timeline-list { padding-left: 14px; }
+      .timeline-item { padding: 0 0 20px 18px; }
+      .timeline-item strong { margin-bottom: 7px; font-size: 16px; line-height: 1.4; }
+      .timeline-item span { font-size: 13px; line-height: 1.75; }
+      .intern-timeline .timeline-item { row-gap: 5px; }
+      .intern-timeline .timeline-time { padding-top: 0; font-size: 11px; line-height: 1.65; letter-spacing: 0.04em; }
+      #intern-1 .section-kicker,
+      #intern-2 .section-kicker,
+      #intern-3 .section-kicker,
+      #intern-4 .section-kicker,
+      #intern-5 .section-kicker { font-size: 13px; }
+      .intern-logo-panel { min-height: 76px; display: flex; justify-content: flex-start; align-items: center; gap: 22px; margin-top: 2px; }
+      .intern-logo-panel.is-dual { display: grid; grid-template-columns: repeat(2, minmax(0, 140px)); grid-template-rows: 1fr; }
+      .intern-logo { max-width: 160px; max-height: 76px; }
       .metric-row { grid-template-columns: 1fr; gap: 8px; }
       .contact-btn { grid-template-columns: 38px 1fr; gap: 12px; }
       .contact-icon { width: 38px; height: 38px; }
@@ -1799,7 +1822,7 @@
     }
 
   </style>
-  <link rel="stylesheet" href="assets/life-scrapbook.css" />
+  <link rel="stylesheet" href="assets/life-scrapbook.css?v=20260810-1" />
   <link rel="stylesheet" href="assets/doc-viewer.css" />
 </head>
 <body>
@@ -2338,12 +2361,13 @@
             <span class="ai-opening-entry-core" aria-hidden="true">
               <img
                 class="ai-opening-entry-image"
-                src="output/assets/ai-opening/act-01/05-framed.webp"
-                width="1821"
-                height="1024"
+                src="output/assets/ai-opening/act-01/05-framed-entry.webp"
+                width="1100"
+                height="619"
                 alt=""
-                loading="lazy"
+                loading="eager"
                 decoding="async"
+                fetchpriority="high"
                 draggable="false"
               />
             </span>
@@ -2461,8 +2485,8 @@
                       <figcaption class="life-photo-caption">咪宝有着较小的脸和较大的耳朵，血统是较普通的狸白或者较尊贵的简州</figcaption>
                     </figure>
 
-                    <figure class="life-note life-note-cat-fur">
-                      <img src="assets/life/notes/family-cat-fur.png" width="366" height="105" alt="手写批注：咪在白衣服上掉黑毛，黑衣服上掉白毛" loading="lazy" decoding="async" />
+                    <figure class="life-note life-note-cat-rescue">
+                      <img src="assets/life/notes/family-cat-rescue.png" width="595" height="165" alt="手写批注：26年5月，北京下雨下成了马尔多，流浪猫咪宝讨厌水，所以就把我捡回家了" loading="lazy" decoding="async" />
                     </figure>
 
                     <figure class="life-illustration life-grid-illustration life-family-woof-doodle">
@@ -2470,8 +2494,8 @@
                       <figcaption><a class="life-illustration-credit" href="#" data-credit-placeholder target="_blank" rel="noopener noreferrer">@小咪猫嘴邦臭</a></figcaption>
                     </figure>
 
-                    <figure class="life-note life-note-cat-rescue">
-                      <img src="assets/life/notes/family-cat-rescue.png" width="595" height="165" alt="手写批注：26年5月，北京下雨下成了马尔多，流浪猫咪宝讨厌水，所以就把我捡回家了" loading="lazy" decoding="async" />
+                    <figure class="life-note life-note-cat-fur">
+                      <img src="assets/life/notes/family-cat-fur.png" width="366" height="105" alt="手写批注：咪在白衣服上掉黑毛，黑衣服上掉白毛" loading="lazy" decoding="async" />
                     </figure>
 
                     <figure class="life-photo-card life-family-window is-taped">
@@ -2762,7 +2786,7 @@
     </div>
   </div>
 
-  <script src="assets/ai-opening.js?v=20260808-3" defer></script>
+  <script src="assets/ai-opening.js?v=20260810-5" defer></script>
   <script src="assets/life-scrapbook.js" defer></script>
   <script src="assets/doc-viewer.js" defer></script>
   <script>
@@ -3037,6 +3061,7 @@
         updateNavVisibility();
         buildFloatingToc(panelName);
         document.dispatchEvent(new CustomEvent("aime:detail-panel-change", { detail: { panelName, targetId } }));
+        if (panelName === "ai") window.AiOpening?.prepare?.();
         jumpToPanelTarget(target);
         if (targetId) history.replaceState(null, "", `#${targetId}`);
 
@@ -3092,6 +3117,8 @@
       };
       aiOpeningEntry.addEventListener("keydown", preventSpaceActivation);
       aiOpeningEntry.addEventListener("keyup", preventSpaceActivation);
+      aiOpeningEntry.addEventListener("pointerenter", () => window.AiOpening?.prepare?.(), { passive: true });
+      aiOpeningEntry.addEventListener("focus", () => window.AiOpening?.prepare?.(), { passive: true });
       aiOpeningEntry.addEventListener("click", () => {
         if (!window.AiOpening?.start) return;
         window.AiOpening.start(() => {
@@ -3511,6 +3538,10 @@
     <button class="aime-act1-skip" id="aimeAct1Skip" type="button">跳过</button>
     <div class="aime-act1-ui-label" id="aimeAct1Label">Act I · The Creation of Adam</div>
     <div class="aime-act1-status" id="aimeAct1Status" aria-live="polite"></div>
+    <div class="aime-act1-loader" id="aimeAct1Loader" aria-hidden="true">
+      <span id="aimeAct1LoaderText">正在加载动画素材 · 0%</span>
+      <span class="aime-act1-loader-track"><i id="aimeAct1LoaderBar"></i></span>
+    </div>
 
     <div class="aime-act1-stage">
       <div
@@ -3524,10 +3555,10 @@
         <img class="aime-act1-layer" id="aimeAct1Base" data-src="output/assets/ai-opening/act-01/00-canvas.webp" width="1821" height="1024" alt="" aria-hidden="true" draggable="false" />
         <canvas id="aimeAct1InkCanvas" width="1821" height="1024" aria-hidden="true"></canvas>
         <canvas id="aimeAct1ColorCanvas" width="1821" height="1024" aria-hidden="true"></canvas>
-        <img class="aime-act1-layer" id="aimeAct1Framed" data-src="output/assets/ai-opening/act-01/05-framed.webp" width="1821" height="1024" alt="" aria-hidden="true" draggable="false" />
+        <img class="aime-act1-layer" id="aimeAct1Framed" data-src="output/assets/ai-opening/act-01/05-framed-animation.webp" width="1821" height="1024" alt="" aria-hidden="true" draggable="false" />
         <span class="aime-act1-brush-tip" id="aimeAct1BrushTip" aria-hidden="true"></span>
-        <img class="aime-act1-paint-hand is-human" id="aimeAct1HumanHand" data-src="output/assets/ai-opening/act-01/07-human-hand.png" width="709" height="752" alt="" aria-hidden="true" draggable="false" />
-        <img class="aime-act1-paint-hand is-robot" id="aimeAct1RobotHand" data-src="output/assets/ai-opening/act-01/08-robot-hand.png" width="807" height="743" alt="" aria-hidden="true" draggable="false" />
+        <img class="aime-act1-paint-hand is-human" id="aimeAct1HumanHand" data-src="output/assets/ai-opening/act-01/07-human-hand.webp" width="709" height="752" alt="" aria-hidden="true" draggable="false" />
+        <img class="aime-act1-paint-hand is-robot" id="aimeAct1RobotHand" data-src="output/assets/ai-opening/act-01/08-robot-hand.webp" width="807" height="743" alt="" aria-hidden="true" draggable="false" />
         <div class="aime-act1-hint" id="aimeAct1Hint">按住并拖动
 与 AI 一起为亚当上色</div>
 
@@ -3535,14 +3566,13 @@
           <video
             class="aime-act1-page-video"
             id="aimeAct1PageVideo"
-            src="output/assets/ai-opening/act-01/12-page-turn.mp4"
             data-src="output/assets/ai-opening/act-01/12-page-turn.mp4"
-            poster="output/assets/ai-opening/act-01/05-framed.webp"
+            poster="output/assets/ai-opening/act-01/05-framed-entry.webp"
             width="1280"
             height="720"
             muted
             playsinline
-            preload="auto"
+            preload="none"
             disablepictureinpicture
           ></video>
         </div>
@@ -3550,12 +3580,12 @@
         <div class="aime-act2-scene" id="aimeAct2Scene" aria-hidden="true">
           <div class="aime-act2-camera" id="aimeAct2Camera">
             <img class="aime-act2-background" id="aimeAct2Background" data-src="output/assets/ai-opening/act-01/06-supper-background.webp" width="1821" height="1024" alt="" draggable="false" />
-            <img class="aime-act2-piece aime-act2-people aime-act2-people-left" id="aimeAct2PeopleLeft" data-src="output/assets/ai-opening/act-02/01-people-left.png" width="570" height="257" alt="" draggable="false" />
-            <img class="aime-act2-piece aime-act2-people aime-act2-people-right" id="aimeAct2PeopleRight" data-src="output/assets/ai-opening/act-02/02-people-right.png" width="646" height="376" alt="" draggable="false" />
-            <img class="aime-act2-piece aime-act2-people aime-act2-people-center" id="aimeAct2PeopleCenter" data-src="output/assets/ai-opening/act-02/03-people-center.png" width="359" height="297" alt="" draggable="false" />
-            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-left" id="aimeAct2ComputerLeft" data-src="output/assets/ai-opening/act-02/04-computer-left.png" width="205" height="148" alt="" draggable="false" />
-            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-center" id="aimeAct2ComputerCenter" data-src="output/assets/ai-opening/act-02/05-computer-center.png" width="200" height="178" alt="" draggable="false" />
-            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-right" id="aimeAct2ComputerRight" data-src="output/assets/ai-opening/act-02/06-computer-right.png" width="201" height="146" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-people aime-act2-people-left" id="aimeAct2PeopleLeft" data-src="output/assets/ai-opening/act-02/01-people-left.webp" width="570" height="257" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-people aime-act2-people-right" id="aimeAct2PeopleRight" data-src="output/assets/ai-opening/act-02/02-people-right.webp" width="646" height="376" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-people aime-act2-people-center" id="aimeAct2PeopleCenter" data-src="output/assets/ai-opening/act-02/03-people-center.webp" width="359" height="297" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-left" id="aimeAct2ComputerLeft" data-src="output/assets/ai-opening/act-02/04-computer-left.webp" width="205" height="148" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-center" id="aimeAct2ComputerCenter" data-src="output/assets/ai-opening/act-02/05-computer-center.webp" width="200" height="178" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-right" id="aimeAct2ComputerRight" data-src="output/assets/ai-opening/act-02/06-computer-right.webp" width="201" height="146" alt="" draggable="false" />
           </div>
           <div class="aime-act2-blackout" id="aimeAct2Blackout" aria-hidden="true"></div>
         </div>
