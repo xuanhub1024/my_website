@@ -160,7 +160,7 @@
 }
 
 .aime-act1-paint-hand.is-human {
-  transform: translate(-8%, -9%) rotate(360deg);
+  transform: translate(-8%, -9%) rotate(180deg);
 }
 
 .aime-act1-paint-hand.is-robot {
