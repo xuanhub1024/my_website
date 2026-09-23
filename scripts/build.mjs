@@ -1,58 +1,79 @@
-import { cp, mkdir, rm, writeFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import { access, cp, mkdir, readdir, rm, stat } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const distRoot = path.join(projectRoot, "dist");
-const staticRoot = path.join(distRoot, "static");
-const serverRoot = path.join(distRoot, "server");
+const projectRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
+const outputRoot = path.join(projectRoot, "dist");
+const staticRoot = path.join(outputRoot, "static");
 
-await rm(distRoot, { recursive: true, force: true });
-await mkdir(staticRoot, { recursive: true });
-await mkdir(serverRoot, { recursive: true });
-
-await cp(path.join(projectRoot, "index.html"), path.join(staticRoot, "index.html"));
-
-const publicAssets = [
-  "assets/profile-photo-crop.webp",
-  "assets/deco-law-cert.webp",
-  "assets/deco-ai-friend.webp",
-  "assets/map-parchment.webp",
-  "assets/phone.png",
-  "assets/mail.png",
-  "assets/wechat.png",
-  "assets/wechat-qr.jpg",
-  "assets/bytedance-logo.png",
-  "assets/pdpo-logo.png",
-  "assets/icma-logo.png",
-  "assets/shihui-logo.png",
-  "assets/court-logo.png",
-  "assets/shuanxin-logo.png",
-  "assets/debate-1.jpg",
-  "assets/debate-2.jpg",
-  "assets/debate-3.jpg",
-  "assets/debate-4.jpg",
-  "output/assets/genesis_sketch.webp",
-  "output/assets/genesis_color.webp",
-  "output/assets/genesis_robot.webp",
-  "output/assets/last_supper_robot.webp",
-  "output/assets/macos_desktop.webp"
+const requiredEntries = ["index.html", "assets", "output"];
+const optionalEntries = [
+  "_headers",
+  "404.html",
+  "favicon.ico",
+  "manifest.webmanifest",
+  "robots.txt",
+  "site.webmanifest",
+  "sitemap.xml",
 ];
 
-for (const asset of publicAssets) {
-  const destination = path.join(staticRoot, asset);
-  await mkdir(path.dirname(destination), { recursive: true });
-  await cp(path.join(projectRoot, asset), destination);
+async function exists(filePath) {
+  try {
+    await access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-const workerSource = `export default {
-  async fetch(request, env) {
-    if (env.ASSETS && typeof env.ASSETS.fetch === "function") {
-      return env.ASSETS.fetch(request);
+async function copyEntry(relativePath, required) {
+  const source = path.join(projectRoot, relativePath);
+  if (!(await exists(source))) {
+    if (required) {
+      throw new Error(`Required site entry is missing: ${relativePath}`);
     }
-    return new Response("Static assets binding unavailable", { status: 500 });
+    return;
   }
-};
-`;
 
-await writeFile(path.join(serverRoot, "index.js"), workerSource);
+  const destination = path.join(staticRoot, relativePath);
+  await mkdir(path.dirname(destination), { recursive: true });
+  await cp(source, destination, { recursive: true });
+}
+
+async function summarize(directory) {
+  let files = 0;
+  let bytes = 0;
+
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const entryPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      const child = await summarize(entryPath);
+      files += child.files;
+      bytes += child.bytes;
+    } else if (entry.isFile()) {
+      files += 1;
+      bytes += (await stat(entryPath)).size;
+    }
+  }
+
+  return { files, bytes };
+}
+
+await rm(outputRoot, { force: true, recursive: true });
+await mkdir(staticRoot, { recursive: true });
+
+for (const entry of requiredEntries) {
+  await copyEntry(entry, true);
+}
+
+for (const entry of optionalEntries) {
+  await copyEntry(entry, false);
+}
+
+const { files, bytes } = await summarize(staticRoot);
+console.log(
+  `Built ${files} static files in dist/static (${(bytes / 1024 / 1024).toFixed(2)} MiB).`,
+);

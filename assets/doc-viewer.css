@@ -1,0 +1,258 @@
+/* 文书阅览：内联预览框 + 放大弹窗 */
+.doc-viewer {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.doc-viewer-frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #fdfbf7;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  cursor: zoom-in;
+  transition: border-color 200ms ease, box-shadow 260ms var(--ease-out), transform var(--press-duration) var(--ease-out);
+}
+
+.doc-viewer-frame:hover,
+.doc-viewer-frame:focus-visible {
+  border-color: var(--line-strong);
+  box-shadow: 0 26px 60px rgba(42, 38, 32, 0.12);
+  outline: none;
+}
+
+.doc-viewer-frame:active { transform: translateY(1px); }
+
+.doc-viewer-page {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.doc-viewer-counter,
+.doc-viewer-hint {
+  position: absolute;
+  bottom: 10px;
+  z-index: 1;
+  padding: 4px 10px;
+  color: rgba(255, 250, 242, 0.9);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  background: rgba(38, 30, 24, 0.62);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.doc-viewer-counter { right: 10px; }
+
+.doc-viewer-hint {
+  left: 10px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.doc-viewer-frame:hover .doc-viewer-hint,
+.doc-viewer-frame:focus-visible .doc-viewer-hint { opacity: 1; }
+
+.doc-viewer-caption {
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: var(--text-soft);
+}
+
+.doc-viewer-caption strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.doc-viewer-award {
+  display: table;
+  margin-top: 10px;
+  padding-block: 3px;
+  padding-inline: 9px;
+  color: var(--bubble-bronze);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  border: 1px solid rgba(146, 115, 95, 0.4);
+}
+
+/* 竞赛经验右栏：照片轮播与两份文书竖排 */
+.competition-side {
+  display: grid;
+  gap: 34px;
+  justify-items: center;
+}
+
+.competition-side > * { width: min(100%, 380px); }
+
+/* 竖排后不再吸顶，否则会盖住下方文书 */
+.competition-side .debate-photo-stack {
+  position: relative;
+  top: auto;
+  width: min(100%, 380px);
+  height: 420px;
+}
+
+/* 说明竖排在书状右侧，书状本身完整显示整页 */
+.doc-viewer.is-compact {
+  grid-template-columns: minmax(0, 1fr) 100px;
+  gap: 14px;
+}
+
+/* height:0 让说明不参与行高计算，行高由书状本身决定，再撑满回来换行 */
+.doc-viewer.is-compact .doc-viewer-caption {
+  writing-mode: vertical-rl;
+  height: 0;
+  min-height: 100%;
+  line-height: 2;
+}
+
+/* 竖排后块级方向转为水平，边距要跟着换成逻辑属性 */
+.doc-viewer.is-compact .doc-viewer-caption strong {
+  margin-bottom: 0;
+  margin-block-end: 6px;
+}
+
+.doc-viewer.is-compact .doc-viewer-award {
+  margin-top: 0;
+  margin-block-start: 10px;
+}
+
+/* 科研学习：本科毕业论文正文 + 答辩幻灯片，栅格与下方 split-grid-2 对齐 */
+.research-thesis-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px;
+  align-items: start;
+}
+
+/* 顶边对齐左栏“论文题目”那一行，即让开 index 与标题的高度 */
+.research-thesis-row .doc-viewer { padding-top: 104px; }
+
+.research-thesis-row + .split-grid-2 { margin-top: 34px; }
+
+.doc-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1600;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 2.6vw, 30px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.doc-lightbox[hidden] { display: none !important; }
+.doc-lightbox.is-open { opacity: 1; pointer-events: auto; }
+
+.doc-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 18, 13, 0.86);
+  backdrop-filter: blur(12px);
+}
+
+.doc-lightbox-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: center;
+  gap: 14px;
+  width: min(1180px, 100%);
+  height: 94svh;
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 220ms ease, transform 220ms var(--ease-out);
+}
+
+.doc-lightbox-panel:focus { outline: none; }
+
+.doc-lightbox.is-open .doc-lightbox-panel {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.doc-lightbox-page {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  background: #fdfbf7;
+  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.4);
+}
+
+.doc-lightbox-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: rgba(255, 250, 242, 0.78);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+}
+
+.doc-lightbox-step {
+  width: 34px;
+  height: 34px;
+  color: rgba(255, 250, 242, 0.82);
+  font-size: 17px;
+  line-height: 1;
+  background: none;
+  border: 1px solid rgba(255, 250, 242, 0.28);
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+
+.doc-lightbox-step:hover:not(:disabled) {
+  color: #fff;
+  border-color: rgba(255, 250, 242, 0.6);
+}
+
+.doc-lightbox-step:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.doc-lightbox-close {
+  position: absolute;
+  top: -4px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  color: rgba(255, 250, 242, 0.82);
+  font-size: 20px;
+  line-height: 1;
+  background: none;
+  border: 1px solid rgba(255, 250, 242, 0.28);
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.doc-lightbox-close:hover {
+  color: #fff;
+  border-color: rgba(255, 250, 242, 0.6);
+}
+
+/* 照片轮播上沿对齐“竞赛经验”标题；仅在区块标题为左右排布时成立 */
+@media (min-width: 1101px) {
+  .competition-side { margin-top: -161px; }
+}
+
+@media (max-width: 1100px) {
+  .research-thesis-row {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .research-thesis-row .doc-viewer { padding-top: 0; }
+}
+
+@media (max-width: 900px) {
+  .doc-lightbox-panel { height: 90svh; }
+}

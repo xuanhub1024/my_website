@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>吴芓璇｜个人求职主页</title>
+  <title>吴芓璇｜个人作品集</title>
   <meta name="description" content="吴芓璇的个人主页：法律实践、校园经历与 AI 协作作品集。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/ai-opening.css?v=20260917-1" />
   <style>
     :root {
       --bg: #f3f0ea;
@@ -37,10 +38,14 @@
       --footer-line: rgba(249, 244, 236, 0.18);
       --map-accent: rgba(92, 62, 39, 0.72);
       --map-accent-soft: rgba(114, 81, 51, 0.36);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --press-duration: 140ms;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    html.is-panel-scroll-jump { scroll-behavior: auto !important; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -99,7 +104,7 @@
       gap: 24px;
     }
 
-    .nav-brand { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; white-space: nowrap; color: var(--text); cursor: pointer; }
+    .nav-brand { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; white-space: nowrap; color: var(--text); cursor: pointer; transition: transform var(--press-duration) var(--ease-out); }
     .nav-brand-mark, .hero-kicker, .section-kicker, .map-kicker, .footer-label, .modal-kicker, .detail-note, .map-caption {
       display: inline-block;
       color: var(--text-faint);
@@ -121,6 +126,7 @@
       gap: 5px;
       color: var(--text);
       cursor: pointer;
+      transition: transform var(--press-duration) var(--ease-out);
     }
     .nav-toggle span {
       width: 20px;
@@ -158,9 +164,9 @@
       transition: transform 0.22s ease;
     }
 
-    .nav-link:hover, .nav-trigger:hover, .nav-item:hover .nav-trigger,
+    .nav-link:hover, .nav-trigger:hover, .nav-item:hover .nav-trigger, .nav-item.is-dropdown-open .nav-trigger,
     .nav-link:focus-visible, .nav-trigger:focus-visible { color: var(--text); }
-    .nav-link:hover::after, .nav-trigger:hover::after, .nav-item:hover .nav-trigger::after,
+    .nav-link:hover::after, .nav-trigger:hover::after, .nav-item:hover .nav-trigger::after, .nav-item.is-dropdown-open .nav-trigger::after,
     .nav-item:focus-within .nav-trigger::after, .nav-link:focus-visible::after,
     .nav-trigger:focus-visible::after { transform: scaleX(1); }
     .nav-caret {
@@ -173,10 +179,10 @@
       opacity: 0.8;
     }
 
-    .nav-item:hover .nav-caret, .nav-item:focus-within .nav-caret { transform: rotate(225deg) translateY(-1px); }
+    .nav-item:hover .nav-caret, .nav-item:focus-within .nav-caret, .nav-item.is-dropdown-open .nav-caret { transform: rotate(225deg) translateY(-1px); }
     .dropdown {
       position: absolute;
-      top: calc(100% + 16px);
+      top: calc(100% + 10px);
       left: -12px;
       min-width: 184px;
       padding: 12px 0;
@@ -187,11 +193,21 @@
       opacity: 0;
       transform: translateY(10px);
       pointer-events: none;
-      transition: opacity 0.22s ease, transform 0.22s ease;
+      transition: opacity 0.14s ease, transform 0.14s ease;
       box-shadow: 0 20px 40px rgba(42, 38, 32, 0.05);
     }
 
-    .nav-item:hover .dropdown, .nav-item:focus-within .dropdown { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .dropdown::before {
+      content: "";
+      position: absolute;
+      left: -12px;
+      right: -12px;
+      top: -10px;
+      height: 10px;
+    }
+
+    .nav-item:hover .dropdown, .nav-item:focus-within .dropdown, .nav-item.is-dropdown-open .dropdown { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .nav-item.is-dropdown-switching .dropdown { opacity: 0; transform: translateY(10px); pointer-events: none; transition: none; }
     .dropdown a { display: flex; align-items: center; min-height: 44px; padding: 11px 14px 11px 12px; color: var(--text-soft); font-size: 13px; transition: color 0.2s ease, padding-left 0.2s ease; }
     .dropdown a:hover { color: var(--text); padding-left: 16px; }
 
@@ -232,8 +248,8 @@
 
     .hero-title {
       margin: 0;
-      font-size: clamp(54px, 6.7vw, 88px);
-      line-height: 0.96;
+      font-size: clamp(58px, 8vw, 108px);
+      line-height: 0.92;
       font-weight: 700;
       letter-spacing: -0.055em;
       color: #1d1b18;
@@ -242,7 +258,7 @@
     .hero-title-en {
       display: inline-block;
       color: var(--text-faint);
-      font-size: clamp(18px, 1.9vw, 26px);
+      font-size: clamp(22px, 2.4vw, 32px);
       line-height: 1.2;
       letter-spacing: 0.06em;
       font-weight: 300;
@@ -252,7 +268,7 @@
     .hero-lead {
       margin: 0;
       max-width: 620px;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.9;
       color: var(--text-soft);
     }
@@ -335,6 +351,7 @@
       justify-content: flex-end;
       height: 100%;
       padding: 0;
+      transform: translateY(-30px);
     }
 
     .hero-visual-wrap {
@@ -419,7 +436,7 @@
       border-top: 1px solid rgba(33, 31, 28, 0.10);
       border-bottom: 1px solid rgba(33, 31, 28, 0.08);
       padding: 14px 0 12px;
-      margin-top: 42px;
+      margin-top: 18px;
       mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
     }
 
@@ -436,6 +453,7 @@
       border: 1px solid rgba(33, 31, 28, 0.14);
       font-size: 11px;
       cursor: pointer;
+      transition: transform var(--press-duration) var(--ease-out);
     }
     .bubble-track { display: flex; align-items: center; gap: 14px; width: max-content; animation: marquee 26s linear infinite; }
     .hero-bubbles.is-paused .bubble-track { animation-play-state: paused; }
@@ -471,7 +489,7 @@
       padding-bottom: 24px;
       z-index: 5;
     }
-    .scroll-indicator { display: inline-flex; flex-direction: column; align-items: center; min-width: 32px; min-height: 44px; gap: 14px; color: var(--text-faint); user-select: none; cursor: pointer; transition: color 0.3s ease; }
+    .scroll-indicator { display: inline-flex; flex-direction: column; align-items: center; min-width: 32px; min-height: 44px; gap: 14px; color: var(--text-faint); user-select: none; cursor: pointer; transition: color 0.3s ease, transform var(--press-duration) var(--ease-out); }
     .scroll-indicator:hover { color: var(--text); }
     .scroll-word { 
       font-size: 9px; 
@@ -516,6 +534,7 @@
     .map-title { margin: 12px 0 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.02; letter-spacing: -0.05em; }
     .map-desc { margin: 16px 0 0; max-width: 620px; font-size: 13px; line-height: 2; color: var(--text-soft); }
     .map-caption { text-align: right; justify-self: end; }
+    .map-caption-touch { display: none; }
 
     .map-stage {
       position: relative;
@@ -756,13 +775,15 @@
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.12));
     }
 
-    .detail-view.is-entering {
-      animation: detailEnter 0.26s ease both;
+    .detail-view.is-panel-transitioning {
+      transition: opacity 160ms var(--ease-out);
     }
 
-    @keyframes detailEnter {
-      from { opacity: 0; transform: scale(0.985); }
-      to { opacity: 1; transform: scale(1); }
+    .detail-view.is-panel-faded {
+      opacity: 0;
+      pointer-events: none;
+      transition-duration: 80ms;
+      transition-timing-function: linear;
     }
 
     .map-entry-ripple {
@@ -815,7 +836,7 @@
       font-size: 13px;
       line-height: 1.8;
       cursor: pointer;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, transform var(--press-duration) var(--ease-out);
     }
 
     .detail-home-btn:hover { color: var(--text); }
@@ -972,13 +993,298 @@
     }
     .detail-list li { position: relative; padding-left: 18px; }
     .detail-list li::before { content: ""; position: absolute; left: 0; top: 0.95em; width: 8px; height: 1px; background: rgba(33, 31, 28, 0.34); }
+    .detail-line.is-project-feature {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+    }
+    .detail-line.is-project-feature .detail-list {
+      max-width: none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 34px;
+    }
     .research-group-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
     .research-group-card { border-top: 1px solid rgba(33, 31, 28, 0.12); padding-top: 16px; }
     .research-group-card h4 { margin: 0 0 10px; color: var(--text); font-size: 14px; line-height: 1.45; font-weight: 700; letter-spacing: -0.02em; }
     .research-group-card p { margin: 0; color: var(--text-soft); font-size: 13px; line-height: 1.9; }
-    .detail-meta { display: flex; flex-wrap: wrap; gap: 12px 18px; margin-top: 22px; color: var(--text-faint); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
-    .detail-meta span { position: relative; padding-left: 12px; }
-    .detail-meta span::before { content: ""; position: absolute; left: 0; top: 50%; width: 5px; height: 5px; margin-top: -2px; border: 1px solid rgba(33, 31, 28, 0.24); }
+    /* 按基线对齐：中英文回退字体的行盒高度不同，拉伸对齐会让纯英文格明显偏上 */
+    .detail-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 18px; margin-top: 22px; color: var(--text-faint); font-size: 11px; line-height: 1.5; letter-spacing: 0.14em; text-transform: uppercase; }
+    .detail-meta span::before { content: ""; display: inline-block; width: 5px; height: 5px; margin-right: 6px; vertical-align: 0.1em; border: 1px solid rgba(33, 31, 28, 0.24); }
+
+    /* “AI 与我”页：从页面底层露出的开场动画入口 */
+    #ai-and-me {
+      min-height: 760px;
+      isolation: isolate;
+    }
+
+    #ai-and-me::before {
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    #ai-and-me > .section-head,
+    #ai-and-me > .split-grid-2,
+    #ai-and-me > .footer-note {
+      position: relative;
+      z-index: 2;
+    }
+
+    #ai-and-me > .section-head {
+      pointer-events: none;
+    }
+
+    #ai-and-me > .section-head > * {
+      pointer-events: auto;
+    }
+
+    .ai-opening-entry {
+      --ai-entry-right-gutter: max(16px, calc((100vw - 1344px) / 2));
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: calc(0px - var(--ai-entry-right-gutter));
+      z-index: 1;
+      width: calc(100% + var(--ai-entry-right-gutter));
+      height: min(726px, 55vw);
+      min-height: 0;
+      overflow: hidden;
+      color: #5f422e;
+      cursor: pointer;
+      isolation: isolate;
+      clip-path: polygon(
+        22% 0,
+        100% 0,
+        100% 51%,
+        94% 50.5%,
+        87% 47.9%,
+        78% 43.9%,
+        68% 39.8%,
+        58% 36.2%,
+        48% 33.7%,
+        39% 31.6%,
+        31% 28.1%,
+        25% 23%,
+        22% 15.3%,
+        17% 4.1%
+      );
+      transition:
+        clip-path 280ms var(--ease-in-out),
+        transform var(--press-duration) var(--ease-out);
+      transform-origin: right top;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .ai-opening-entry-core {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      clip-path: polygon(
+        31% 0,
+        100% 0,
+        100% 51%,
+        97% 47.9%,
+        92% 43.9%,
+        85% 39.3%,
+        76% 34.7%,
+        67% 31.1%,
+        57% 28.6%,
+        48% 26.5%,
+        41% 23%,
+        36% 17.9%,
+        33% 11.2%,
+        28% 4.6%
+      );
+      -webkit-mask-image:
+        linear-gradient(
+          104deg,
+          transparent 0%,
+          rgba(0, 0, 0, 0.08) 24%,
+          rgba(0, 0, 0, 0.42) 36%,
+          rgba(0, 0, 0, 0.8) 47%,
+          #000 57%
+        ),
+        linear-gradient(
+          180deg,
+          #000 0%,
+          #000 31%,
+          rgba(0, 0, 0, 0.82) 37%,
+          rgba(0, 0, 0, 0.38) 44%,
+          transparent 51%
+        );
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(
+          104deg,
+          transparent 0%,
+          rgba(0, 0, 0, 0.08) 24%,
+          rgba(0, 0, 0, 0.42) 36%,
+          rgba(0, 0, 0, 0.8) 47%,
+          #000 57%
+        ),
+        linear-gradient(
+          180deg,
+          #000 0%,
+          #000 31%,
+          rgba(0, 0, 0, 0.82) 37%,
+          rgba(0, 0, 0, 0.38) 44%,
+          transparent 51%
+        );
+      mask-composite: intersect;
+      transition: clip-path 280ms var(--ease-in-out);
+      pointer-events: none;
+    }
+
+    .ai-opening-entry-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1821 / 1024;
+      max-width: none;
+      object-fit: contain;
+      object-position: right top;
+      filter: saturate(0.84) contrast(0.96) brightness(1.02);
+      transform: scale(0.9);
+      transform-origin: right top;
+      transition: transform 280ms var(--ease-in-out);
+      pointer-events: none;
+    }
+
+    .ai-title-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 18px;
+    }
+
+    .ai-opening-entry-label {
+      position: relative;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      writing-mode: horizontal-tb;
+      text-orientation: mixed;
+      color: transparent;
+      background: linear-gradient(
+        90deg,
+        rgba(74, 45, 28, 0.5) 0%,
+        rgba(115, 73, 43, 0.98) 44%,
+        rgba(86, 52, 31, 0.64) 72%,
+        rgba(74, 45, 28, 0.46) 100%
+      );
+      background-size: 230% 100%;
+      background-position: 180% 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.5;
+      letter-spacing: 0.2em;
+      text-align: left;
+      text-shadow: 0 1px 10px rgba(251, 246, 237, 0.84);
+      white-space: nowrap;
+      opacity: 0.74;
+      animation:
+        ai-opening-entry-label-flow 3.4s linear infinite,
+        ai-opening-entry-label-breathe 2.6s ease-in-out infinite;
+      transition: opacity 180ms var(--ease-out);
+      pointer-events: none;
+    }
+
+    @keyframes ai-opening-entry-label-flow {
+      to { background-position: -50% 50%; }
+    }
+
+    @keyframes ai-opening-entry-label-breathe {
+      0%, 100% { opacity: 0.52; }
+      50% { opacity: 0.96; }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .ai-opening-entry:hover {
+        z-index: 3;
+        clip-path: polygon(
+          11% 0,
+          100% 0,
+          100% 100%,
+          88% 99%,
+          79% 93%,
+          69% 85%,
+          58% 77%,
+          48% 69%,
+          38% 63%,
+          29% 57%,
+          22% 48%,
+          17% 38%,
+          15% 23%,
+          10% 6%
+        );
+      }
+
+      .ai-opening-entry:hover .ai-opening-entry-core {
+        clip-path: polygon(
+          21% 0,
+          100% 0,
+          100% 100%,
+          93% 94%,
+          86% 85%,
+          77% 76%,
+          67% 68%,
+          57% 61%,
+          47% 56%,
+          38% 51%,
+          31% 43%,
+          26% 33%,
+          23% 20%,
+          18% 7%
+        );
+        -webkit-mask-image:
+          linear-gradient(
+            104deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.08) 24%,
+            rgba(0, 0, 0, 0.42) 36%,
+            rgba(0, 0, 0, 0.8) 47%,
+            #000 57%
+          ),
+          linear-gradient(
+            180deg,
+            #000 0%,
+            #000 62%,
+            rgba(0, 0, 0, 0.82) 72%,
+            rgba(0, 0, 0, 0.38) 85%,
+            transparent 100%
+          );
+        mask-image:
+          linear-gradient(
+            104deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.08) 24%,
+            rgba(0, 0, 0, 0.42) 36%,
+            rgba(0, 0, 0, 0.8) 47%,
+            #000 57%
+          ),
+          linear-gradient(
+            180deg,
+            #000 0%,
+            #000 62%,
+            rgba(0, 0, 0, 0.82) 72%,
+            rgba(0, 0, 0, 0.38) 85%,
+            transparent 100%
+          );
+      }
+
+      .ai-opening-entry:hover .ai-opening-entry-image {
+        transform: scale(0.86);
+      }
+
+    }
+
+    .ai-opening-entry:disabled {
+      cursor: default;
+    }
 
     .floating-toc {
       position: fixed;
@@ -1031,12 +1337,22 @@
     }
     .competition-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
       gap: 56px;
       align-items: start;
     }
 
-    .competition-board { position: relative; }
+    .competition-board {
+      position: relative;
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+    }
+    /* 底边与右栏答辩状预览框齐平；选择器需压过 life-scrapbook.css 的 width:100% */
+    .life-illustration.competition-illustration {
+      width: 190px;
+      margin: auto 0 0 42px;
+    }
     .competition-list {
       position: relative;
       z-index: 2;
@@ -1095,6 +1411,7 @@
       border: 1px solid rgba(33, 31, 28, 0.14);
       font-size: 11px;
       cursor: pointer;
+      transition: transform var(--press-duration) var(--ease-out);
     }
     .debate-photo-stack.is-paused .debate-photo-card { animation-play-state: paused; }
 
@@ -1147,16 +1464,26 @@
       left: auto;
     }
     .site-footer::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px; background: rgba(255, 255, 255, 0.10); }
-    .footer-shell { width: var(--content-width); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 2fr) 1px minmax(260px, 1fr); gap: 36px; align-items: start; }
-    .footer-left { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 38px; }
-    .footer-divider { background: var(--footer-line); min-height: 100%; }
+    .footer-shell { width: var(--content-width); margin: 0 auto; display: grid; gap: 48px; }
+    .footer-left { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 38px; }
+    .footer-divider { display: none; }
     .footer-label { color: var(--footer-soft); margin-bottom: 16px; }
     .footer-title { margin: 0 0 14px; font-size: 22px; line-height: 1.2; letter-spacing: -0.03em; font-weight: 600; color: var(--footer-text); }
+    .footer-title a { color: inherit; transition: opacity 0.2s ease, transform 0.2s ease; }
+    .footer-title a:hover { opacity: 0.82; transform: translateX(3px); }
     .footer-links { display: flex; flex-direction: column; gap: 10px; }
     .footer-links a, .footer-single { color: var(--footer-soft); font-size: 14px; line-height: 1.8; transition: color 0.2s ease, transform 0.2s ease; cursor: pointer; }
     .footer-links a:hover, .footer-single:hover { color: var(--footer-text); transform: translateX(3px); }
-    .footer-contact-text { color: var(--footer-soft); font-size: 14px; line-height: 1.9; max-width: 280px; margin-bottom: 20px; }
-    .contact-actions { display: flex; flex-direction: column; gap: 14px; }
+    .footer-contact {
+      display: grid;
+      grid-template-columns: minmax(230px, 0.8fr) minmax(0, 2.2fr);
+      gap: 48px;
+      align-items: end;
+      padding-top: 34px;
+      border-top: 1px solid var(--footer-line);
+    }
+    .footer-contact-text { color: var(--footer-soft); font-size: 14px; line-height: 1.9; max-width: 460px; margin: 0; }
+    .contact-actions { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr) minmax(0, 0.9fr); gap: 24px; }
     .contact-btn {
       width: 100%;
       display: grid;
@@ -1172,10 +1499,13 @@
     }
 
     .contact-btn:hover { opacity: 0.96; transform: translateX(2px); }
-    .contact-icon { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(249, 244, 236, 0.24); color: var(--footer-text); font-size: 16px; }
-    .contact-icon img { width: 30px; height: 30px; object-fit: contain; display: block; filter: brightness(0) invert(1); opacity: 0.92; }
+    .contact-btn .contact-icon { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid rgba(249, 244, 236, 0.24); color: var(--footer-text); font-size: 16px; }
+    .contact-icon img { width: 26px; height: 26px; object-fit: contain; display: block; margin: 0; filter: brightness(0) invert(1); opacity: 0.92; }
     .contact-btn strong { display: block; font-size: 12px; line-height: 1.5; letter-spacing: 0.14em; text-transform: uppercase; color: var(--footer-soft); font-weight: 500; margin-bottom: 4px; }
     .contact-btn span { display: block; color: var(--footer-text); font-size: 14px; line-height: 1.7; }
+    .contact-btn > span:last-child { min-width: 0; }
+    .contact-value { overflow-wrap: anywhere; }
+    .contact-btn.is-copied .contact-value { color: #f2d4aa; }
 
     /* 微信二维码弹窗 */
     .modal { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 28px; opacity: 0; pointer-events: none; transition: opacity 0.24s ease; }
@@ -1204,7 +1534,7 @@
       color: var(--text-faint);
       cursor: pointer;
       border: 1px solid rgba(33, 31, 28, 0.10);
-      transition: color 0.2s ease, border-color 0.2s ease;
+      transition: color 0.2s ease, border-color 0.2s ease, transform var(--press-duration) var(--ease-out);
     }
 
     .modal-close:hover { color: var(--text); border-color: rgba(33, 31, 28, 0.20); }
@@ -1239,32 +1569,69 @@
       padding: 8px;
     }
 
+    .nav-brand:active,
+    .nav-toggle:active,
+    .hero-contact-btn:active,
+    .bubble-toggle:active,
+    .scroll-indicator:active,
+    .detail-home-btn:active,
+    .debate-toggle:active,
+    .contact-btn:active,
+    .modal-close:active {
+      transform: scale(0.97);
+      transition-duration: var(--press-duration);
+      transition-timing-function: var(--ease-out);
+    }
+
+    .ai-opening-entry:active {
+      transform: scale(0.98);
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .map-caption-desktop { display: none; }
+      .map-caption-touch { display: inline; }
+    }
+
     @media (max-width: 1200px) {
       .floating-toc { display: none !important; }
       .detail-view { padding-left: 0; }
       .detail-footer { width: 100%; margin-left: 0; left: 0; }
+      .ai-opening-entry {
+        --ai-entry-right-gutter: 48px;
+      }
     }
 
     @media (max-width: 1100px) {
       :root { --content-width: min(100% - 56px, 1280px); --section-space: 112px; }
       .hero-grid, .map-head, .section-head, .overview-grid, .split-grid-2, .split-grid-3, .footer-shell, .footer-left, .detail-intro { grid-template-columns: 1fr; }
+      #intern-1 .section-head,
+      #intern-2 .section-head,
+      #intern-3 .section-head,
+      #intern-4 .section-head,
+      #intern-5 .section-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+      .intern-logo-panel { justify-self: start; }
       .hero-grid { grid-template-rows: auto auto auto; gap: 28px; }
       .dino-game { height: 200px; }
       .section-meta, .map-caption { justify-self: start; text-align: left; }
       .hero-copy-top { grid-column: 1; grid-row: 1; padding: 20px 24px 0; }
       .hero-copy-main { grid-column: 1; grid-row: 2; padding: 0 24px; }
-      .hero-visual { grid-column: 1; grid-row: 3; padding-top: 0; justify-content: center; min-height: 460px; }
+      .hero-visual { grid-column: 1; grid-row: 3; padding-top: 0; justify-content: center; min-height: 460px; transform: none; }
       .hero-visual-wrap { justify-content: center; }
       .photo-frame { width: min(100%, 420px); }
       .map-stage { min-height: 520px; }
       .map-card { width: min(980px, calc(100% - 24px)); min-height: 500px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .map-node { min-height: 180px; padding: 24px; }
 
-      .footer-divider { width: 100%; min-height: 1px; }
+      .footer-left { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer-contact { grid-template-columns: 1fr; gap: 24px; align-items: start; }
+      .detail-line.is-project-feature .detail-list { grid-template-columns: 1fr; max-width: 720px; }
+
+      #ai-and-me { min-height: 900px; }
+      .ai-opening-entry { --ai-entry-right-gutter: 28px; }
     }
 
     @media (max-width: 780px) {
-      :root { --content-width: min(100% - 28px, 1280px); --section-space: 84px; --nav-height: 66px; }
+      :root { --content-width: min(100% - 28px, 1280px); --section-space: 68px; --nav-height: 66px; }
       .nav-inner { gap: 14px; }
       .nav-brand-name { display: none; }
       .nav-toggle { display: inline-flex; flex: 0 0 auto; }
@@ -1311,7 +1678,8 @@
       .photo-frame { width: 100%; aspect-ratio: 0.96; }
       .profile-photo { width: 64%; height: 74%; }
       .hero-scroll { padding-bottom: 16px; }
-      .hero-bubbles { padding: 20px 0; }
+      .footer-left, .contact-actions { grid-template-columns: 1fr; }
+      .hero-bubbles { padding: 20px 0; margin-top: 10px; }
       .bubble-track { animation-duration: 22s; }
       .scroll-line { height: 64px; }
       .site-map { min-height: auto; padding: 54px 0; }
@@ -1342,29 +1710,99 @@
         font-size: 13px;
         margin-top: 16px;
       }
+      .map-caption-desktop { display: none; }
+      .map-caption-touch { display: inline; }
       .map-node-secondary { display: none; }
       .map-compass { width: 58px; height: 58px; right: 8%; bottom: 6%; }
-      .split-grid-2, .split-grid-3, .competition-layout { gap: 24px; grid-template-columns: 1fr; }
+      .split-grid-2, .split-grid-3, .competition-layout { gap: 20px; grid-template-columns: 1fr; }
       .research-group-grid { grid-template-columns: 1fr; }
       .debate-photo-stack { position: relative; top: auto; width: min(100%, 320px); height: 426px; margin: 0 auto; }
       .debate-photo-stack { position: relative; top: auto; margin-top: 8px; }
       .detail-line { min-height: auto; }
       .detail-view { padding-top: calc(var(--nav-height) + 18px); }
       .detail-intro { margin-bottom: 18px; gap: 14px; }
-      .section-head { margin-bottom: 38px; }
-      .section-title { font-size: clamp(30px, 10vw, 42px); }
-      .section-desc, .detail-copy, .detail-list { font-size: 14px; line-height: 1.85; }
-      .detail-title { font-size: 22px; }
-      .intern-logo-panel { min-height: 130px; }
-      .intern-logo { max-width: 210px; max-height: 120px; }
+      .section-head { margin-bottom: 30px; gap: 20px; }
+      .section-title { font-size: clamp(28px, 8.2vw, 34px); line-height: 1.08; }
+      .section-desc { margin-top: 16px; font-size: 13px; line-height: 1.75; }
+      .section-intro-highlight { margin-top: 16px; padding: 15px 16px; font-size: 13px; line-height: 1.75; }
+      .detail-copy, .detail-list { font-size: 13px; line-height: 1.75; }
+      .detail-title { margin-bottom: 10px; font-size: 20px; line-height: 1.28; }
+      .detail-index { margin-bottom: 14px; }
+      .overview-grid { gap: 28px; }
+      .overview-side { gap: 16px; padding: 22px 18px; transform: none; }
+      .timeline-list { padding-left: 14px; }
+      .timeline-item { padding: 0 0 20px 18px; }
+      .timeline-item strong { margin-bottom: 7px; font-size: 16px; line-height: 1.4; }
+      .timeline-item span { font-size: 13px; line-height: 1.75; }
+      .intern-timeline .timeline-item { row-gap: 5px; }
+      .intern-timeline .timeline-time { padding-top: 0; font-size: 11px; line-height: 1.65; letter-spacing: 0.04em; }
+      #intern-1 .section-kicker,
+      #intern-2 .section-kicker,
+      #intern-3 .section-kicker,
+      #intern-4 .section-kicker,
+      #intern-5 .section-kicker { font-size: 13px; }
+      .intern-logo-panel { min-height: 76px; display: flex; justify-content: flex-start; align-items: center; gap: 22px; margin-top: 2px; }
+      .intern-logo-panel.is-dual { display: grid; grid-template-columns: repeat(2, minmax(0, 140px)); grid-template-rows: 1fr; }
+      .intern-logo { max-width: 160px; max-height: 76px; }
       .metric-row { grid-template-columns: 1fr; gap: 8px; }
       .contact-btn { grid-template-columns: 38px 1fr; gap: 12px; }
       .contact-icon { width: 38px; height: 38px; }
       .modal-panel { padding: 28px 22px 24px; }
-      .ai-skip { top: 16px; right: 16px; }
-      .ai-scene3-vp { width: 100vw; height: 100svh; }
-      .ai-mac-notif { top: 72px; right: 14px; width: min(320px, calc(100vw - 28px)); }
-      .ai-mac-window { width: calc(100vw - 28px); height: min(72svh, 550px); }
+
+      #ai-and-me { min-height: auto; }
+      #ai-and-me > .section-head { min-height: 290px; }
+      .ai-opening-entry {
+        --ai-entry-right-gutter: 14px;
+        height: 231px;
+        min-height: 0;
+        clip-path: polygon(16% 0, 100% 0, 100% 100%, 83% 97%, 65% 85%, 48% 72%, 36% 61%, 27% 46%, 24% 28%, 16% 7%);
+      }
+      .ai-opening-entry-core {
+        clip-path: polygon(29% 0, 100% 0, 100% 100%, 88% 91%, 72% 78%, 56% 67%, 43% 56%, 34% 42%, 31% 25%, 23% 8%);
+        -webkit-mask-image:
+          linear-gradient(
+            104deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.08) 24%,
+            rgba(0, 0, 0, 0.42) 36%,
+            rgba(0, 0, 0, 0.8) 47%,
+            #000 57%
+          ),
+          linear-gradient(
+            180deg,
+            #000 0%,
+            #000 62%,
+            rgba(0, 0, 0, 0.82) 72%,
+            rgba(0, 0, 0, 0.38) 85%,
+            transparent 100%
+          );
+        mask-image:
+          linear-gradient(
+            104deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.08) 24%,
+            rgba(0, 0, 0, 0.42) 36%,
+            rgba(0, 0, 0, 0.8) 47%,
+            #000 57%
+          ),
+          linear-gradient(
+            180deg,
+            #000 0%,
+            #000 62%,
+            rgba(0, 0, 0, 0.82) 72%,
+            rgba(0, 0, 0, 0.38) 85%,
+            transparent 100%
+          );
+      }
+      .ai-opening-entry-image {
+        transform: scale(0.94);
+      }
+      .ai-opening-entry-label {
+        font-size: 11px;
+        letter-spacing: 0.13em;
+        opacity: 0.9;
+      }
+      .ai-title-row { gap: 12px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1380,81 +1818,12 @@
       .debate-photo-card { animation: none !important; }
       .debate-toggle { display: none; }
       .map-node { transform: none !important; }
+      .ai-opening-entry-label { display: none; }
     }
 
-    /* --- AI与我 开场动画样式 --- */
-    #ai-animation-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      opacity: 1;
-      transition: opacity 1s ease;
-    }
-    .ai-step-layer {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.8s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .ai-step-layer.active { opacity: 1; visibility: visible; }
-    .ai-hint { font-size: 18px; letter-spacing: 0.2em; color: rgba(255,255,255,0.6); animation: ai-breathe 2s infinite; }
-    @keyframes ai-breathe { 0%,100% {opacity:0.3} 50% {opacity:0.8} }
-    .ai-step-layer[id^="ai-step-1"], .ai-step-layer[id^="ai-step-2"] { background-color: #333; }
-    .ai-step-layer[id^="ai-step-3"], .ai-step-layer[id^="ai-step-4"] { background-color: #222; }
-    #ai-step-5 { background-color: #1a2a1a; }
-    #ai-step-7 { background-color: #2a1a2a; }
-    .ai-img-bg { position: absolute; width: 100%; height: 100%; object-fit: cover; transition: filter 2s ease, transform 5s linear; }
-    .ai-step-layer[id^="ai-step-1"] .ai-img-bg, .ai-step-layer[id^="ai-step-2"] .ai-img-bg { object-position: right center; filter: grayscale(1) saturate(0); }
-    #ai-step-2 .ai-img-bg { filter: grayscale(0) saturate(1); }
-    .ai-step-layer[id^="ai-step-3"] .ai-img-bg, .ai-step-layer[id^="ai-step-4"] .ai-img-bg { object-position: left center; filter: grayscale(1); }
-    #ai-step-4 .ai-img-bg { filter: grayscale(0); }
-    #ai-step-5 .ai-img-bg { object-fit: contain; animation: ai-floating 4s infinite ease-in-out; }
-    #ai-step-7 .ai-img-bg { object-fit: contain; animation: ai-arguing 5s infinite ease-in-out; }
-    @keyframes ai-arguing {
-      0%, 100% { transform: scale(1) translate(0, 0); }
-      20% { transform: scale(1.02) translate(2px, -1px); }
-      50% { transform: scale(1.01) translate(-2px, 2px); }
-    }
-    @keyframes ai-floating { 0%,100% {transform:translate(0,0)} 25% {transform:translate(5px,-5px)} 50% {transform:translate(-5px,5px)} }
-    #ai-step-6 .ai-img-bg { transform: scale(5); transform-origin: 80% 50%; transition: transform 1s cubic-bezier(0.19,1,0.22,1); }
-    #ai-step-8 .ai-img-bg { transform: scale(2.5) translate(0, 5%); transition: transform 1.2s cubic-bezier(0.19,1,0.22,1); }
-    .ai-skip {
-      position: absolute;
-      top: 24px;
-      right: 28px;
-      z-index: 3000;
-      min-width: 72px;
-      min-height: 42px;
-      padding: 0 14px;
-      color: rgba(255,255,255,0.82);
-      border: 1px solid rgba(255,255,255,0.34);
-      background: rgba(0,0,0,0.28);
-      cursor: pointer;
-    }
-    .ai-skip:hover { color: #fff; border-color: rgba(255,255,255,0.62); }
-    .ai-scene3-vp { width: 1280px; height: 800px; background-color: #182031; background-position: center; background-repeat: no-repeat; background-size: cover; position: relative; overflow: hidden; }
-    .ai-mac-window { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); width: 850px; height: 550px; background: rgba(28,28,30,0.75); backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; display: none; flex-direction: column; opacity: 0; transition: all 0.5s; }
-    .ai-mac-window.show { display: flex; transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    .ai-mac-notif { position: absolute; top: 40px; right: 20px; width: 320px; height: 70px; background: rgba(28,28,30,0.75); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 12px; opacity: 0; transform: translateX(350px); transition: all 0.6s; }
-    .ai-mac-notif.show { opacity: 1; transform: translateX(0); }
-    #ai-dict-tooltip { position: absolute; background: #fff; color: #000; padding: 12px; border-radius: 10px; width: 220px; opacity: 0; visibility: hidden; transition: opacity 0.4s; z-index: 1000; }
-    #ai-dict-tooltip.show { opacity: 1; visibility: visible; }
-    #ai-v-cursor { position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 2000; transition: all 0.8s; }
-    .ai-screen-close-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; pointer-events: none; }
-    .ai-screen-half { flex: 1; background: #000; transform: rotateX(90deg); transition: transform 0.6s ease-in; }
-    .ai-screen-half.top { transform-origin: top; }
-    .ai-screen-half.bottom { transform-origin: bottom; }
-    .closing .ai-screen-half { transform: rotateX(0deg); }
   </style>
+  <link rel="stylesheet" href="assets/life-scrapbook.css?v=20260810-1" />
+  <link rel="stylesheet" href="assets/doc-viewer.css" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -1465,8 +1834,8 @@
   <header class="site-nav" id="siteNav">
     <div class="nav-inner">
       <button class="nav-brand" id="backHomeBrand" type="button" aria-label="返回首页">
-        <span class="nav-brand-mark">WZ / PROFILE</span>
-        <span class="nav-brand-name">吴芓璇 · Personal Profile</span>
+        <span class="nav-brand-mark">Xuan's / PORTFOLIO</span>
+        <span class="nav-brand-name">吴芓璇 · Personal Portfolio</span>
       </button>
       <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="打开主导航">
         <span aria-hidden="true"></span>
@@ -1494,7 +1863,7 @@
           </div>
         </div>
         <a class="nav-link spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">AI与我</a>
-        <a class="nav-link spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">More about ME</a>
+        <a class="nav-link spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">More About Me</a>
       </nav>
     </div>
   </header>
@@ -1506,7 +1875,7 @@
       <div class="hero-inner">
         <div class="hero-grid">
           <div class="hero-copy-top">
-            <span class="hero-kicker">Personal Site · First Frame</span>
+            <span class="hero-kicker">Personal Portfolio · Introduction</span>
           </div>
           <div class="hero-copy-main">
             <div class="hero-name-wrap">
@@ -1514,13 +1883,13 @@
               <span class="hero-title-en">Wu Zixuan</span>
             </div>
             <div class="hero-lead-wrap">
-              <p class="hero-lead">27届法学硕士毕业生，已取得法律执业资格证，通过CET-6，实习经历聚焦于数据合规丨公司常法丨投融资交易等领域。目前base北京，正在寻找27届校招相关机会，城市不限，敬请随时联系。</p>
+              <p class="hero-lead">27届法学硕士毕业生，已取得法律职业资格证，通过CET-6。<br>实习经历聚焦于数据合规丨公司常法丨投融资交易等领域。<br>目前base北京，正在寻找27届校招相关机会，城市不限，敬请随时联系。</p>
               <button class="hero-contact-btn" id="heroContactBtn" type="button">联系我</button>
             </div>
             <div class="hero-divider"></div>
             <div class="hero-edu-list">
-              <div class="hero-edu-item"><small>本科</small><span>清华大学</span><span>法学院</span><span>法学</span><span>2020级本科生</span></div>
-              <div class="hero-edu-item"><small>硕士</small><span>清华大学</span><span>法学院</span><span>民商法学</span><span>2024级法学硕士</span></div>
+              <div class="hero-edu-item"><small>本科</small><span>清华大学</span><span>法学院</span><span>法学</span><span>2020级</span></div>
+              <div class="hero-edu-item"><small>硕士</small><span>清华大学</span><span>法学院</span><span>民商法学</span><span>2024级</span></div>
             </div>
           </div>
           <div class="hero-visual">
@@ -1536,7 +1905,7 @@
           </div>
         </div>
         <div class="hero-bubbles" id="heroBubbles" aria-label="个人标签动画展示区">
-          <button class="bubble-toggle" id="bubbleToggle" type="button" aria-pressed="false">暂停</button>
+          <button class="bubble-toggle" id="bubbleToggle" type="button" aria-pressed="false" hidden>暂停</button>
           <div class="bubble-track" id="bubbleTrack"></div>
         </div>
       </div>
@@ -1546,11 +1915,14 @@
       <div class="map-shell">
         <div class="map-head">
           <div>
-            <span class="map-kicker">Guide Cards / Site Map</span>
+            <span class="map-kicker">Portfolio Guide / Site Map</span>
             <h2 class="map-title">网站地图</h2>
             <p class="map-desc">选择一个方向，了解更多</p>
           </div>
-          <div class="map-caption">hover lightly<br />click to enter</div>
+          <div class="map-caption" aria-label="选择一个方向，点击查看">
+            <span class="map-caption-desktop" aria-hidden="true">hover to preview<br />click to explore</span>
+            <span class="map-caption-touch" aria-hidden="true">轻触查看</span>
+          </div>
         </div>
 
         <div class="map-stage" id="mapStage">
@@ -1603,7 +1975,7 @@
             </div>
 
             <a class="map-node spa-link" data-key="interns" data-panel="interns" data-target="intern-overview" href="#intern-overview">
-              <span class="map-node-label">Internships / Practice</span>
+              <span class="map-node-label">Professional Experience</span>
               <span class="map-node-marker" aria-hidden="true">
                 <svg viewBox="0 0 48 48"><rect x="13" y="13" width="22" height="22" rx="4" /><path d="M19 21h10M19 27h10" /></svg>
               </span>
@@ -1614,36 +1986,36 @@
             </a>
 
             <a class="map-node spa-link" data-key="campus" data-panel="campus" data-target="campus-overview" href="#campus-overview">
-              <span class="map-node-label">Campus / Education</span>
+              <span class="map-node-label">Campus & Research</span>
               <span class="map-node-marker" aria-hidden="true">
                 <svg viewBox="0 0 48 48"><path d="M10 20l14-7 14 7-14 7z" /><path d="M16 24v8c0 3 16 3 16 0v-8" /></svg>
               </span>
               <span class="map-node-dot" aria-hidden="true"></span>
               <h3 class="map-node-title">校园经历</h3>
-              <p class="map-node-subtitle">整理清华法学院学习、科研、竞赛与社团经历，呈现长期积累与表达训练。</p>
-              <div class="map-node-secondary" aria-hidden="true"><span>清华大学法学院</span><span>民商法学硕士论文</span><span>学术竞赛</span><span>院学生会副主席</span><span>校辩论队队长</span><span>在校社工</span></div>
+              <p class="map-node-subtitle">整理清华法学院学习、科研、竞赛与社团经历，呈现长期学术知识积累与表达训练。</p>
+              <div class="map-node-secondary" aria-hidden="true"><span>清华大学法学院</span><span>民商法学硕士</span><span>学术竞赛</span><span>院学生会副主席</span><span>校辩论队队长</span><span>在校社工</span></div>
             </a>
 
             <a class="map-node spa-link" data-key="ai" data-panel="ai" data-target="ai-and-me" href="#ai-and-me">
-              <span class="map-node-label">AI / Tools</span>
+              <span class="map-node-label">AI Collaboration</span>
               <span class="map-node-marker" aria-hidden="true">
                 <svg viewBox="0 0 48 48"><circle cx="24" cy="18" r="7" /><path d="M24 25v10M14 35h20M12 24h4M32 24h4" /></svg>
               </span>
               <span class="map-node-dot" aria-hidden="true"></span>
               <h3 class="map-node-title">AI与我</h3>
-              <p class="map-node-subtitle">记录 AI 辅助编程、信息处理与法律合规场景中的工具化实践。</p>
-              <div class="map-node-secondary" aria-hidden="true"><span>AI辅助编程</span><span>法律AI合规</span><span>数据安全实践</span><span>监管信号自动化</span></div>
+              <p class="map-node-subtitle">记录自学 AI 辅助编程、根据个人需求开发日常APP工具等实践。</p>
+              <div class="map-node-secondary" aria-hidden="true"><span>AI辅助编程</span><span>翻译工具开发</span><span>个人网页开发</span><span>每日新闻推送工具</span></div>
             </a>
 
             <a class="map-node spa-link" data-key="more" data-panel="more" data-target="more-about-me" href="#more-about-me">
-              <span class="map-node-label">More / Profile</span>
+              <span class="map-node-label">Skills & Profile</span>
               <span class="map-node-marker" aria-hidden="true">
                 <svg viewBox="0 0 48 48"><circle cx="17" cy="19" r="4" /><circle cx="31" cy="19" r="4" /><path d="M14 31c3-4 7-6 10-6s7 2 10 6" /></svg>
               </span>
               <span class="map-node-dot" aria-hidden="true"></span>
-              <h3 class="map-node-title">More about ME</h3>
-              <p class="map-node-subtitle">语言能力、资格证书与专业技能</p>
-              <div class="map-node-secondary" aria-hidden="true"><span>法律职业资格证</span><span>英语CET-6</span><span>法语</span><span>专业技能</span></div>
+              <h3 class="map-node-title">More About Me</h3>
+              <p class="map-node-subtitle">语言能力、资格证书、专业技能与工作学习之外的日常生活（WIP）。</p>
+              <div class="map-node-secondary" aria-hidden="true"><span>法律职业资格证</span><span>英语能力</span><span>专业技能</span><span>生活剪影</span></div>
             </a>
           </div>
         </div>
@@ -1654,10 +2026,9 @@
       <div class="footer-shell">
         <div class="footer-left">
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">实习经历</h3>
+            <span class="footer-label">Professional Experience</span>
+            <h3 class="footer-title"><a class="spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview">实习经历</a></h3>
             <div class="footer-links">
-              <a class="spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview">概览</a>
               <a class="spa-link" href="#intern-1" data-panel="interns" data-target="intern-1">01・字节跳动</a>
               <a class="spa-link" href="#intern-2" data-panel="interns" data-target="intern-2">02・ICMA</a>
               <a class="spa-link" href="#intern-3" data-panel="interns" data-target="intern-3">03・世辉律所</a>
@@ -1666,34 +2037,43 @@
             </div>
           </div>
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">校园经历</h3>
+            <span class="footer-label">Campus & Research</span>
+            <h3 class="footer-title"><a class="spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview">校园经历</a></h3>
             <div class="footer-links">
-              <a class="spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview">概览</a>
               <a class="spa-link" href="#campus-research" data-panel="campus" data-target="campus-research">科研学习</a>
               <a class="spa-link" href="#campus-competition" data-panel="campus" data-target="campus-competition">竞赛经验</a>
               <a class="spa-link" href="#campus-organization" data-panel="campus" data-target="campus-organization">社团社工</a>
             </div>
           </div>
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">AI与我</h3>
-            <a class="footer-single spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">进入</a>
+            <span class="footer-label">AI Collaboration</span>
+            <h3 class="footer-title"><a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">AI与我</a></h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">OCR 翻译工具</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">每日新闻推送</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">个人网站</a>
+            </div>
           </div>
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">More about ME</h3>
-            <a class="footer-single spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">进入</a>
+            <span class="footer-label">Skills & Profile</span>
+            <h3 class="footer-title"><a class="spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">More About Me</a></h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#life-board" data-panel="more" data-target="life-board">关于我的生活</a>
+              <a class="spa-link" href="#life-family" data-panel="more" data-target="life-family">家庭成员</a>
+              <a class="spa-link" href="#life-hobbies" data-panel="more" data-target="life-hobbies">兴趣爱好</a>
+              <a class="spa-link" href="#life-daily" data-panel="more" data-target="life-daily">日常碎片</a>
+            </div>
           </div>
         </div>
-        <div class="footer-divider" aria-hidden="true"></div>
-        <div>
-          <span class="footer-label">Contact</span>
-          <h3 class="footer-title">联系我</h3>
-          <p class="footer-contact-text">正在寻找可能的工作机会，base 地不限。若你对我的经历感兴趣，欢迎通过以下方式联系我。</p>
+        <div class="footer-contact">
+          <div>
+            <span class="footer-label">Contact</span>
+            <h3 class="footer-title">联系我</h3>
+            <p class="footer-contact-text">正在寻找可能的工作机会，base 地不限。<br>如对我的经历感兴趣，欢迎通过右侧方式联系。</p>
+          </div>
           <div class="contact-actions">
-            <button class="contact-btn" type="button" aria-label="手机号信息"><span class="contact-icon"><img src="assets/phone.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>Phone</strong><span>+86 188xxxx1279</span></span></button>
-            <button class="contact-btn" type="button" aria-label="邮箱信息"><span class="contact-icon"><img src="assets/mail.png" width="500" height="500" alt="" loading="lazy" decoding="async" /></span><span><strong>Email</strong><span>xxxx@</span></span></button>
+            <button class="contact-btn copy-contact" type="button" data-copy="18810631279" data-copy-label="手机号" aria-label="复制手机号：18810631279"><span class="contact-icon"><img src="assets/phone.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>Phone</strong><span class="contact-value" aria-live="polite">18810631279</span></span></button>
+            <button class="contact-btn copy-contact" type="button" data-copy="wuzx24@mails.tsinghua.edu.cn" data-copy-label="邮箱" aria-label="复制邮箱：wuzx24@mails.tsinghua.edu.cn"><span class="contact-icon"><img src="assets/mail.png" width="500" height="500" alt="" loading="lazy" decoding="async" /></span><span><strong>Email</strong><span class="contact-value" aria-live="polite">wuzx24@mails.tsinghua.edu.cn</span></span></button>
             <button class="contact-btn wechat-trigger" type="button" id="wechatOpenBtn" aria-label="打开微信二维码弹窗"><span class="contact-icon"><img src="assets/wechat.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>WeChat</strong><span>请点击扫码</span></span></button>
           </div>
         </div>
@@ -1715,24 +2095,24 @@
         <section class="section-block" id="intern-overview">
           <div class="section-head">
             <div>
-              <span class="section-kicker">Internships Overview</span>
+              <span class="section-kicker">Internship Experience · Overview</span>
               <h2 class="section-title">实习经历 · 概览</h2>
-              <p class="section-desc">实习领域垂直集中，深耕数据合规与投融资交易两条主线，兼具法律专业背景与技术业务理解；3 段超长期实习经历，均深度参与核心项目全流程；具备跨文化协作与国际合规项目经验。</p>
+              <p class="section-desc">实习领域垂直集中，深耕数据合规与投融资交易两条主线，兼具法律专业背景与技术业务理解；<br>3 段长期实习经历，均深度参与核心项目全流程；具备跨文化协作与国际合规项目经验。</p>
             </div>
             <div class="section-meta">5 段实习经历<br />3 段长期实习</div>
           </div>
           <div class="overview-grid">
             <div class="timeline-list intern-timeline">
-              <div class="timeline-item"><span class="timeline-time">2026.04 - 至今</span><div class="timeline-content"><strong>字节跳动 · PDPO 隐私与数据保护办公室</strong><span>Research 实习生 · 安全序列组，长期追踪外部监管信号，支持 TikTok 等公司产品海外合规体系维护，服务业务、法务等项目研究需求。</span></div></div>
-              <div class="timeline-item"><span class="timeline-time">2025.06 - 2026.04</span><div class="timeline-content"><strong>ICMA智联出行研究院 & 安理律师事务所</strong><span>法务实习生 · 数据合规组，11 个月长期实习，深度参与汽车企业出海、数据跨境与制度搭建等合规项目。</span></div></div>
-              <div class="timeline-item"><span class="timeline-time">2024.06 - 2025.06</span><div class="timeline-content"><strong>北京世辉律师事务所</strong><span>法律实习生 · 投融资交易组，1 年长期实习，全流程参与多个亿元级别融资项目和公司常法事务。</span></div></div>
-              <div class="timeline-item"><span class="timeline-time">2023.07 - 2023.08</span><div class="timeline-content"><strong>北京互联网法院</strong><span>民事法庭实习生，围绕网络交易、知产与个人信息侵权案件开展检索分析与文书写作。</span></div></div>
-              <div class="timeline-item"><span class="timeline-time">2023.02 - 2023.05</span><div class="timeline-content"><strong>数安信（北京）科技有限公司</strong><span>法务实习生，参与多行业数据合规研究，协助输出企业合规报告与整改建议。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2026.04 - 至今<br>（4个月，持续进行中）</span><div class="timeline-content"><strong>字节跳动 · PDPO 隐私和数据保护办公室</strong><span>Research 实习生 · 政策研究组<br>长期追踪外部监管信号，支持TikTok等公司产品海外合规体系维护，服务于业务、法务等项目研究需求。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2025.06 - 2026.04<br>（11个月）</span><div class="timeline-content"><strong>ICMA智联出行研究院 & 安理律师事务所</strong><span>法务实习生 · 数据合规组<br>深度参与多个大型汽车企业出海、数据跨境与制度搭建等合规项目。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2024.06 - 2025.06<br>（1年1个月）</span><div class="timeline-content"><strong>北京世辉律师事务所</strong><span>法律实习生 · 投融资交易组<br>全流程参与多个亿元级别PEVC融资项目和公司常法事务。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2023.07 - 2023.08<br>（2个月）</span><div class="timeline-content"><strong>北京互联网法院</strong><span>民事法庭实习生<br>围绕网络交易、知识产权与个人信息侵权案件开展检索分析与法律文书写作。</span></div></div>
+              <div class="timeline-item"><span class="timeline-time">2023.02 - 2023.05<br>（3个月）</span><div class="timeline-content"><strong>数安信（北京）科技有限公司</strong><span>法务实习生<br>参与多行业数据合规研究与法律AI产品测评，协助输出企业合规报告与整改建议。</span></div></div>
             </div>
             <div class="overview-side">
               <div class="overview-note">这 5 段经历覆盖律所、法院与数据科技企业，也横跨互联网、车企、法律 AI 等场景。我的工作重点始终围绕复杂规则理解、业务访谈、文书起草与合规问题落地展开。</div>
               <div class="overview-metrics">
-                <div class="metric-row"><small>Focus · 聚焦领域</small><div><strong>数据合规 / 法律研究 / 投融资交易 / 公司常法</strong><span>围绕跨境、重要数据识别、隐私政策、制度搭建等任务持续积累。</span></div></div>
+                <div class="metric-row"><small>Focus · 领域</small><div><strong>数据合规 / 法律研究 / 投融资交易 / 公司常法</strong><span>围绕跨境、重要数据识别、隐私政策、制度搭建等任务持续积累。</span></div></div>
                 <div class="metric-row"><small>Industry · 行业</small><div><strong>互联网 / 车企 / 法律 AI / 生物医药</strong><span>既理解互联网与数字业务，也接触汽车数据与智能工具应用场景。</span></div></div>
                 <div class="metric-row"><small>Status</small><div><strong>Active</strong><span>目前在字节跳动 PDPO 实习中。</span></div></div>
               </div>
@@ -1744,8 +2124,8 @@
           <div class="section-head">
             <div>
               <span class="section-kicker">Internship 01</span>
-              <h2 class="section-title">字节跳动 · PDPO 隐私与数据保护办公室</h2>
-              <p class="section-intro-highlight">时间：2026 年 04 月 - 至今｜职位：Research 实习生 · 安全序列组。长期追踪外部监管信号，支持 TikTok 等公司产品海外合规体系维护，服务业务、法务等项目研究需求。</p>
+              <h2 class="section-title">字节跳动 · PDPO 隐私和数据保护办公室</h2>
+              <p class="section-intro-highlight">时间：2026.04 - 至今（4个月，持续进行中）｜职位：Research 实习生 · 政策研究组<br>长期追踪外部监管信号，支持 TikTok 等公司产品海外合规体系维护，服务业务、法务等项目研究需求。</p>
             </div>
             <div class="intern-logo-panel is-dual">
               <img class="intern-logo is-bytedance" src="assets/bytedance-logo.png" width="640" height="234" alt="字节跳动 logo" loading="lazy" decoding="async" />
@@ -1765,7 +2145,7 @@
             <div>
               <span class="section-kicker">Internship 02</span>
               <h2 class="section-title">ICMA智联出行研究院 & 安理律师事务所</h2>
-              <p class="section-intro-highlight">时间：2025 年 06 月 - 2026 年 04 月｜职位：法务实习生 · 数据合规组。主要围绕汽车企业出海、数据制度建设、跨境传输培训与法规研究开展工作，累计 11 个月长期实习。</p>
+              <p class="section-intro-highlight">时间：2025.06 - 2026.04（11个月）｜职位：法务实习生 · 数据合规组<br>主要围绕汽车企业出海、数据制度建设、跨境传输培训与法规研究开展工作。</p>
             </div>
             <div class="intern-logo-panel">
               <img class="intern-logo is-icma" src="assets/icma-logo.png" width="500" height="500" alt="ICMA logo" loading="lazy" decoding="async" />
@@ -1784,7 +2164,7 @@
             <div>
               <span class="section-kicker">Internship 03</span>
               <h2 class="section-title">北京世辉律师事务所</h2>
-              <p class="section-intro-highlight">时间：2024 年 06 月 - 2025 年 06 月｜职位：法律实习生 · 投融资交易组。全流程参与多个亿元级别融资项目和公司常法事务，累计 1 年长期实习。</p>
+              <p class="section-intro-highlight">时间：2024.06 - 2025.06（1年1个月）｜职位：法律实习生 · 投融资交易组<br>全流程参与多个亿元级别融资项目和公司常法事务。</p>
             </div>
             <div class="intern-logo-panel">
               <img class="intern-logo is-shihui" src="assets/shihui-logo.png" width="612" height="408" alt="世辉律所 logo" loading="lazy" decoding="async" />
@@ -1803,7 +2183,7 @@
             <div>
               <span class="section-kicker">Internship 04</span>
               <h2 class="section-title">北京互联网法院</h2>
-              <p class="section-intro-highlight">时间：2023 年 07 月 - 2023 年 08 月｜职位：民事法庭实习生。聚焦互联网审判中的典型争议与裁判逻辑梳理。</p>
+              <p class="section-intro-highlight">时间：2023.07 - 2023.08（2个月）｜职位：民事法庭实习生<br>聚焦互联网审判中的典型争议与裁判逻辑梳理。</p>
             </div>
             <div class="intern-logo-panel">
               <img class="intern-logo is-court" src="assets/court-logo.png" width="320" height="213" alt="北京互联网法院 logo" loading="lazy" decoding="async" />
@@ -1820,7 +2200,7 @@
             <div>
               <span class="section-kicker">Internship 05</span>
               <h2 class="section-title">数安信（北京）科技有限公司</h2>
-              <p class="section-intro-highlight">时间：2023 年 02 月 - 2023 年 05 月｜职位：法务实习生。主要参与不同行业的数据合规研究与报告撰写。</p>
+              <p class="section-intro-highlight">时间：2023.02 - 2023.05（3个月）｜职位：法务实习生<br>主要参与不同行业的数据合规研究与报告撰写。</p>
             </div>
             <div class="intern-logo-panel">
               <img class="intern-logo is-shuanxin" src="assets/shuanxin-logo.png" width="1025" height="243" alt="数安信 logo" loading="lazy" decoding="async" />
@@ -1840,7 +2220,7 @@
         <section class="section-block" id="campus-overview">
           <div class="section-head">
             <div>
-              <span class="section-kicker">Campus Overview</span>
+              <span class="section-kicker">Campus Experience · Overview</span>
               <h2 class="section-title">校园经历 · 概览</h2>
               <p class="section-desc">校园经历围绕法学学习、研究训练、公共表达与学生组织展开，形成从专业积累到实践协作的连续成长路径。</p>
             </div>
@@ -1848,7 +2228,7 @@
           </div>
           <div class="split-grid-2">
             <article class="detail-line"><span class="detail-index">01 / education</span><h3 class="detail-title">教育背景</h3><p class="detail-copy">清华大学法学院，本科阶段完成法学基础训练，硕士阶段继续在民商法与网络法相关议题上深化研究。</p><div class="detail-meta"><span>清华大学</span><span>法学院</span><span>本科 + 硕士</span></div></article>
-            <article class="detail-line"><span class="detail-index">02 / research</span><h3 class="detail-title">科研学习</h3><p class="detail-copy">研究主题覆盖自动化决策拒绝权、公开个人信息合规、人格权编司法研究与智能体侵权，兼具规范分析、实证研究和课题协作经验。</p><div class="detail-meta"><span>本科论文</span><span>挑战杯</span><span>课题组</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / research</span><h3 class="detail-title">科研学习</h3><p class="detail-copy">研究主题覆盖自动化决策拒绝权、公开个人信息合规、人格权编司法解释意见稿与智能体侵权，兼具规范分析、实证研究和课题协作经验。</p><div class="detail-meta"><span>本科论文</span><span>挑战杯</span><span>课题组</span></div></article>
             <article class="detail-line"><span class="detail-index">03 / competition</span><h3 class="detail-title">竞赛经历</h3><p class="detail-copy">辩论、模拟法庭与学术科技竞赛共同构成高强度表达训练，覆盖华语辩论国际赛事、全国高校模拟法庭与挑战杯等经历。</p><div class="detail-meta"><span>辩论赛</span><span>模拟法庭</span><span>8项经历</span></div></article>
             <article class="detail-line"><span class="detail-index">04 / organization</span><h3 class="detail-title">学生组织</h3><p class="detail-copy">在辩论队、学生会、团委宣传中心和海峡两岸交流协会中承担组织、宣传、社群建设与团队协作工作。</p><div class="detail-meta"><span>组织统筹</span><span>宣传运营</span><span>文化交流</span></div></article>
           </div>
@@ -1863,10 +2243,23 @@
             </div>
             <div class="section-meta">论文 / 课题 / 学术运营</div>
           </div>
-          <div class="split-grid-2">
+          <div class="research-thesis-row">
             <article class="detail-line"><span class="detail-index">01 / thesis</span><h3 class="detail-title">本科毕业论文</h3><p class="detail-copy"><strong>论文题目：</strong>《论自动化决策中的个人拒绝权》。</p><ul class="detail-list"><li><strong>研究框架：</strong>从自动化决策应用扩张、算法黑箱、数据偏差和歧视风险出发，讨论个人权益保护的迫切性；以《个人信息保护法》第24条第3款中的“自动化决策拒绝权”为可行抵抗方法；进一步分析法律要件，并讨论行使拒绝权后与人工决策衔接、比较法上的委员会与监管制度等配套问题。</li><li><strong>核心论点：</strong>第二章进行立法模式比较，从欧盟、美国到中国分析自动化决策拒绝权的不同构造方式，主张在我国更适合被理解为个人可以主动行使的权利或权能，并以信息自决权和“最小影响处理原则”为基础。</li><li><strong>要件分析：</strong>重点讨论“对个人权益有重大影响”与“仅通过自动化决策作出”两个核心构成要件，结合比较法、体系解释、历史沿革、案例分析和场景理论判断边界与标准。</li><li><strong>制度空白：</strong>分析现有制度在事前、事中、事后配套上的不足，包括算法规制方式、权利行使程序及与其他制度的衔接问题。</li></ul><div class="detail-meta"><span>自动化决策</span><span>个保法第24条</span><span>拒绝权</span></div></article>
-            <article class="detail-line"><span class="detail-index">02 / challenge cup</span><h3 class="detail-title">挑战杯竞赛研究</h3><p class="detail-copy"><strong>课题：</strong>《互联网企业公开个人信息利用的现状分析及合规整改研究》。</p><ul class="detail-list"><li><strong>研究奖项：</strong>清华大学第四十届“挑战杯”学生课外学术科技作品竞赛 · 二等奖。</li><li><strong>问卷调研：</strong>面向互联网用户收集214个有效样本，了解公众对“公开个人信息”利用范围、方式、风险感受和维权情况的真实看法，发现用户公开信息较多，但对后续传播和使用缺乏控制，普遍存在担忧，维权意愿和能力也偏弱。</li><li><strong>规范分析与案例研究：</strong>围绕《个人信息保护法》第13条、第27条、《个人信息安全规范》和司法案例，系统梳理“公开个人信息”的界定与分类规则，提出应以“合理期待/场景”作为判断公开信息边界的重要标准。</li><li><strong>实证评分与统计分析：</strong>根据法律法规和推荐性国标制定评分标准，对44家互联网APP做文本审查和服务核查，运用频数分析、正态性检验、Pearson相关和线性回归分析评分结果与企业涉个保诉讼的关联，发现APP公开个人信息保护机制得分对企业应诉压力产生显著负向影响。</li><li><strong>研究成果：</strong>将公开个人信息问题从纯法律解释推进至结合实证研究，识别互联网企业在公开个人信息利用和保护中的具体风险，为合规整改提供依据。</li></ul><div class="detail-meta"><span>公开个人信息</span><span>214份样本</span><span>44家APP</span><span>挑战杯二等奖</span></div></article>
-            <article class="detail-line"><span class="detail-index">03 / research group</span><h3 class="detail-title">课题组经历与成果</h3><p class="detail-copy"><strong>方向：</strong>围绕人格权编司法适用、互联网文化治理、学术会议与学术传播，参与课题研究、调研访谈与内容运营。</p><ul class="detail-list"><li><strong>《民法典》人格权编课题研究与撰写：</strong>最高人民法院2024年度司法研究重大课题 · 优秀课题成果。全程参与课题组前期调研、中期讨论与研究、后期报告撰写，负责民法典第1006条、第1009条相关部分司法解释条目研究与撰写。</li><li><strong>《互联网文化管理暂行规定》修订研究调研：</strong>参与2023年《互联网文化管理暂行规定》修订研究课题组调研活动，前往腾讯、抖音等公司进行实践调研访谈。</li><li><strong>学术会议协办：</strong>多次协助举办业内具有普遍影响力的学术会议，包括2025年“人工智能时代的民事权益保护研讨会”和2023年“《个人信息保护法》适用重大疑难问题研讨会”。</li><li><strong>“人工智能与网络法前沿”公众号运营：</strong>协助运营“人工智能与网络法前沿”公众号，负责编辑、排版、发布相关学术文章。</li></ul><div class="detail-meta"><span>人格权编</span><span>互联网文化治理</span><span>学术会议</span><span>公众号运营</span></div></article>
+            <figure class="doc-viewer" data-doc-src="output/assets/documents/thesis-defense/page-{page}.webp" data-doc-pages="16" data-doc-label="本科毕业论文 · 答辩幻灯片">
+              <div class="doc-viewer-frame" role="button" tabindex="0" aria-label="放大阅读：本科毕业论文答辩幻灯片">
+                <img class="doc-viewer-page" src="output/assets/documents/thesis-defense/page-01.webp" width="1200" height="675" alt="本科毕业论文答辩幻灯片 第 1 页" loading="lazy" decoding="async" />
+                <span class="doc-viewer-hint">滚轮翻页 · 点击放大</span>
+                <span class="doc-viewer-counter">1 / 16</span>
+              </div>
+              <figcaption class="doc-viewer-caption">
+                <strong>论文答辩幻灯片</strong>
+                自动化决策拒绝权的立法模式比较、两项核心构成要件的解释路径，以及现行制度的配套空白问题。
+              </figcaption>
+            </figure>
+          </div>
+          <div class="split-grid-2">
+            <article class="detail-line"><span class="detail-index">02 / challenge cup</span><h3 class="detail-title">挑战杯学术竞赛</h3><p class="detail-copy"><strong>课题：</strong>《互联网企业公开个人信息利用的现状分析及合规整改研究》。</p><ul class="detail-list"><li><strong>研究奖项：</strong>清华大学第四十届“挑战杯”学生课外学术科技作品竞赛 · 二等奖。</li><li><strong>问卷调研：</strong>面向互联网用户收集214个有效样本，了解公众对“公开个人信息”利用范围、方式、风险感受和维权情况的真实看法，发现用户公开信息较多，但对后续传播和使用缺乏控制，普遍存在担忧，维权意愿和能力也偏弱。</li><li><strong>规范分析与案例研究：</strong>围绕《个人信息保护法》第13条、第27条、《个人信息安全规范》和司法案例，系统梳理“公开个人信息”的界定与分类规则，提出应以“合理期待/场景”作为判断公开信息边界的重要标准。</li><li><strong>实证评分与统计分析：</strong>根据法律法规和推荐性国标制定评分标准，对44家互联网APP做文本审查和服务核查，运用频数分析、正态性检验、Pearson相关和线性回归分析评分结果与企业涉个保诉讼的关联，发现APP公开个人信息保护机制得分对企业应诉压力产生显著负向影响。</li><li><strong>研究成果：</strong>将公开个人信息问题从纯法律解释推进至结合实证研究，识别互联网企业在公开个人信息利用和保护中的具体风险，为合规整改提供依据。</li></ul><div class="detail-meta"><span>公开个人信息</span><span>214份样本</span><span>44家APP</span><span>挑战杯二等奖</span></div></article>
+            <article class="detail-line"><span class="detail-index">03 / research group</span><h3 class="detail-title">课题组经历与成果</h3><p class="detail-copy"><strong>方向：</strong>围绕人格权编司法适用、互联网文化治理、学术会议与学术传播，参与课题研究、调研访谈与内容运营。</p><ul class="detail-list"><li><strong>《民法典》司法解释意见课题研究与撰写：</strong>最高人民法院2024年度司法研究重大课题 · 优秀课题成果。全程参与课题组前期调研、中期讨论与研究、后期报告撰写，负责民法典第1006条、第1009条相关部分司法解释条目研究与撰写。</li><li><strong>《互联网文化管理暂行规定》修订研究调研：</strong>参与2023年《互联网文化管理暂行规定》修订研究课题组调研活动，前往腾讯、抖音等公司进行实践调研访谈。</li><li><strong>学术会议协办：</strong>多次协助举办业内具有普遍影响力的学术会议，包括2025年“人工智能时代的民事权益保护研讨会”和2023年“《个人信息保护法》适用重大疑难问题研讨会”。</li><li><strong>“人工智能与网络法前沿”公众号运营：</strong>协助运营“人工智能与网络法前沿”公众号，负责编辑、排版、发布相关学术文章。</li></ul><div class="detail-meta"><span>人格权编司法解释</span><span>互联网文化治理</span><span>学术会议</span><span>公众号运营</span></div></article>
             <article class="detail-line"><span class="detail-index">04 / master thesis</span><h3 class="detail-title">硕士毕业论文（进行中）</h3><p class="detail-copy"><strong>题目（暂定）：</strong>《智能体侵权场景下网络服务提供者的合理注意义务》。</p><div class="detail-meta"><span>WIP · 进行中</span><span>智能体侵权</span><span>网络服务提供者</span></div></article>
           </div>
         </section>
@@ -1884,7 +2277,7 @@
             <div class="competition-board">
               <div class="competition-list">
                 <div class="competition-entry"><div><h3 class="competition-title">2024.01｜第十一届国际华语辩论邀请赛 亚军</h3><span class="competition-desc">即“新国辩”，华语辩论三大赛事之一，在高强度论辩中持续锻炼结构表达与现场反应能力。</span></div></div>
-                <div class="competition-entry"><div><h3 class="competition-title">2022.11｜华语辩论世界杯 亚军</h3><span class="competition-desc">即“世界杯”，华语辩论三大赛事之一，涉及中华文化等热点问题。</span></div></div>
+                <div class="competition-entry"><div><h3 class="competition-title">2022.11｜2022年华语辩论世界杯 亚军</h3><span class="competition-desc">即“世界杯”，华语辩论三大赛事之一，涉及中华文化等热点问题。</span></div></div>
                 <div class="competition-entry"><div><h3 class="competition-title">2022.05｜第十二届“联合信实杯”全国大学生模拟法庭辩论赛 亚军</h3><span class="competition-desc">围绕证券法虚假陈述、董监高及会计人员尽职法律规定等问题展开论证。</span></div></div>
                 <div class="competition-entry"><div><h3 class="competition-title">2022.04｜第四十届清华大学“挑战杯”学生课外学术科技作品竞赛 二等奖</h3><span class="competition-desc">课题《互联网企业公开个人信息利用的现状分析及合规整改研究》，综合运用问卷调研、规范分析、实证统计以及 Pearson 相关、线性回归等方法形成整改建议。</span></div></div>
                 <div class="competition-entry"><div><h3 class="competition-title">2022.02｜第十届世界华语辩论锦标赛 八强</h3><span class="competition-desc">即“世锦赛”，华语辩论三大赛事之一，涉及人工智能法律人格、个性化推荐算法等热点问题。</span></div></div>
@@ -1892,13 +2285,42 @@
                 <div class="competition-entry"><div><h3 class="competition-title">2021.04｜第八届国际问题辩论赛 亚军</h3><span class="competition-desc">关于国际石油等燃油资源、多国领海问题等。</span></div></div>
                 <div class="competition-entry"><div><h3 class="competition-title">2021.02｜第十届达辉杯北京高校法科辩论赛 冠军</h3><span class="competition-desc">关于法理学、刑法学等热点社会事件讨论等。</span></div></div>
               </div>
+              <figure class="life-illustration competition-illustration">
+                <img src="assets/illustrations/competition-stairs.png" width="481" height="519" alt="站在阶梯顶端俯身放下水桶的人物线描插画" loading="lazy" decoding="async" />
+                <figcaption><a class="life-illustration-credit" href="https://xhslink.cn/m/oJ54bKwXzg" data-credit-placeholder target="_blank" rel="noopener noreferrer">@ JAMIE</a></figcaption>
+              </figure>
             </div>
-            <div class="debate-photo-stack" id="debatePhotoStack" aria-label="辩论赛照片展示">
-              <button class="debate-toggle" id="debateToggle" type="button" aria-pressed="false">暂停</button>
-              <div class="debate-photo-card"><img src="assets/debate-1.jpg" width="1080" height="1620" alt="辩论赛照片 1" loading="lazy" decoding="async" /></div>
-              <div class="debate-photo-card"><img src="assets/debate-2.jpg" width="1253" height="828" alt="辩论赛照片 2" loading="lazy" decoding="async" /></div>
-              <div class="debate-photo-card"><img src="assets/debate-3.jpg" width="1600" height="1067" alt="辩论赛照片 3" loading="lazy" decoding="async" /></div>
-              <div class="debate-photo-card"><img src="assets/debate-4.jpg" width="1440" height="1080" alt="辩论赛照片 4" loading="lazy" decoding="async" /></div>
+            <div class="competition-side">
+              <div class="debate-photo-stack" id="debatePhotoStack" aria-label="辩论赛照片展示">
+                <button class="debate-toggle" id="debateToggle" type="button" aria-pressed="false" hidden>暂停</button>
+                <div class="debate-photo-card"><img src="assets/debate-1.jpg" width="1080" height="1620" alt="辩论赛照片 1" loading="lazy" decoding="async" /></div>
+                <div class="debate-photo-card"><img src="assets/debate-2.jpg" width="1253" height="828" alt="辩论赛照片 2" loading="lazy" decoding="async" /></div>
+                <div class="debate-photo-card"><img src="assets/debate-3.jpg" width="1600" height="1067" alt="辩论赛照片 3" loading="lazy" decoding="async" /></div>
+                <div class="debate-photo-card"><img src="assets/debate-4.jpg" width="1440" height="1080" alt="辩论赛照片 4" loading="lazy" decoding="async" /></div>
+              </div>
+              <figure class="doc-viewer is-compact" data-doc-src="output/assets/documents/xinshi-appeal/page-{page}.webp" data-doc-pages="29" data-doc-label="联合信实杯 · C2 上诉状">
+                <div class="doc-viewer-frame" role="button" tabindex="0" aria-label="放大阅读：联合信实杯 C2 上诉状">
+                  <img class="doc-viewer-page" src="output/assets/documents/xinshi-appeal/page-01.webp" width="1200" height="1697" alt="联合信实杯 C2 上诉状 第 1 页" loading="lazy" decoding="async" />
+                  <span class="doc-viewer-hint">滚轮翻页 · 点击放大</span>
+                  <span class="doc-viewer-counter">1 / 29</span>
+                </div>
+                <figcaption class="doc-viewer-caption">
+                  <strong>第十二届信实杯 · C2 上诉状</strong>
+                  证券虚假陈述的因果关系认定及勤勉尽责边界问题
+                  <span class="doc-viewer-award">获当届最佳书状奖</span>
+                </figcaption>
+              </figure>
+              <figure class="doc-viewer is-compact" data-doc-src="output/assets/documents/lilv-defense/page-{page}.webp" data-doc-pages="30" data-doc-label="理律杯 · 被告答辩状">
+                <div class="doc-viewer-frame" role="button" tabindex="0" aria-label="放大阅读：理律杯 被告答辩状">
+                  <img class="doc-viewer-page" src="output/assets/documents/lilv-defense/page-01.webp" width="1200" height="1698" alt="理律杯 被告答辩状 第 1 页" loading="lazy" decoding="async" />
+                  <span class="doc-viewer-hint">滚轮翻页 · 点击放大</span>
+                  <span class="doc-viewer-counter">1 / 30</span>
+                </div>
+                <figcaption class="doc-viewer-caption">
+                  <strong>第十九届理律杯 · 6 号被告答辩状</strong>
+                  公开数据抓取的反不正当竞争法与个保法适用
+                </figcaption>
+              </figure>
             </div>
           </div>
         </section>
@@ -1928,13 +2350,71 @@
           <div class="section-head">
             <div>
               <span class="section-kicker">AI & Me</span>
-              <h2 class="section-title">AI与我</h2>
-              <p class="section-desc">集中展示我用 AI 辅助编程和理解法律 / 数据合规应用场景的实践经验。</p>
+              <div class="ai-title-row">
+                <h2 class="section-title">AI与我</h2>
+                <span class="ai-opening-entry-label" aria-hidden="true">点击右侧画作查看更多——</span>
+              </div>
+              <p class="section-desc">集中展示我用 AI 辅助编程的经验与成果。</p>
             </div>
           </div>
+          <button class="ai-opening-entry" id="aiOpeningEntry" type="button" aria-label="播放“AI 与我”互动开场动画">
+            <span class="ai-opening-entry-core" aria-hidden="true">
+              <img
+                class="ai-opening-entry-image"
+                src="output/assets/ai-opening/act-01/05-framed-entry.webp"
+                width="1100"
+                height="619"
+                alt=""
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                draggable="false"
+              />
+            </span>
+          </button>
           <div class="split-grid-2">
-            <article class="detail-line"><span class="detail-index">01 / coding with AI</span><h3 class="detail-title">AI辅助编程实践</h3><p class="detail-copy">基于 AI 辅助编程，开发了鼠标悬停 OCR 翻译软件、每日新闻自动聚合个性化推送软件，逐步形成把想法快速落地为工具原型的能力。</p><div class="detail-meta"><span>OCR 翻译</span><span>新闻聚合</span></div></article>
-            <article class="detail-line"><span class="detail-index">02 / legal ai</span><h3 class="detail-title">法律与合规场景中的 AI</h3><p class="detail-copy">对 AI 在法律 / 数据合规领域的应用有实际操作经验，曾在法律 AI 企业实习，接触自动化法律风险预警系统，对智能工具与合规工作结合方式有直接体感。</p><div class="detail-meta"><span>法律 AI</span><span>风险预警</span></div></article>
+            <article class="detail-line">
+              <span class="detail-index">01 / Translation Tool</span>
+              <h3 class="detail-title">Windows 游戏内 OCR 悬停翻译工具</h3>
+              <ul class="detail-list">
+                <li>基于 AI 辅助编程，开发 Windows 游戏内英语翻译工具。用户将鼠标悬停在英文单词附近并按下快捷键后，程序自动截取局部画面，通过 Tesseract OCR 识别单词，查询本地离线词典，并在鼠标附近显示中文释义。</li>
+                <li>搭建截图、图像预处理、OCR 识别、候选词筛选、词典查询与悬浮窗口展示的完整流程，并对项目进行模块化重构。</li>
+                <li>针对多显示器坐标、窗口越界、首次识别异常及游戏自绘光标偏移等问题进行测试与排查，形成可运行的桌面工具原型。</li>
+              </ul>
+              <div class="detail-meta">
+                <span>OCR 翻译</span>
+                <span>离线词典</span>
+                <span>桌面悬浮窗</span>
+              </div>
+            </article>
+            <article class="detail-line">
+              <span class="detail-index">02 / Daily News App</span>
+              <h3 class="detail-title">macOS 每日新闻自动聚合与个性化推送工具</h3>
+              <ul class="detail-list">
+                <li>基于 AI 辅助编程，开发 macOS 自动新闻日报工具，定时抓取多个 RSS 新闻源及公开热搜数据，对新闻进行时间标准化、最近 24 小时过滤、去重、分类与规则评分。</li>
+                <li>设计“分类保底 + 总分补齐”的新闻筛选机制，根据关键词、来源权重和时效性生成约 8 条主题均衡的每日新闻，并通过系统通知和可点击的桌面窗口进行推送。</li>
+                <li>使用 SQLite 保存推送历史、避免新闻重复，并通过 JSON 缓存与桌面入口支持重新打开最近一次新闻内容；使用 launchd 实现每日自动运行。</li>
+              </ul>
+              <div class="detail-meta">
+                <span>新闻聚合</span>
+                <span>个性化排序</span>
+                <span>自动推送</span>
+              </div>
+            </article>
+            <article class="detail-line is-project-feature">
+              <span class="detail-index">03 / Personal Website</span>
+              <h3 class="detail-title">个人网站设计与开发</h3>
+              <ul class="detail-list">
+                <li>基于 AI 辅助编程，主导策划并持续迭代本个人网站，用于集中展示教育背景、实习经历、科研竞赛、校园活动与个人项目。负责网站信息架构、内容撰写、视觉方向和交互需求设计，累计与AI合作编写约 2.1 万字的 Prompt 与执行说明。</li>
+                <li>围绕具有个人辨识度的视觉风格，完成全屏个人封面、交互式网站地图、单页应用式分页导航、浮动目录、项目时间轴与统一 Footer，并针对桌面和移动端持续调整版式、图片适配与交互细节。</li>
+                <li>参与从需求拆解、素材整理、内容校对、视觉验收到功能测试的完整协作流程；进一步设计并实现 AI 作品展示动画与网页小游戏彩蛋，整合 Canvas 绘制、触控交互、3D 翻页、剪纸拼贴与 macOS 界面叙事，并完成离线资源打包、性能优化、Git 版本存档及可在线打开的静态网页。</li>
+              </ul>
+              <div class="detail-meta">
+                <span>Prompt 设计</span>
+                <span>网站信息架构</span>
+                <span>AI 辅助开发</span>
+              </div>
+            </article>
           </div>
           <div class="footer-note">持续更新中…</div>
         </section>
@@ -1946,16 +2426,251 @@
         <section class="section-block" id="more-about-me">
           <div class="section-head">
             <div>
-              <span class="section-kicker">More about ME</span>
-              <h2 class="section-title">More about ME</h2>
-              <p class="section-desc">语言能力、资格证书与专业技能一览。</p>
+              <span class="section-kicker">Personal Profile</span>
+              <h2 class="section-title" data-toc-target="more-about-me">More About Me</h2>
+              <p class="section-desc">语言能力、资格证书、专业技能，以及构成日常生活的兴趣与片段。</p>
             </div>
           </div>
           <div class="split-grid-2">
-            <article class="detail-line"><span class="detail-index">01 / language & qualification</span><h3 class="detail-title">语言与资格</h3><p class="detail-copy">英语能力：CET-4 550 分，TOEIC 810 分，可进行英文法规检索与法律材料阅读；同时已取得法律职业资格证。</p><div class="detail-meta"><span>English</span><span>法律职业资格证</span></div></article>
-            <article class="detail-line"><span class="detail-index">02 / professional skills</span><h3 class="detail-title">专业技能</h3><p class="detail-copy">专业技能包括文书写作、协议审核、法规检索与尽调报告撰写，能够在较短时间内完成信息梳理与结构化输出。</p><div class="detail-meta"><span>文书写作</span><span>协议审核</span><span>尽调报告</span></div></article>
+            <article class="detail-line"><span class="detail-index">01 / language & qualification</span><h3 class="detail-title">语言与资格</h3><p class="detail-copy">英语能力：CET-4 550 分，TOEIC 810 分，可进行英文法规检索与法律材料阅读，可进行跨文化交流；已取得法律职业资格证。</p><div class="detail-meta"><span>English</span><span>法律职业资格证</span></div></article>
+            <article class="detail-line"><span class="detail-index">02 / professional skills</span><h3 class="detail-title">专业技能</h3><p class="detail-copy">熟练使用Word等Microsoft、WPS等工作软件及GPT、Codex等AI应用，可流畅开展文书写作、协议审核、法规检索与尽调报告撰写，能够在较短时间内完成信息梳理与结构化输出。</p><div class="detail-meta"><span>文书写作</span><span>协议审核</span><span>尽调报告</span></div></article>
           </div>
-          <div class="footer-note">更多内容持续更新中…</div>
+
+          <section class="life-board-section" aria-labelledby="life-board">
+            <header class="life-board-intro">
+              <div class="life-board-intro-copy">
+                <span class="detail-index">03 / life scrapbook</span>
+                <h3 class="life-board-title" id="life-board">关于我的生活（WIP・未完成）</h3>
+                <p class="life-board-desc">一些简历之外的、属于我的日常片段：<br>🏠 伙伴丨一只猫🐱，两只鼠🐭<br>⚽️ 足球丨练习时长两年半，门将后卫中场前锋已全部轮值，好玩爱玩！<br>🎵 音乐丨从古典流行摇滚交响国风到RAP都听，livehouse/音乐节/音乐会持续打卡ing<br>🎮 游戏丨UNDERTALE、巫师3、博德之门3、怪物猎人、刺客信条、P社200小时萌新、星露谷钓鱼大师、剧情/解谜爱好者<br>（以及一些朴实的爱好：🍔 美食丨🛏️ 睡觉丨✈️ 出去玩）<br>（还有一些陈旧的爱好：💬 辩论丨🎹 钢琴丨🎬 看电影）</p>
+                <span class="life-board-instruction" aria-hidden="true">
+                  <span class="life-instruction-desktop">持续探索中......</span>
+                  <span class="life-instruction-touch">轻触照片查看大图</span>
+                </span>
+              </div>
+              <figure class="life-illustration life-illustration-intro">
+                <img src="assets/life/illustrations/intro-laptop-companion.png" width="481" height="518" alt="抱着电脑、身边有猫与咖啡的人物插画" loading="lazy" decoding="async" />
+                <figcaption><a class="life-illustration-credit" href="https://xhslink.cn/m/fwyJHeewQY" data-credit-placeholder target="_blank" rel="noopener noreferrer">@ Xuan祉璇</a></figcaption>
+              </figure>
+            </header>
+
+            <div class="life-board-frame">
+              <div class="life-board-surface">
+                <section class="life-chapter" aria-labelledby="life-family">
+                  <header class="life-chapter-head">
+                    <span class="life-chapter-index">01 / family</span>
+                    <h4 class="life-chapter-title" id="life-family">家庭成员</h4>
+                    <p class="life-chapter-desc">努力赚米，养家糊口</p>
+                  </header>
+                  <figure class="life-illustration life-illustration-family">
+                    <img src="assets/life/illustrations/family-reading-cat.png" width="430" height="580" alt="捧着《How to Meow》读书的猫咪插画" loading="lazy" decoding="async" />
+                    <figcaption><a class="life-illustration-credit" href="https://xhslink.cn/m/70dgWUDc6My" data-credit-placeholder target="_blank" rel="noopener noreferrer">@ 小咪猫嘴邦臭</a></figcaption>
+                  </figure>
+                  <div class="life-grid">
+                    <figure class="life-photo-card life-video-card life-family-video is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="video" data-life-src="assets/life/family-cat-video.mp4" data-life-poster="assets/life/family-cat-video-poster-large.webp" data-life-caption="⚠️ 咪宝非常喜欢用头撞人/舔人/翻肚肚，但同时具有较强的不定时攻击性，像靴猫一样装可爱把人骗过来宰" aria-label="放大查看猫咪生活短片">
+                        <video class="life-board-video" muted loop playsinline preload="metadata" poster="assets/life/family-cat-video-poster-thumb.webp" aria-hidden="true">
+                          <source src="assets/life/family-cat-video.mp4" type="video/mp4" />
+                        </video>
+                        <span class="life-video-status" aria-hidden="true">🐱 咪宝・咪咪弗斯・咪大姐・B费</span>
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">⚠️ 咪宝非常喜欢用头撞人/舔人/翻肚肚，但同时具有较强的不定时攻击性，像靴猫一样装可爱把人骗过来宰 💀</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-family-portrait is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/family-cat-portrait-large.webp" data-life-alt="带有拍立得边框和手绘装饰的猫咪照片" data-life-caption="咪宝有着较小的脸和较大的耳朵，血统是较普通的狸白或者较尊贵的简州" aria-label="放大查看猫咪照片">
+                        <img src="assets/life/family-cat-portrait-thumb.webp" width="720" height="960" alt="带有拍立得边框和手绘装饰的猫咪照片" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">咪宝有着较小的脸和较大的耳朵，血统是较普通的狸白或者较尊贵的简州</figcaption>
+                    </figure>
+
+                    <figure class="life-illustration life-grid-illustration life-family-woof-doodle">
+                      <img src="assets/life/illustrations/family-woof-doodle.png" width="568" height="439" alt="发出 woof 声音的小动物手绘插画" loading="lazy" decoding="async" />
+                      <figcaption><a class="life-illustration-credit" href="#" data-credit-placeholder target="_blank" rel="noopener noreferrer">@小咪猫嘴邦臭</a></figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-family-window is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/family-cat-window-large.webp" data-life-alt="猫咪站在阳台花丛旁" data-life-caption="还在小区楼下流浪的时候，刚吃完一根猫条" aria-label="放大查看阳台旁的猫咪照片">
+                        <img src="assets/life/family-cat-window-thumb.webp" width="720" height="960" alt="猫咪站在阳台花丛旁" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">还在小区楼下流浪的时候，刚吃完一根猫条</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-family-box is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/family-cat-box-large.webp" data-life-alt="猫咪躺在纸箱里休息" data-life-caption="睡在纸箱里非常之开心！" aria-label="放大查看纸箱里的猫咪照片">
+                        <img src="assets/life/family-cat-box-thumb.webp" width="720" height="960" alt="猫咪躺在纸箱里休息" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">睡在纸箱里非常之开心！</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-family-washer is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/family-cat-washer-large.webp" data-life-alt="猫咪坐在洗衣机滚筒里" data-life-caption="在领养人家里拍的洗衣机小精灵写真（没两天就咬了人被退养了😈）" aria-label="放大查看洗衣机里的猫咪照片">
+                        <img src="assets/life/family-cat-washer-thumb.webp" width="720" height="960" alt="猫咪坐在洗衣机滚筒里" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">在领养人家里拍的洗衣机小精灵写真<br>（没两天就咬了人被退养了😨）</figcaption>
+                    </figure>
+
+                    <figure class="life-illustration life-grid-illustration life-family-cat-doodle">
+                      <img src="assets/life/illustrations/family-cat-doodle.png" width="479" height="521" alt="侧身站立的猫咪手绘线稿" loading="lazy" decoding="async" />
+                      <figcaption><a class="life-illustration-credit" href="https://xhslink.cn/m/4npEqVZF0hR" data-credit-placeholder target="_blank" rel="noopener noreferrer">@ verathion</a></figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-family-rat-frog is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/family-rat-frog-large.webp" data-life-alt="黑白宠物鼠靠近绿色青蛙摆件" data-life-caption="打碎了陶瓷青蛙被逮捕的草草" aria-label="放大查看宠物鼠照片">
+                        <img src="assets/life/family-rat-frog-thumb.webp" width="720" height="960" alt="黑白宠物鼠靠近绿色青蛙摆件" loading="lazy" decoding="async" />
+                        <span class="life-video-status" aria-hidden="true">🐭 曹操・草草</span><br>
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">一生坏事做尽，打碎了陶瓷青蛙被逮捕的曹操</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-family-rat-white is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/family-rat-white-large.webp" data-life-alt="手掌托着一只白色宠物鼠" data-life-caption="一辈子纯良憨厚没干过坏事的圈圈" aria-label="放大查看白色宠物鼠照片">
+                        <img src="assets/life/family-rat-white-thumb.webp" width="720" height="960" alt="手掌托着一只白色宠物鼠" loading="lazy" decoding="async" />
+                        <span class="life-video-status" aria-hidden="true">🐭 拿破仑・圈圈</span><br>
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">一生纯良憨厚只爱吃，从没干过坏事的圈圈</figcaption>
+                    </figure>
+                  </div>
+                </section>
+
+                <section class="life-chapter" aria-labelledby="life-hobbies">
+                  <header class="life-chapter-head">
+                    <span class="life-chapter-index">02 / hobbies</span>
+                    <h4 class="life-chapter-title" id="life-hobbies">兴趣爱好</h4>
+                    <p class="life-chapter-desc">争取为祖国健康工作50年</p>
+                  </header>
+                  <div class="life-grid">
+                    <figure class="life-photo-card life-hobby-sequence is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/hobby-football-sequence-large.webp" data-life-alt="足球场上的连续踢球动作拼图" data-life-caption="雷霆射门" aria-label="放大查看足球动作拼图">
+                        <img src="assets/life/hobby-football-sequence-thumb.webp" width="720" height="960" alt="足球场上的连续踢球动作拼图" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">雷霆射门</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-hobby-action is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/hobby-football-action-large.webp" data-life-alt="足球场比赛中的带球画面" data-life-caption="雷霆传中（前一秒）" aria-label="放大查看足球比赛照片">
+                        <img src="assets/life/hobby-football-action-thumb.webp" width="720" height="960" alt="足球场比赛中的带球画面" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">雷霆传中（前一秒）</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-hobby-goal is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/hobby-football-goal-large.webp" data-life-alt="挂在球网上并带有手绘表情的足球" data-life-caption="雷霆爆射近角的成果" aria-label="放大查看球网上的足球照片">
+                        <img src="assets/life/hobby-football-goal-thumb.webp" width="720" height="960" alt="挂在球网上并带有手绘表情的足球" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">雷霆爆射近角的成果</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-hobby-medals is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/hobby-football-medals-large.webp" data-life-alt="手持多枚奖牌，背景是足球场" data-life-caption="校内五人制季军🥉拿下！" aria-label="放大查看足球奖牌照片">
+                        <img src="assets/life/hobby-football-medals-thumb.webp" width="720" height="960" alt="手持多枚奖牌，背景是足球场" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">校内五人制季军🥉拿下！</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-hobby-team-01 is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/hobby-football-team-01-large.webp" data-life-alt="足球活动后的团队合影之一" data-life-caption="高调展示新球衣，英超助攻王还会好起来吗😭" aria-label="放大查看足球团队合影">
+                        <img src="assets/life/hobby-football-team-01-thumb.webp" width="720" height="960" alt="足球活动后的团队合影之一" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">高调展示新球衣，英超助攻王还会好起来吗😢</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-hobby-team-02 is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/hobby-football-team-02-large.webp" data-life-alt="足球活动后的团队合影之二" data-life-caption="欢迎约球！欢迎约球！" aria-label="放大查看另一张足球团队合影">
+                        <img src="assets/life/hobby-football-team-02-thumb.webp" width="720" height="960" alt="足球活动后的团队合影之二" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">欢迎约球！欢迎约球！</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-video-card life-landscape-video life-hobby-night-video is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="video" data-life-src="assets/life/hobby-night-game-video.mp4" data-life-poster="assets/life/hobby-night-game-video-poster-large.webp" data-life-caption="🎳 一发入魂，成功赢得26年世界杯小贴纸一张" aria-label="放大查看夜间操场活动视频">
+                        <video class="life-board-video" muted loop playsinline preload="metadata" poster="assets/life/hobby-night-game-video-poster-thumb.webp" aria-hidden="true">
+                          <source src="assets/life/hobby-night-game-video.mp4" type="video/mp4" />
+                        </video>
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">🎳 一发入魂，成功赢得26年世界杯小贴纸一张</figcaption>
+                    </figure>
+                  </div>
+                </section>
+
+                <section class="life-chapter" aria-labelledby="life-daily">
+                  <header class="life-chapter-head">
+                    <span class="life-chapter-index">03 / everyday fragments</span>
+                    <h4 class="life-chapter-title" id="life-daily">日常碎片</h4>
+                    <p class="life-chapter-desc">ON THE WAY HOME // 回家路上</p>
+                  </header>
+                  <figure class="life-illustration life-illustration-daily">
+                    <img src="assets/life/illustrations/daily-standing-figure.png" width="413" height="605" alt="站在椅子和风扇旁的手绘人物插画" loading="lazy" decoding="async" />
+                    <figcaption><a class="life-illustration-credit" href="https://www.instagram.com/lis0p/?hl=en" data-credit-placeholder target="_blank" rel="noopener noreferrer">@ lis0p</a></figcaption>
+                  </figure>
+                  <div class="life-grid">
+                    <figure class="life-photo-card life-daily-scooter is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/daily-scooter-large.webp" data-life-alt="装饰着秋日花叶的电动车" data-life-caption="有时候在路上遇到这个" aria-label="放大查看装饰电动车照片">
+                        <img src="assets/life/daily-scooter-thumb.webp" width="720" height="959" alt="装饰着秋日花叶的电动车" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">有时候在路上遇到这个</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-daily-bicycle is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/daily-bicycle-large.webp" data-life-alt="停在墙边的一辆自行车" data-life-caption="也有时候在路上遇到这个" aria-label="放大查看自行车照片">
+                        <img src="assets/life/daily-bicycle-thumb.webp" width="720" height="960" alt="停在墙边的一辆自行车" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">也有时候在路上遇到这个</figcaption>
+                    </figure>
+
+                    <figure class="life-illustration life-grid-illustration life-daily-book-mouse">
+                      <img src="assets/life/illustrations/daily-book-mouse.png" width="487" height="487" alt="扶着《How to Build a House》的小鼠插画" loading="lazy" decoding="async" />
+                      <figcaption><a class="life-illustration-credit" href="https://xhslink.cn/m/5GEnrxU2rcU" data-credit-placeholder target="_blank" rel="noopener noreferrer">@ 隔夜画布</a></figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-daily-sky is-pinned">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/daily-intern-sky-large.webp" data-life-alt="蓝天下手持电脑的实习日常片段" data-life-caption="有时候在路上捡到法律职业资格证（右一）" aria-label="放大查看实习日常照片">
+                        <img src="assets/life/daily-intern-sky-thumb.webp" width="720" height="954" alt="蓝天下手持电脑的实习日常片段" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">有时候在路上捡到法律职业资格证（右一）</figcaption>
+                    </figure>
+
+                    <figure class="life-photo-card life-daily-documents is-taped">
+                      <button class="life-media-trigger" type="button" data-life-media="image" data-life-src="assets/life/daily-intern-documents-large.webp" data-life-alt="装满文件材料的袋子" data-life-caption="有时候在路上捡到3000页工作成果" aria-label="放大查看工作材料照片">
+                        <img src="assets/life/daily-intern-documents-thumb.webp" width="720" height="958" alt="装满文件材料的袋子" loading="lazy" decoding="async" />
+                        <span class="life-media-cue" aria-hidden="true">点击查看</span>
+                      </button>
+                      <figcaption class="life-photo-caption">有时候在路上捡到3000页工作成果</figcaption>
+                    </figure>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <div class="life-closing-moment">
+            <figure class="life-closing-visual">
+              <img src="assets/life/illustrations/wallflower-film-still.webp" width="640" height="360" alt="《The Perks of Being a Wallflower》电影画面" loading="lazy" decoding="async" />
+              <figcaption>———— <cite>《The Perks of Being a Wallflower》</cite></figcaption>
+            </figure>
+            <blockquote class="life-closing-note">
+              <span>“This one moment when you know you’re not a sad story.</span>
+              <span>You are alive, and you stand up and see the lights on the buildings and everything that makes you wonder.</span>
+              <span>And you’re listening to that song and that drive with the people you love most in the world.</span>
+              <span class="life-closing-echo">And this is the moment I swear, we are infinite.”</span>
+            </blockquote>
+          </div>
         </section>
       </div>
     </section>
@@ -1964,10 +2679,9 @@
       <div class="footer-shell">
         <div class="footer-left">
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">实习经历</h3>
+            <span class="footer-label">Professional Experience</span>
+            <h3 class="footer-title"><a class="spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview">实习经历</a></h3>
             <div class="footer-links">
-              <a class="spa-link" href="#intern-overview" data-panel="interns" data-target="intern-overview">概览</a>
               <a class="spa-link" href="#intern-1" data-panel="interns" data-target="intern-1">01・字节跳动</a>
               <a class="spa-link" href="#intern-2" data-panel="interns" data-target="intern-2">02・ICMA</a>
               <a class="spa-link" href="#intern-3" data-panel="interns" data-target="intern-3">03・世辉律所</a>
@@ -1976,34 +2690,43 @@
             </div>
           </div>
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">校园经历</h3>
+            <span class="footer-label">Campus & Research</span>
+            <h3 class="footer-title"><a class="spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview">校园经历</a></h3>
             <div class="footer-links">
-              <a class="spa-link" href="#campus-overview" data-panel="campus" data-target="campus-overview">概览</a>
               <a class="spa-link" href="#campus-research" data-panel="campus" data-target="campus-research">科研学习</a>
               <a class="spa-link" href="#campus-competition" data-panel="campus" data-target="campus-competition">竞赛经验</a>
               <a class="spa-link" href="#campus-organization" data-panel="campus" data-target="campus-organization">社团社工</a>
             </div>
           </div>
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">AI与我</h3>
-            <a class="footer-single spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">进入</a>
+            <span class="footer-label">AI Collaboration</span>
+            <h3 class="footer-title"><a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">AI与我</a></h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">OCR 翻译工具</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">每日新闻推送</a>
+              <a class="spa-link" href="#ai-and-me" data-panel="ai" data-target="ai-and-me">个人网站</a>
+            </div>
           </div>
           <div>
-            <span class="footer-label">Site Structure</span>
-            <h3 class="footer-title">More about ME</h3>
-            <a class="footer-single spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">进入</a>
+            <span class="footer-label">Skills & Profile</span>
+            <h3 class="footer-title"><a class="spa-link" href="#more-about-me" data-panel="more" data-target="more-about-me">More About Me</a></h3>
+            <div class="footer-links">
+              <a class="spa-link" href="#life-board" data-panel="more" data-target="life-board">关于我的生活</a>
+              <a class="spa-link" href="#life-family" data-panel="more" data-target="life-family">家庭成员</a>
+              <a class="spa-link" href="#life-hobbies" data-panel="more" data-target="life-hobbies">兴趣爱好</a>
+              <a class="spa-link" href="#life-daily" data-panel="more" data-target="life-daily">日常碎片</a>
+            </div>
           </div>
         </div>
-        <div class="footer-divider" aria-hidden="true"></div>
-        <div>
-          <span class="footer-label">Contact</span>
-          <h3 class="footer-title">联系我</h3>
-          <p class="footer-contact-text">正在寻找可能的工作机会，base 地不限。若你对我的经历感兴趣，欢迎通过以下方式联系我。</p>
+        <div class="footer-contact">
+          <div>
+            <span class="footer-label">Contact</span>
+            <h3 class="footer-title">联系我</h3>
+            <p class="footer-contact-text">正在寻找可能的工作机会，base 地不限。<br>如对我的经历感兴趣，欢迎通过右侧方式联系。</p>
+          </div>
           <div class="contact-actions">
-            <button class="contact-btn" type="button" aria-label="手机号信息"><span class="contact-icon"><img src="assets/phone.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>Phone</strong><span>+86 188xxxx1279</span></span></button>
-            <button class="contact-btn" type="button" aria-label="邮箱信息"><span class="contact-icon"><img src="assets/mail.png" width="500" height="500" alt="" loading="lazy" decoding="async" /></span><span><strong>Email</strong><span>xxxx@</span></span></button>
+            <button class="contact-btn copy-contact" type="button" data-copy="18810631279" data-copy-label="手机号" aria-label="复制手机号：18810631279"><span class="contact-icon"><img src="assets/phone.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>Phone</strong><span class="contact-value" aria-live="polite">18810631279</span></span></button>
+            <button class="contact-btn copy-contact" type="button" data-copy="wuzx24@mails.tsinghua.edu.cn" data-copy-label="邮箱" aria-label="复制邮箱：wuzx24@mails.tsinghua.edu.cn"><span class="contact-icon"><img src="assets/mail.png" width="500" height="500" alt="" loading="lazy" decoding="async" /></span><span><strong>Email</strong><span class="contact-value" aria-live="polite">wuzx24@mails.tsinghua.edu.cn</span></span></button>
             <button class="contact-btn wechat-trigger" type="button" aria-label="打开微信二维码弹窗"><span class="contact-icon"><img src="assets/wechat.png" width="447" height="447" alt="" loading="lazy" decoding="async" /></span><span><strong>WeChat</strong><span>请点击扫码</span></span></button>
           </div>
         </div>
@@ -2015,13 +2738,45 @@
     <div class="modal-backdrop" data-close-modal="true"></div>
     <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="wechatModalTitle" tabindex="-1">
       <button class="modal-close" id="wechatCloseBtn" type="button" aria-label="关闭弹窗"></button>
-      <span class="modal-kicker">Wechat QR</span>
+      <span class="modal-kicker">WeChat QR Code</span>
       <h3 class="modal-title" id="wechatModalTitle">微信联系</h3>
       <p class="modal-desc">扫描下方二维码添加微信。</p>
       <img class="wechat-qr-image" src="assets/wechat-qr.jpg" width="888" height="1128" alt="微信二维码" loading="lazy" decoding="async" />
     </div>
   </div>
 
+  <div class="life-lightbox" id="lifeLightbox" aria-hidden="true" hidden>
+    <div class="life-lightbox-backdrop" data-life-close="true"></div>
+    <div class="life-lightbox-panel" role="dialog" aria-modal="true" aria-label="生活照片查看器" tabindex="-1">
+      <button class="life-lightbox-close" id="lifeLightboxClose" type="button" aria-label="关闭照片查看器"></button>
+      <div class="life-lightbox-media">
+        <img class="life-lightbox-image" id="lifeLightboxImage" alt="" hidden />
+        <video class="life-lightbox-video" id="lifeLightboxVideo" muted loop playsinline preload="metadata" hidden></video>
+      </div>
+      <div class="life-lightbox-footer">
+        <p class="life-lightbox-caption" id="lifeLightboxCaption">照片说明 · 待补充</p>
+        <button class="life-video-toggle" id="lifeVideoToggle" type="button" aria-pressed="false" hidden>暂停</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-lightbox" id="docLightbox" aria-hidden="true" hidden>
+    <div class="doc-lightbox-backdrop"></div>
+    <div class="doc-lightbox-panel" role="dialog" aria-modal="true" aria-label="文书阅览" tabindex="-1">
+      <button class="doc-lightbox-close" id="docLightboxClose" type="button" aria-label="关闭阅览窗口">×</button>
+      <img class="doc-lightbox-page" id="docLightboxPage" alt="" />
+      <div class="doc-lightbox-bar">
+        <button class="doc-lightbox-step" id="docLightboxPrev" type="button" aria-label="上一页">‹</button>
+        <span class="doc-lightbox-label" id="docLightboxLabel"></span>
+        <span class="doc-lightbox-counter" id="docLightboxCounter"></span>
+        <button class="doc-lightbox-step" id="docLightboxNext" type="button" aria-label="下一页">›</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/ai-opening.js?v=20260810-5" defer></script>
+  <script src="assets/life-scrapbook.js" defer></script>
+  <script src="assets/doc-viewer.js" defer></script>
   <script>
     // 文案结构预留：本次仍以中文为主，后续可扩展中英文切换
     const i18n = {
@@ -2035,7 +2790,7 @@
           "法律AI",
           "生物医药",
           "5段实习经历",
-          "3段超长期实习",
+          "3段长期实习",
           "院学生会副主席",
           "校辩论队队长",
           "在校社工"
@@ -2062,14 +2817,14 @@
     bubbleToggle.addEventListener("click", () => {
       const paused = heroBubbles.classList.toggle("is-paused");
       bubbleToggle.setAttribute("aria-pressed", String(paused));
-      bubbleToggle.textContent = paused ? "继续" : "暂停";
+      //bubbleToggle.textContent = paused ? "继续" : "暂停";
     });
     const debatePhotoStack = document.getElementById("debatePhotoStack");
     const debateToggle = document.getElementById("debateToggle");
     debateToggle.addEventListener("click", () => {
       const paused = debatePhotoStack.classList.toggle("is-paused");
       debateToggle.setAttribute("aria-pressed", String(paused));
-      debateToggle.textContent = paused ? "继续" : "暂停";
+      //debateToggle.textContent = paused ? "继续" : "暂停";
     });
 
     // 视图切换：主页只展示封面、地图、Footer；点击导航后切到对应内容分页
@@ -2078,16 +2833,22 @@
     const siteNav = document.getElementById("siteNav");
     const navToggle = document.getElementById("navToggle");
     const navMenu = document.getElementById("navMenu");
+    const dropdownItems = Array.from(navMenu.querySelectorAll(".nav-item"));
     const heroSection = document.getElementById("hero");
     const scrollIndicator = document.getElementById("scrollIndicator");
     const heroContactBtn = document.getElementById("heroContactBtn");
     const backHomeBrand = document.getElementById("backHomeBrand");
     const detailBackHome = document.getElementById("detailBackHome");
+    const aiOpeningEntry = document.getElementById("aiOpeningEntry");
     const panelGroups = Array.from(document.querySelectorAll("[data-panel-group]"));
     const spaLinks = Array.from(document.querySelectorAll(".spa-link"));
     const floatingToc = document.getElementById("floatingToc");
     const tocList = document.getElementById("tocList");
     let tocHeadings = [];
+    let panelTransitionToken = 0;
+    let panelSwapTimer = null;
+    let panelCleanupTimer = null;
+    let panelEnterFrame = null;
 
     function closeMobileNav() {
       siteNav.classList.remove("is-menu-open");
@@ -2102,10 +2863,50 @@
       navToggle.setAttribute("aria-label", willOpen ? "关闭主导航" : "打开主导航");
     }
 
+    // 桌面端二级导航：用短缓冲容错，切换到相邻菜单时则立即关闭上一项。
+    const dropdownCloseTimers = new WeakMap();
+    const closeDropdownImmediately = (item, suppressTransition = false) => {
+      window.clearTimeout(dropdownCloseTimers.get(item));
+      dropdownCloseTimers.delete(item);
+      if (suppressTransition) item.classList.add("is-dropdown-switching");
+      item.classList.remove("is-dropdown-open");
+      item.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false");
+      if (suppressTransition) {
+        window.requestAnimationFrame(() => item.classList.remove("is-dropdown-switching"));
+      }
+    };
+    dropdownItems.forEach((item) => {
+      const trigger = item.querySelector(".nav-trigger");
+      const openDropdown = () => {
+        dropdownItems.forEach((otherItem) => {
+          if (otherItem !== item) closeDropdownImmediately(otherItem, true);
+        });
+        window.clearTimeout(dropdownCloseTimers.get(item));
+        dropdownCloseTimers.delete(item);
+        item.classList.add("is-dropdown-open");
+        trigger?.setAttribute("aria-expanded", "true");
+      };
+      const closeDropdown = () => {
+        window.clearTimeout(dropdownCloseTimers.get(item));
+        const closeTimer = window.setTimeout(() => closeDropdownImmediately(item), 100);
+        dropdownCloseTimers.set(item, closeTimer);
+      };
+      trigger?.setAttribute("aria-haspopup", "true");
+      trigger?.setAttribute("aria-expanded", "false");
+      item.addEventListener("mouseenter", openDropdown);
+      item.addEventListener("mouseleave", closeDropdown);
+      item.addEventListener("focusin", openDropdown);
+      item.addEventListener("focusout", () => {
+        window.setTimeout(() => {
+          if (!item.contains(document.activeElement)) closeDropdown();
+        }, 0);
+      });
+    });
+
     const sectionToPanel = {
       "intern-overview": "interns", "intern-1": "interns", "intern-2": "interns", "intern-3": "interns", "intern-4": "interns", "intern-5": "interns",
       "campus-overview": "campus", "campus-research": "campus", "campus-competition": "campus", "campus-organization": "campus",
-      "ai-and-me": "ai", "more-about-me": "more"
+      "ai-and-me": "ai", "more-about-me": "more", "life-board": "more", "life-family": "more", "life-hobbies": "more", "life-daily": "more"
     };
 
     function updateTocActive() {
@@ -2115,13 +2916,22 @@
         if (heading.getBoundingClientRect().top <= 150) active = heading;
       });
       tocList.querySelectorAll(".toc-link").forEach((link) => {
-        link.classList.toggle("is-active", link.getAttribute("href") === `#${active.id}`);
+        link.classList.toggle("is-active", link.dataset.tocHeadingId === active.id);
       });
     }
 
     function getTocHeadings(panelName) {
       const panel = document.getElementById(`panel-${panelName}`);
       if (!panel) return [];
+      if (panelName === "more") {
+        return [
+          panel.querySelector("#more-about-me > .section-head h2"),
+          panel.querySelector("#life-board"),
+          panel.querySelector("#life-family"),
+          panel.querySelector("#life-hobbies"),
+          panel.querySelector("#life-daily")
+        ].filter(Boolean);
+      }
       // 统一提取该 Panel 下所有 section-block 的主标题 (h2)
       // 行为与 Campus 保持一致，形成 Panel 内的导航目录
       return Array.from(panel.querySelectorAll(".section-block > .section-head h2"));
@@ -2136,12 +2946,21 @@
         tocHeadings.push(heading);
         const link = document.createElement("a");
         link.className = `toc-link is-${heading.tagName.toLowerCase()}`;
-        link.href = `#${heading.id}`;
+        const targetId = heading.dataset.tocTarget || heading.id;
+        link.href = `#${targetId}`;
+        link.dataset.tocHeadingId = heading.id;
         link.textContent = heading.textContent.trim();
         link.addEventListener("click", (event) => {
           event.preventDefault();
-          heading.scrollIntoView({ behavior: "smooth", block: "start" });
-          history.replaceState(null, "", `#${heading.id}`);
+          const titleRegion = heading.closest(".section-head, .life-board-intro, .life-chapter-head") || heading;
+          const navOffset = siteNav.offsetHeight + 24;
+          const targetTop = window.scrollY + titleRegion.getBoundingClientRect().top - navOffset;
+          const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          window.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: reduceMotion ? "auto" : "smooth"
+          });
+          history.replaceState(null, "", `#${targetId}`);
         });
         tocList.appendChild(link);
       });
@@ -2159,7 +2978,20 @@
       }
     }
 
+    function cancelPanelTransition() {
+      panelTransitionToken += 1;
+      window.clearTimeout(panelSwapTimer);
+      window.clearTimeout(panelCleanupTimer);
+      if (panelEnterFrame !== null) window.cancelAnimationFrame(panelEnterFrame);
+      panelSwapTimer = null;
+      panelCleanupTimer = null;
+      panelEnterFrame = null;
+      detailView.classList.remove("is-panel-transitioning", "is-panel-faded");
+      document.documentElement.classList.remove("is-panel-scroll-jump");
+    }
+
     function showHomeView() {
+      cancelPanelTransition();
       closeMobileNav();
       detailView.hidden = true;
       floatingToc.hidden = true;
@@ -2190,24 +3022,54 @@
       }, 220);
     }
 
+    function jumpToPanelTarget(target) {
+      const scrollTarget = target?.closest(".section-head, .life-board-intro, .life-chapter-head") || target || detailView;
+      document.documentElement.classList.add("is-panel-scroll-jump");
+      void document.documentElement.offsetWidth;
+      scrollTarget.scrollIntoView({ behavior: "auto", block: "start" });
+      document.documentElement.classList.remove("is-panel-scroll-jump");
+    }
+
     function showPanel(panelName, targetId) {
       if (!panelName) return;
-      closeMobileNav();
-      homeView.classList.add("is-hidden");
-      detailView.hidden = false;
-      detailView.classList.remove("is-entering");
-      void detailView.offsetWidth;
-      detailView.classList.add("is-entering");
-      window.setTimeout(() => detailView.classList.remove("is-entering"), 320);
-      panelGroups.forEach((panel) => { panel.hidden = panel.dataset.panelGroup !== panelName; });
-      updateNavVisibility();
+      cancelPanelTransition();
+      const transitionToken = panelTransitionToken;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const wasDetailHidden = detailView.hidden;
       const target = targetId ? document.getElementById(targetId) : detailView;
-      buildFloatingToc(panelName);
-      document.dispatchEvent(new CustomEvent("aime:detail-panel-change", { detail: { panelName, targetId } }));
-      requestAnimationFrame(() => {
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      if (targetId) history.replaceState(null, "", `#${targetId}`);
+
+      closeMobileNav();
+      detailView.classList.add("is-panel-transitioning", "is-panel-faded");
+
+      const commitPanelChange = () => {
+        if (transitionToken !== panelTransitionToken) return;
+        homeView.classList.add("is-hidden");
+        detailView.hidden = false;
+        panelGroups.forEach((panel) => { panel.hidden = panel.dataset.panelGroup !== panelName; });
+        updateNavVisibility();
+        buildFloatingToc(panelName);
+        document.dispatchEvent(new CustomEvent("aime:detail-panel-change", { detail: { panelName, targetId } }));
+        if (panelName === "ai") window.AiOpening?.prepare?.();
+        jumpToPanelTarget(target);
+        if (targetId) history.replaceState(null, "", `#${targetId}`);
+
+        void detailView.offsetWidth;
+        panelEnterFrame = window.requestAnimationFrame(() => {
+          if (transitionToken !== panelTransitionToken) return;
+          detailView.classList.remove("is-panel-faded");
+          panelCleanupTimer = window.setTimeout(() => {
+            if (transitionToken !== panelTransitionToken) return;
+            detailView.classList.remove("is-panel-transitioning");
+            panelCleanupTimer = null;
+          }, reduceMotion ? 0 : 160);
+        });
+      };
+
+      if (wasDetailHidden || reduceMotion) {
+        commitPanelChange();
+      } else {
+        panelSwapTimer = window.setTimeout(commitPanelChange, 80);
+      }
     }
 
     function handleSpaNavigation(event) {
@@ -2224,176 +3086,42 @@
         }
       };
 
-      if (panelName === 'ai' && !detailView.hidden === false) {
-        startAiAnimation(proceed);
-      } else {
-        proceed();
-      }
+      proceed();
     }
 
     spaLinks.forEach((link) => link.addEventListener("click", handleSpaNavigation));
+    if (aiOpeningEntry) {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const syncAiOpeningEntry = () => {
+        aiOpeningEntry.disabled = reducedMotion.matches;
+        aiOpeningEntry.setAttribute("aria-hidden", String(reducedMotion.matches));
+      };
+      syncAiOpeningEntry();
+      reducedMotion.addEventListener?.("change", syncAiOpeningEntry);
+      const preventSpaceActivation = (event) => {
+        if (event.key !== " " && event.code !== "Space") return;
+        event.preventDefault();
+        event.stopPropagation();
+      };
+      aiOpeningEntry.addEventListener("keydown", preventSpaceActivation);
+      aiOpeningEntry.addEventListener("keyup", preventSpaceActivation);
+      aiOpeningEntry.addEventListener("pointerenter", () => window.AiOpening?.prepare?.(), { passive: true });
+      aiOpeningEntry.addEventListener("focus", () => window.AiOpening?.prepare?.(), { passive: true });
+      aiOpeningEntry.addEventListener("click", () => {
+        if (!window.AiOpening?.start) return;
+        window.AiOpening.start(() => {
+          window.setTimeout(() => {
+            if (!document.getElementById("panel-ai")?.hidden) {
+              aiOpeningEntry.focus({ preventScroll: true });
+            }
+          }, 360);
+        });
+      });
+    }
     navToggle.addEventListener("click", toggleMobileNav);
     navMenu.addEventListener("click", (event) => {
       if (event.target.closest(".spa-link")) closeMobileNav();
     });
-
-    /* --- AI与我 开场动画集成 --- */
-    let aiAnimationOverlay = null;
-    function startAiAnimation(callback) {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        callback();
-        return;
-      }
-
-      aiAnimationOverlay = document.getElementById("ai-animation-overlay");
-      if (!aiAnimationOverlay) { callback(); return; }
-
-      const aiSkipBtn = document.getElementById("aiSkipBtn");
-      const macScene = aiAnimationOverlay.querySelector(".ai-scene3-vp");
-      const animationController = new AbortController();
-      const pendingTimers = [];
-      let animationFinished = false;
-      let currentAiStep = 0;
-      const aiSteps = 13;
-      const layers = Array.from(aiAnimationOverlay.querySelectorAll(".ai-step-layer"));
-      const macNotif = document.getElementById("ai-mac-notif");
-      const macWindow = document.getElementById("ai-mac-window");
-      const targetWord = document.getElementById("ai-target-word");
-      const tooltip = document.getElementById("ai-dict-tooltip");
-      const vCursor = document.getElementById("ai-v-cursor");
-      const closingLayer = aiAnimationOverlay.querySelector(".ai-screen-close-overlay").parentElement;
-
-      const schedule = (fn, delay) => {
-        const timer = window.setTimeout(fn, delay);
-        pendingTimers.push(timer);
-        return timer;
-      };
-
-      aiAnimationOverlay.querySelectorAll("img[data-src]").forEach((image) => {
-        if (!image.getAttribute("src")) image.setAttribute("src", image.dataset.src);
-        image.style.removeProperty("transform");
-      });
-      macScene.style.backgroundImage = "url('output/assets/macos_desktop.webp')";
-      macNotif.classList.remove("show");
-      macWindow.classList.remove("show");
-      tooltip.classList.remove("show");
-      targetWord.textContent = "出卖";
-      targetWord.style.removeProperty("color");
-      targetWord.style.removeProperty("font-weight");
-      vCursor.removeAttribute("style");
-      closingLayer.classList.remove("closing");
-      aiAnimationOverlay.style.opacity = "1";
-      aiAnimationOverlay.style.display = "flex";
-      aiAnimationOverlay.setAttribute("aria-hidden", "false");
-      aiAnimationOverlay.classList.add("is-active");
-      document.body.style.overflow = "hidden";
-
-      function finishAiAnimation(withClosingAnimation = false) {
-        if (animationFinished) return;
-        animationFinished = true;
-        animationController.abort();
-        pendingTimers.forEach((timer) => window.clearTimeout(timer));
-
-        const hideOverlay = () => {
-          aiAnimationOverlay.style.display = "none";
-          aiAnimationOverlay.style.opacity = "1";
-          aiAnimationOverlay.setAttribute("aria-hidden", "true");
-          aiAnimationOverlay.classList.remove("is-active");
-          document.body.style.overflow = "";
-          callback();
-        };
-
-        if (!withClosingAnimation) {
-          hideOverlay();
-          return;
-        }
-
-        closingLayer.classList.add("closing");
-        schedule(() => {
-          aiAnimationOverlay.style.opacity = "0";
-          schedule(hideOverlay, 800);
-        }, 600);
-      }
-
-      function updateAiSteps() {
-        layers.forEach((layer, index) => {
-          layer.classList.toggle("active", index === currentAiStep || (currentAiStep >= 9 && currentAiStep <= 11 && index === 9));
-        });
-
-        if (currentAiStep === 1) layers[1].querySelector("img").style.transform = "translateX(-50px)";
-        if (currentAiStep === 6) schedule(() => nextAiStep(), 1500);
-        if (currentAiStep === 8) schedule(() => nextAiStep(), 1500);
-        if (currentAiStep === 9) schedule(() => macNotif.classList.add("show"), 500);
-        if (currentAiStep === 10) runAiStep10();
-        if (currentAiStep === 11) runAiStep11();
-        if (currentAiStep === 12) finishAiAnimation(true);
-      }
-
-      async function runAiStep10() {
-        const nRect = macNotif.getBoundingClientRect();
-        const oRect = aiAnimationOverlay.getBoundingClientRect();
-        vCursor.style.left = (nRect.left - oRect.left + 50) + "px";
-        vCursor.style.top = (nRect.top - oRect.top + 30) + "px";
-        await new Promise(r => setTimeout(r, 800));
-        if (animationFinished) return;
-        vCursor.style.transform = "scale(0.8)";
-        await new Promise(r => setTimeout(r, 200));
-        if (animationFinished) return;
-        vCursor.style.transform = "scale(1)";
-        macNotif.classList.remove("show");
-        macWindow.classList.add("show");
-      }
-
-      async function runAiStep11() {
-        const tRect = targetWord.getBoundingClientRect();
-        const oRect = aiAnimationOverlay.getBoundingClientRect();
-        vCursor.style.left = (tRect.left - oRect.left + 15) + "px";
-        vCursor.style.top = (tRect.top - oRect.top + 10) + "px";
-        await new Promise(r => setTimeout(r, 1000));
-        if (animationFinished) return;
-        const finalWord = "录用";
-        const chars = "あいうえおかきくけこ0123456789!@#$%^&*";
-        let start = Date.now();
-        const duration = 1000;
-        const glitch = () => {
-          let progress = Date.now() - start;
-          if (animationFinished) return;
-          if (progress < duration) {
-            targetWord.innerText = Array.from({length: finalWord.length}, () => chars[Math.floor(Math.random()*chars.length)]).join("");
-            requestAnimationFrame(glitch);
-          } else {
-            targetWord.innerText = finalWord;
-            targetWord.style.color = "#34C759";
-            targetWord.style.fontWeight = "bold";
-            const tRectFinal = targetWord.getBoundingClientRect();
-            tooltip.style.left = (tRectFinal.left - oRect.left - 20) + 'px';
-            tooltip.style.top = (tRectFinal.top - oRect.top - 100) + 'px';
-            tooltip.classList.add('show');
-          }
-        };
-        glitch();
-      }
-
-      function nextAiStep() { if (currentAiStep < aiSteps - 1) { currentAiStep++; updateAiSteps(); } }
-      
-      const onInteract = (e) => {
-        if (e.target instanceof Element && e.target.closest(".ai-skip")) return;
-        if (e.type === "wheel" && Math.abs(e.deltaY) < 10) return;
-        if (e.type === "keydown" && e.key === "Escape") {
-          finishAiAnimation(false);
-          return;
-        }
-        const manual = [0, 1, 2, 3, 4, 5, 7, 9, 10, 11];
-        if (manual.includes(currentAiStep)) nextAiStep();
-      };
-      ["mousedown", "keydown", "wheel"].forEach((eventName) => {
-        aiAnimationOverlay.addEventListener(eventName, onInteract, { signal: animationController.signal });
-      });
-      aiSkipBtn.addEventListener("click", () => finishAiAnimation(false), { signal: animationController.signal });
-      updateAiSteps();
-      aiSkipBtn.focus();
-    }
-    /* ----------------------------- */
 
     backHomeBrand.addEventListener("click", showHomeView);
     detailBackHome.addEventListener("click", showHomeView);
@@ -2669,6 +3397,71 @@
       update();
     })();
 
+    // 联系方式：先在点击手势内同步复制，直接打开 HTML 也可用；必要时再回退到 Clipboard API。
+    const copyContactButtons = Array.from(document.querySelectorAll(".copy-contact"));
+    const copyContactResetTimers = new WeakMap();
+
+    function fallbackCopyText(value) {
+      const textarea = document.createElement("textarea");
+      textarea.value = value;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      let copied = false;
+      try {
+        copied = document.execCommand("copy");
+      } finally {
+        textarea.remove();
+      }
+      return copied;
+    }
+
+    async function copyContactText(value) {
+      if (fallbackCopyText(value)) return;
+      if (!navigator.clipboard || !window.isSecureContext) throw new Error("Copy command failed");
+      await Promise.race([
+        navigator.clipboard.writeText(value),
+        new Promise((_, reject) => {
+          window.setTimeout(() => reject(new Error("Clipboard timed out")), 800);
+        })
+      ]);
+    }
+
+    copyContactButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const value = button.dataset.copy || "";
+        const label = button.dataset.copyLabel || "内容";
+        const valueNode = button.querySelector(".contact-value");
+        if (!value || !valueNode) return;
+
+        window.clearTimeout(copyContactResetTimers.get(button));
+        button.classList.remove("is-copied");
+        valueNode.textContent = "复制中…";
+        button.setAttribute("aria-label", `${label}复制中`);
+        try {
+          await copyContactText(value);
+          button.classList.add("is-copied");
+          valueNode.textContent = "已复制";
+          button.setAttribute("aria-label", `${label}已复制`);
+        } catch (error) {
+          button.classList.remove("is-copied");
+          valueNode.textContent = "复制失败，请手动复制";
+          button.setAttribute("aria-label", `${label}复制失败`);
+        }
+
+        const resetTimer = window.setTimeout(() => {
+          button.classList.remove("is-copied");
+          valueNode.textContent = value;
+          button.setAttribute("aria-label", `复制${label}：${value}`);
+          copyContactResetTimers.delete(button);
+        }, 1500);
+        copyContactResetTimers.set(button, resetTimer);
+      });
+    });
+
     // 微信二维码弹窗：点击按钮打开，可通过关闭按钮、遮罩或 ESC 关闭
     const wechatModal = document.getElementById("wechatModal");
     const wechatOpenBtns = Array.from(document.querySelectorAll(".wechat-trigger"));
@@ -2728,60 +3521,136 @@
       }
     });
   </script>
-  <!-- AI与我 开场动画覆盖层 -->
-  <div id="ai-animation-overlay" role="dialog" aria-modal="true" aria-label="AI 与我开场动画" aria-hidden="true">
-    <button class="ai-skip" id="aiSkipBtn" type="button">跳过</button>
-    <div class="ai-step-layer active" id="ai-step-0"><div class="ai-hint">[ 任意动作开始 ]</div></div>
-    <div class="ai-step-layer" id="ai-step-1"><img data-src="output/assets/genesis_sketch.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-2"><img data-src="output/assets/genesis_sketch.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-3"><img data-src="output/assets/genesis_color.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-4"><img data-src="output/assets/genesis_color.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-5"><img data-src="output/assets/genesis_robot.webp" width="1584" height="672" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-6"><img data-src="output/assets/genesis_robot.webp" width="1584" height="672" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-7"><img data-src="output/assets/last_supper_robot.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-8"><img data-src="output/assets/last_supper_robot.webp" width="1376" height="768" class="ai-img-bg" alt="" aria-hidden="true" decoding="async"></div>
-    <div class="ai-step-layer" id="ai-step-9">
-      <div class="ai-scene3-vp">
-        <div class="mac-menu-bar" style="height:24px;background:rgba(0,0,0,0.15);backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;padding:0 15px;font-size:12px;color:#fff;">
-          <div> News File Edit View</div><div>98% 7月24日 周五 16:08</div>
+  <!-- AI与我 开场动画：第一幕 -->
+  <div id="ai-opening-act1" role="dialog" aria-modal="true" aria-label="AI 与我开场动画第一幕" aria-hidden="true">
+    <button class="aime-act1-skip" id="aimeAct1Skip" type="button">跳过</button>
+    <div class="aime-act1-ui-label" id="aimeAct1Label">Act I · The Creation of Adam</div>
+    <div class="aime-act1-status" id="aimeAct1Status" aria-live="polite"></div>
+    <div class="aime-act1-loader" id="aimeAct1Loader" aria-hidden="true">
+      <span id="aimeAct1LoaderText">正在加载动画素材 · 0%</span>
+      <span class="aime-act1-loader-track"><i id="aimeAct1LoaderBar"></i></span>
+    </div>
+
+    <div class="aime-act1-stage">
+      <div
+        class="aime-act1-artboard"
+        id="aimeAct1Artboard"
+        role="application"
+        aria-label="创世纪互动绘画画布"
+        aria-describedby="aimeAct1Status"
+        tabindex="0"
+      >
+        <img class="aime-act1-layer" id="aimeAct1Base" data-src="output/assets/ai-opening/act-01/00-canvas.webp" width="1821" height="1024" alt="" aria-hidden="true" draggable="false" />
+        <canvas id="aimeAct1InkCanvas" width="1821" height="1024" aria-hidden="true"></canvas>
+        <canvas id="aimeAct1ColorCanvas" width="1821" height="1024" aria-hidden="true"></canvas>
+        <img class="aime-act1-layer" id="aimeAct1Framed" data-src="output/assets/ai-opening/act-01/05-framed-animation.webp" width="1821" height="1024" alt="" aria-hidden="true" draggable="false" />
+        <span class="aime-act1-brush-tip" id="aimeAct1BrushTip" aria-hidden="true"></span>
+        <img class="aime-act1-paint-hand is-human" id="aimeAct1HumanHand" data-src="output/assets/ai-opening/act-01/07-human-hand.webp" width="709" height="752" alt="" aria-hidden="true" draggable="false" />
+        <img class="aime-act1-paint-hand is-robot" id="aimeAct1RobotHand" data-src="output/assets/ai-opening/act-01/08-robot-hand.webp" width="807" height="743" alt="" aria-hidden="true" draggable="false" />
+        <div class="aime-act1-hint" id="aimeAct1Hint">按住并拖动
+与 AI 一起为亚当上色</div>
+
+        <div class="aime-act1-book" id="aimeAct1Book" aria-hidden="true">
+          <video
+            class="aime-act1-page-video"
+            id="aimeAct1PageVideo"
+            data-src="output/assets/ai-opening/act-01/12-page-turn.mp4"
+            poster="output/assets/ai-opening/act-01/05-framed-entry.webp"
+            width="1280"
+            height="720"
+            muted
+            playsinline
+            preload="none"
+            disablepictureinpicture
+          ></video>
         </div>
-        <div class="mac-dock" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);height:60px;background:rgba(255,255,255,0.1);backdrop-filter:blur(30px);border-radius:18px;padding:5px;display:flex;gap:10px;border:1px solid rgba(255,255,255,0.1);">
-          <div class="dock-icon" style="width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,0.1);"></div><div class="dock-icon" style="width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,0.1);"></div><div class="dock-icon" style="width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,0.1);"></div>
-        </div>
-        <div class="ai-mac-notif" id="ai-mac-notif">
-          <div style="background:#0A84FF;width:40px;height:40px;border-radius:10px;display:flex;justify-content:center;align-items:center;font-weight:bold;color:#fff;">N</div>
-          <div><div style="font-size:13px;font-weight:600;color:#fff;">今日新闻日报已生成</div><div style="font-size:12px;opacity:0.7;color:#fff;">点击查看关键动态...</div></div>
-        </div>
-        <div class="ai-mac-window" id="ai-mac-window">
-          <div style="height:42px;display:flex;align-items:center;padding:0 16px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.1);">
-            <div style="display:flex;gap:8px;"><div style="width:12px;height:12px;border-radius:50%;background:#FF5F56;"></div><div style="width:12px;height:12px;border-radius:50%;background:#FFBD2E;"></div><div style="width:12px;height:12px;border-radius:50%;background:#27C93F;"></div></div>
-            <div style="flex:1;text-align:center;font-size:13px;color:#fff;">News — Daily Digest</div>
+
+        <div class="aime-act2-scene" id="aimeAct2Scene" aria-hidden="true">
+          <div class="aime-act2-camera" id="aimeAct2Camera">
+            <img class="aime-act2-background" id="aimeAct2Background" data-src="output/assets/ai-opening/act-01/06-supper-background.webp" width="1821" height="1024" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-people aime-act2-people-left" id="aimeAct2PeopleLeft" data-src="output/assets/ai-opening/act-02/01-people-left.webp" width="570" height="257" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-people aime-act2-people-right" id="aimeAct2PeopleRight" data-src="output/assets/ai-opening/act-02/02-people-right.webp" width="646" height="376" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-people aime-act2-people-center" id="aimeAct2PeopleCenter" data-src="output/assets/ai-opening/act-02/03-people-center.webp" width="359" height="297" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-left" id="aimeAct2ComputerLeft" data-src="output/assets/ai-opening/act-02/04-computer-left.webp" width="205" height="148" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-center" id="aimeAct2ComputerCenter" data-src="output/assets/ai-opening/act-02/05-computer-center.webp" width="200" height="178" alt="" draggable="false" />
+            <img class="aime-act2-piece aime-act2-computer aime-act2-computer-right" id="aimeAct2ComputerRight" data-src="output/assets/ai-opening/act-02/06-computer-right.webp" width="201" height="146" alt="" draggable="false" />
           </div>
-          <div style="display:flex;flex-grow:1;">
-            <div style="width:180px;border-right:1px solid rgba(255,255,255,0.1);padding:15px 10px;background:rgba(0,0,0,0.2);">
-              <div style="background:#0A84FF;padding:8px;border-radius:6px;font-size:13px;color:#fff;">Top Stories</div>
+          <div class="aime-act2-blackout" id="aimeAct2Blackout" aria-hidden="true"></div>
+        </div>
+
+        <div class="aime-macos-scene" id="aimeMacScene" aria-hidden="true">
+          <div class="aime-macos-viewport" id="aimeMacViewport">
+            <div class="aime-macos-menu">
+              <div><span aria-hidden="true">●</span><strong>News</strong><span>File</span><span>Edit</span><span>View</span></div>
+              <div><span>98%</span><span>7月24日 周五 16:08</span></div>
             </div>
-            <div style="flex-grow:1;padding:20px;color:#fff;">
-              <div style="margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:15px;">
-                <div style="font-size:11px;color:#0A84FF;margin-bottom:5px;">Biblical Times · 西元0001年</div>
-                <div style="font-size:17px;line-height:1.4;">独家丨你们中有一个人要<span id="ai-target-word">出卖</span>我</div>
+
+            <div class="aime-macos-dock" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+
+            <div class="aime-macos-notification" id="aimeMacNotification">
+              <div class="aime-macos-notification-icon">N</div>
+              <div>
+                <strong>今日新闻日报已生成</strong>
+                <span>点击查看 5 条关键动态更新…</span>
               </div>
             </div>
+
+            <div class="aime-macos-window" id="aimeMacNewsWindow">
+              <div class="aime-macos-titlebar">
+                <div class="aime-macos-controls" aria-label="窗口控制">
+                  <button class="is-close" id="aimeMacCloseControl" type="button" tabindex="-1" aria-label="关闭新闻日报并返回 AI 与我"></button>
+                  <span class="is-minimize"></span>
+                  <span class="is-expand"></span>
+                </div>
+                <strong>News — Daily Digest</strong>
+              </div>
+              <div class="aime-macos-window-body">
+                <aside class="aime-macos-sidebar" aria-label="新闻分类">
+                  <strong>Top Stories</strong>
+                  <span>Technology</span>
+                  <span>Environment</span>
+                  <span>Careers</span>
+                </aside>
+                <ol class="aime-macos-news-list">
+                  <li>
+                    <div class="aime-macos-news-meta"><strong>Biblical Times · 西元0001年</strong><span>10 MINUTES AGO</span></div>
+                    <p><b>01</b><span>独家丨你们中有一个人要<span id="aimeMacTargetWord">出卖</span>我</span></p>
+                    <small>https://biblical.news/reports/last-supper-leaks</small>
+                  </li>
+                  <li>
+                    <div class="aime-macos-news-meta"><strong>Economic Observer · 西元2027年</strong><span>1 HOUR AGO</span></div>
+                    <p><b>02</b><span>就业丨教育部预测应届生就业形势一片向好</span></p>
+                    <small>https://economy.com/career/2027-outlook</small>
+                  </li>
+                  <li>
+                    <div class="aime-macos-news-meta"><strong>Weather Central · 西元2026年</strong><span>2 HOURS AGO</span></div>
+                    <p><b>03</b><span>生活丨气象局发布北京海淀区紫色大风预警</span></p>
+                    <small>https://weather.gov.cn/alerts/beijing/haidian</small>
+                  </li>
+                  <li>
+                    <div class="aime-macos-news-meta"><strong>Sports Daily · 西元2030年</strong><span>3 HOURS AGO</span></div>
+                    <p><b>04</b><span>体育丨重铸荣光！国足打入西葡摩世界杯淘汰赛</span></p>
+                    <small>https://sports.com/fifa2030/news/china-breakthrough</small>
+                  </li>
+                  <li>
+                    <div class="aime-macos-news-meta"><strong>Science Nature · 西元2025年</strong><span>5 HOURS AGO</span></div>
+                    <p><b>05</b><span>自然科学丨Nature 最新突破发现养猫可延年益寿</span></p>
+                    <small>https://nature.com/biotech/longevity-study-2026</small>
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="aime-macos-tooltip" id="aimeMacTooltip">
+              <strong>录用 <i>v.</i></strong>
+              <span>接受某人加入机构并给予职位。<small>To employ; to hire; to offer someone a job.</small></span>
+            </div>
+
+            <span class="aime-macos-cursor" id="aimeMacCursor" aria-hidden="true"></span>
           </div>
         </div>
-        <div id="ai-dict-tooltip">
-          <div style="font-weight:bold;border-bottom:1px solid #eee;margin-bottom:5px;padding-bottom:5px;color:#000;">录用 [lù yòng]</div>
-          <div style="font-size:12px;color:#333;">接受某人加入机构并给予职位。</div>
-        </div>
-        <div id="ai-v-cursor">
-          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 2V15.5L7.5 12L9.5 17L11.5 16L9.5 11L14 11L4 2Z" fill="white" stroke="black"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="ai-step-layer" id="ai-step-12">
-      <div class="ai-screen-close-overlay">
-        <div class="ai-screen-half top"></div>
-        <div class="ai-screen-half bottom"></div>
       </div>
     </div>
   </div>
