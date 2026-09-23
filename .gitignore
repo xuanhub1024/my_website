@@ -1,7 +1,6 @@
 dist/
 node_modules/
 .pnpm-store/
-.wrangler/
 .openai/*.tar.gz
 assets/profile-photo-crop.png
 assets/deco-law-cert.png
